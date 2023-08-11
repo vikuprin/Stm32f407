@@ -25,8 +25,21 @@ RM := rm -rf
 -include LWIP/App/subdir.mk
 -include Drivers/STM32F4xx_HAL_Driver/Src/subdir.mk
 -include Core/Startup/subdir.mk
+-include Core/Src/Storage/subdir.mk
+-include Core/Src/Sensor/subdir.mk
+-include Core/Src/Remote_control/subdir.mk
+-include Core/Src/Peripheral/subdir.mk
 -include Core/Src/Mqtt/subdir.mk
 -include Core/Src/subdir.mk
+-include Core/Inc/cJSON/subdir.mk
+-include Core/Inc/XGZP6897D/subdir.mk
+-include Core/Inc/W25qxx/subdir.mk
+-include Core/Inc/Sht30/subdir.mk
+-include Core/Inc/MODBUS-LIB/subdir.mk
+-include Core/Inc/FLASH_SECTOR_F4/subdir.mk
+-include Core/Inc/Epm_24c32/subdir.mk
+-include Core/Inc/Ds18b20/subdir.mk
+-include Core/Inc/Aht20/subdir.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)
@@ -75,8 +88,8 @@ all: main-build
 main-build: Stm32f407Ethernet_flash.elf secondary-outputs
 
 # Tool invocations
-Stm32f407Ethernet_flash.elf Stm32f407Ethernet_flash.map: $(OBJS) $(USER_OBJS) C:\Project\Stm32f407Ethernet_flash\STM32F407VETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "Stm32f407Ethernet_flash.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Project\Stm32f407Ethernet_flash\STM32F407VETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Stm32f407Ethernet_flash.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Stm32f407Ethernet_flash.elf Stm32f407Ethernet_flash.map: $(OBJS) $(USER_OBJS) C:\Project\Stm32f407\STM32F407VETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "Stm32f407Ethernet_flash.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Project\Stm32f407\STM32F407VETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Stm32f407Ethernet_flash.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

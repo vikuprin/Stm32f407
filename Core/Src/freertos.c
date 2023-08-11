@@ -28,6 +28,9 @@
 #include "lwip.h"
 #include "lwip/api.h"
 #include "mqtt_client.h"
+//#include "httpserver.h"
+#include "remote_control.h"
+#include "led_button_control.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -48,7 +51,21 @@
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN Variables */
 extern struct netif gnetif;
+/////////////////////////////////
+osThreadId_t ledsTaskHandle;
+const osThreadAttr_t ledsTask_attributes = {
+  .name = "ledsTask",
+  .priority = (osPriority_t) osPriorityNormal,
+  .stack_size = 256 * 4
+};
 
+osThreadId_t damperTaskHandle;
+const osThreadAttr_t damperTask_attributes = {
+  .name = "damperTask",
+  .priority = (osPriority_t) osPriorityNormal,
+  .stack_size = 256 * 4
+};
+////////////////////////////////
 /* USER CODE END Variables */
 /* Definitions for defaultTask */
 osThreadId_t defaultTaskHandle;
@@ -60,7 +77,8 @@ const osThreadAttr_t defaultTask_attributes = {
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
-extern void MqttClientTask(void *argument);
+extern void LedsTask(void *argument);
+extern void DamperTask(void *argument);
 /* USER CODE END FunctionPrototypes */
 
 void StartDefaultTask(void *argument);
@@ -118,13 +136,15 @@ void MX_FREERTOS_Init(void) {
 void StartDefaultTask(void *argument)
 {
   /* init code for LWIP */
-  MX_LWIP_Init();
+//  MX_LWIP_Init();
   /* USER CODE BEGIN StartDefaultTask */
-  init_mqtt();
+//  init_mqtt();
+//  http_server_init();
+//  check_remote_control();
   /* Infinite loop */
   for(;;)
   {
-	start_mqtt();
+//	start_mqtt();
     osDelay(1000);
   }
   /* USER CODE END StartDefaultTask */

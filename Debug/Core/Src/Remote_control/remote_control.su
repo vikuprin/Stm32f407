@@ -1,0 +1,16 @@
+../Core/Src/Remote_control/remote_control.c:26:8:modbus_set_holding	16	static
+../Core/Src/Remote_control/remote_control.c:31:9:modbus_get_holding	16	static
+../Core/Src/Remote_control/remote_control.c:36:6:rc_parse_ten	4	static
+../Core/Src/Remote_control/remote_control.c:56:6:new_state	4	static
+../Core/Src/Remote_control/remote_control.c:81:6:dig_to_bin	16	static
+../Core/Src/Remote_control/remote_control.c:100:6:rc_parse_state	8	static
+../Core/Src/Remote_control/remote_control.c:112:6:rc_receive_state	8	static
+../Core/Src/Remote_control/remote_control.c:131:6:rc_receive_ten	8	static
+../Core/Src/Remote_control/remote_control.c:150:6:rc_receive_handler	8	static
+../Core/Src/Remote_control/remote_control.c:164:6:check_limit_ten	8	static
+../Core/Src/Remote_control/remote_control.c:173:6:check_changes	8	static
+../Core/Src/Remote_control/remote_control.c:227:6:rc_send_handler	8	static
+../Core/Src/Remote_control/remote_control.c:233:6:new_pult	4	static
+../Core/Src/Remote_control/remote_control.c:238:6:RemoteControlTask	16	static
+../Core/Src/Remote_control/remote_control.c:249:6:create_remote_control_task	8	static
+../Core/Src/Remote_control/remote_control.c:254:6:check_remote_control	8	static

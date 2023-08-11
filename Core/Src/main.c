@@ -1,30 +1,47 @@
 /* USER CODE BEGIN Header */
 /**
-  ******************************************************************************
-  * @file           : main.c
-  * @brief          : Main program body
-  ******************************************************************************
-  * @attention
-  *
-  * Copyright (c) 2023 STMicroelectronics.
-  * All rights reserved.
-  *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
-  *
-  ******************************************************************************
-  */
+ ******************************************************************************
+ * @file           : main.c
+ * @brief          : Main program body
+ ******************************************************************************
+ * @attention
+ *
+ * Copyright (c) 2023 STMicroelectronics.
+ * All rights reserved.
+ *
+ * This software is licensed under terms that can be found in the LICENSE file
+ * in the root directory of this software component.
+ * If no LICENSE file comes with this software, it is provided AS-IS.
+ *
+ ******************************************************************************
+ */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "cmsis_os.h"
+#include "dma.h"
+#include "i2c.h"
 #include "lwip.h"
+#include "spi.h"
+#include "tim.h"
+#include "usart.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include <string.h>
+//#include "sht.h"
+//#include "w25qxx.h"
+//#include "storage.h"
+//#include "sensor.h"
+#include "XGZP6897D.h"
+//#include "aht20_i2c_drv.h"
+//#include "aht20_i2c_drv.h"
+//#include "remote_control.h"
+//#include "ModbusConfig.h"
+//#include "fan.h"
+//#include "led_button_control.h"
+//#include "cJSON.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -56,16 +73,39 @@ void MX_FREERTOS_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-int _write(int file, char *ptr, int len)
-{
-  int DataIdx;
+//int _write(int file, char *ptr, int len)
+//{
+//  int DataIdx;
+//
+//  for (DataIdx = 0; DataIdx < len; DataIdx++)
+//  {
+//    ITM_SendChar(*ptr++);
+//  }
+//  return len;
+//}
 
-  for (DataIdx = 0; DataIdx < len; DataIdx++)
-  {
-    ITM_SendChar(*ptr++);
-  }
-  return len;
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+//  if (htim->Instance == TIM1) // check if the interrupt comes from TIM1
+//  {
+////    get_ds_data_mass();
+////    get_sht_data();
+//    get_xgz_data();
+////    get_aht_data();
+//  }
+//  if (htim->Instance == TIM12) // check if the interrupt comes from TIM12
+//  {
+//    link_callback_IP();
+//  }
 }
+
+//void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+//{
+//  if (GPIO_Pin == SERVICE_BTN_Pin)
+//  {
+//    button_handler();
+//  }
+//}
 
 /* USER CODE END 0 */
 
@@ -96,16 +136,30 @@ int main(void)
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
-  MX_GPIO_Init();
+//  MX_GPIO_Init();
+//  MX_DMA_Init();
+//  MX_UART5_Init();
+//  MX_SPI1_Init();
+//  MX_USART1_UART_Init();
+//  MX_I2C1_Init();
+//  MX_TIM1_Init();
+//  MX_TIM8_Init();
+//  MX_TIM12_Init();
   /* USER CODE BEGIN 2 */
-
+//  init_ds_devices();
+//  init_sht_devices();
+//  HAL_TIM_Base_Start_IT(&htim1);
+//  init_storage();
+//  init_modbus_master();
+//  HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_2);
+//  HAL_TIM_Base_Start_IT(&htim12);
   /* USER CODE END 2 */
 
   /* Init scheduler */
-  osKernelInitialize();  /* Call init function for freertos objects (in freertos.c) */
-  MX_FREERTOS_Init();
-  /* Start scheduler */
-  osKernelStart();
+//  osKernelInitialize();  /* Call init function for freertos objects (in freertos.c) */
+//  MX_FREERTOS_Init();
+//  /* Start scheduler */
+//  osKernelStart();
 
   /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */

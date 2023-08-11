@@ -1,0 +1,3 @@
+XGZP6897D.c:13:9:I2C_Read_Byte	5
+XGZP6897D.c:31:9:I2C_Write_Byte	3
+XGZP6897D.c:43:6:get_xgz_data	3

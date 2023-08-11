@@ -1,0 +1,16 @@
+remote_control.c:26:8:modbus_set_holding	1
+remote_control.c:31:9:modbus_get_holding	1
+remote_control.c:36:6:rc_parse_ten	5
+remote_control.c:56:6:new_state	14
+remote_control.c:81:6:dig_to_bin	2
+remote_control.c:100:6:rc_parse_state	3
+remote_control.c:112:6:rc_receive_state	4
+remote_control.c:131:6:rc_receive_ten	4
+remote_control.c:150:6:rc_receive_handler	2
+remote_control.c:164:6:check_limit_ten	2
+remote_control.c:173:6:check_changes	25
+remote_control.c:227:6:rc_send_handler	1
+remote_control.c:233:6:new_pult	1
+remote_control.c:238:6:RemoteControlTask	1
+remote_control.c:249:6:create_remote_control_task	1
+remote_control.c:254:6:check_remote_control	3

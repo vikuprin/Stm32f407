@@ -1,0 +1,9 @@
+system_topic.c:8:6:set_device_speed_arr	1
+system_topic.c:15:6:set_sensor_value	3
+system_topic.c:26:6:set_error	1
+system_topic.c:34:6:firmware_handler	1
+system_topic.c:64:6:error_handler	2
+system_topic.c:86:6:reset_handler	5
+system_topic.c:109:6:logging_handler	5
+system_topic.c:131:6:set_extra_options_handler	1
+system_topic.c:142:6:system_topic_handler	12

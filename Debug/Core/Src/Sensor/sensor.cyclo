@@ -1,0 +1,5 @@
+sensor.c:20:6:middle_temp	2
+sensor.c:31:6:mass_temp	3
+sensor.c:55:6:get_ds_data	3
+sensor.c:82:6:get_ds_data_mass	1
+sensor.c:88:6:init_ds_devices	1

@@ -11,9 +11,23 @@
 #include "lwip/apps/mqtt.h"
 #include "lwip/apps/mqtt_priv.h"
 
-void init_mqtt();
-void start_mqtt();
+char log_pub_topic[80];
+char temp_log_pub_topic[80];
+char mode_pub_topic[80];
+char mode_topic[80];
+char system_pub_topic[80];
+char system_topic[80];
+char workmode_topic[80];
+char speed_topic[80];
+char temp_limit_topic[80];
+char state_topic[80];
 
-void MqttClientTask(void *argument);
+void system_topic_handler(char *data);
+void mode_topic_handler(char *data);
+void publish_message(char topic[], char message[]);
+void publish_message_qos0(char topic[], char message[]);
+void set_mqtt_parameters();
+void start_mqtt();
+void init_mqtt();
 
 #endif

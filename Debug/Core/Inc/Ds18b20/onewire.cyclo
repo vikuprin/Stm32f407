@@ -1,0 +1,13 @@
+onewire.c:14:13:OneWire_Pin_Mode	2
+onewire.c:41:13:OneWire_Pin_Level	1
+onewire.c:60:16:OneWire_Pin_Read	1
+onewire.c:74:13:OneWire_WriteBit	2
+onewire.c:109:9:OneWire_ReadBit	2
+onewire.c:141:6:OneWire_WriteByte	2
+onewire.c:157:9:OneWire_ReadByte	2
+onewire.c:173:9:OneWire_Reset	1
+onewire.c:198:9:OneWire_Search	16
+onewire.c:319:6:OneWire_GetDevRom	2
+onewire.c:330:6:OneWire_Init	1
+onewire.c:352:6:OneWire_SelectWithPointer	2
+onewire.c:367:9:OneWire_CRC8	4

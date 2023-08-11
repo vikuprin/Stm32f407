@@ -1,0 +1,5 @@
+../Core/Inc/MODBUS-LIB/ModbusConfig.c:8:8:modbus_master_set_one	40	static
+../Core/Inc/MODBUS-LIB/ModbusConfig.c:28:9:modbus_master_get_one	32	static
+../Core/Inc/MODBUS-LIB/ModbusConfig.c:47:8:modbus_master_set	40	static
+../Core/Inc/MODBUS-LIB/ModbusConfig.c:66:8:modbus_master_get	40	static
+../Core/Inc/MODBUS-LIB/ModbusConfig.c:86:6:init_modbus_master	8	static

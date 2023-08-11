@@ -22,7 +22,20 @@ C_DEPS :=
 
 # Every subdirectory with source files must be described here
 SUBDIRS := \
+Core/Inc/Aht20 \
+Core/Inc/Ds18b20 \
+Core/Inc/Epm_24c32 \
+Core/Inc/FLASH_SECTOR_F4 \
+Core/Inc/MODBUS-LIB \
+Core/Inc/Sht30 \
+Core/Inc/W25qxx \
+Core/Inc/XGZP6897D \
+Core/Inc/cJSON \
 Core/Src/Mqtt \
+Core/Src/Peripheral \
+Core/Src/Remote_control \
+Core/Src/Sensor \
+Core/Src/Storage \
 Core/Src \
 Core/Startup \
 Drivers/STM32F4xx_HAL_Driver/Src \

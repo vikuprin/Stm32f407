@@ -1,0 +1,9 @@
+../Core/Src/Mqtt/system_topic.c:8:6:set_device_speed_arr	24	static
+../Core/Src/Mqtt/system_topic.c:15:6:set_sensor_value	16	static
+../Core/Src/Mqtt/system_topic.c:26:6:set_error	24	static
+../Core/Src/Mqtt/system_topic.c:34:6:firmware_handler	16	static
+../Core/Src/Mqtt/system_topic.c:64:6:error_handler	16	static
+../Core/Src/Mqtt/system_topic.c:86:6:reset_handler	72	static
+../Core/Src/Mqtt/system_topic.c:109:6:logging_handler	72	static
+../Core/Src/Mqtt/system_topic.c:131:6:set_extra_options_handler	16	static
+../Core/Src/Mqtt/system_topic.c:142:6:system_topic_handler	88	static

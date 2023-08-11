@@ -1,0 +1,12 @@
+storage.c:11:6:write_wireless_params	1
+storage.c:16:6:read_wireless_params	1
+storage.c:21:6:write_heaters	1
+storage.c:26:6:read_heaters	1
+storage.c:31:6:write_device_params	1
+storage.c:36:6:read_device_params	1
+storage.c:41:6:first_start_init	1
+storage.c:48:6:second_start_init	1
+storage.c:55:6:malloc_memory_parameters	1
+storage.c:63:6:reset_nvs_parameteres	1
+storage.c:69:6:set_default_data	1
+storage.c:82:6:init_storage	2

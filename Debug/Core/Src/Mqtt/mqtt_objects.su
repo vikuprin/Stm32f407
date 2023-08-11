@@ -1,0 +1,6 @@
+../Core/Src/Mqtt/mqtt_objects.c:8:6:get_str_capabiities	32	static
+../Core/Src/Mqtt/mqtt_objects.c:23:6:get_str_settings	32	static
+../Core/Src/Mqtt/mqtt_objects.c:41:6:get_str_errors	32	static
+../Core/Src/Mqtt/mqtt_objects.c:59:6:get_str_system_status	24	static
+../Core/Src/Mqtt/mqtt_objects.c:77:6:get_str_temp_log	24	static
+../Core/Src/Mqtt/mqtt_objects.c:97:6:get_str_extra_options	32	static

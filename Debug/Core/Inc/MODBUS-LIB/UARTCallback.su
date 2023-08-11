@@ -1,0 +1,4 @@
+../Core/Inc/MODBUS-LIB/UARTCallback.c:23:6:HAL_UART_TxCpltCallback	32	static,ignoring_inline_asm
+../Core/Inc/MODBUS-LIB/UARTCallback.c:59:6:HAL_UART_RxCpltCallback	40	static,ignoring_inline_asm
+../Core/Inc/MODBUS-LIB/UARTCallback.c:100:6:HAL_UART_ErrorCallback	24	static
+../Core/Inc/MODBUS-LIB/UARTCallback.c:126:6:HAL_UARTEx_RxEventCallback	32	static,ignoring_inline_asm

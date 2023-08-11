@@ -1,0 +1,5 @@
+../Core/Src/Sensor/sensor.c:20:6:middle_temp	24	static
+../Core/Src/Sensor/sensor.c:31:6:mass_temp	16	static
+../Core/Src/Sensor/sensor.c:55:6:get_ds_data	24	static
+../Core/Src/Sensor/sensor.c:82:6:get_ds_data_mass	8	static
+../Core/Src/Sensor/sensor.c:88:6:init_ds_devices	8	static

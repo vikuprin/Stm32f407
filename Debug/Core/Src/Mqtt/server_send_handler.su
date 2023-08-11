@@ -1,0 +1,3 @@
+../Core/Src/Mqtt/server_send_handler.c:16:6:publish_from_timer	8	static
+../Core/Src/Mqtt/server_send_handler.c:67:6:check_param_u8	32	static
+../Core/Src/Mqtt/server_send_handler.c:90:6:send_server_task	8	static
