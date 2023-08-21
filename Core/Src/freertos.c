@@ -118,6 +118,8 @@ void MX_FREERTOS_Init(void) {
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
+  ledsTaskHandle = osThreadNew(LedsTask, NULL, &ledsTask_attributes);
+  damperTaskHandle = osThreadNew(DamperTask, NULL, &damperTask_attributes);
   /* USER CODE END RTOS_THREADS */
 
   /* USER CODE BEGIN RTOS_EVENTS */
@@ -136,7 +138,7 @@ void MX_FREERTOS_Init(void) {
 void StartDefaultTask(void *argument)
 {
   /* init code for LWIP */
-//  MX_LWIP_Init();
+  MX_LWIP_Init();
   /* USER CODE BEGIN StartDefaultTask */
 //  init_mqtt();
 //  http_server_init();

@@ -99,8 +99,8 @@ void init_ds_devices()
 	OW2.DataPin = DS_Pin2;
 	OW2.DataPort = DS_GPIO_Port2;
 	DS2.Resolution = DS18B20_Resolution_12bits;
-	DS18B20_Init(&DS2, &OW2);
 	/* Set high temperature alarm on device number 0, 31 Deg C */
+	DS18B20_Init(&DS2, &OW2);
 	DS18B20_SetTempAlarm(&OW2, DS2.DevAddr[0], 0, 60);
 }
 

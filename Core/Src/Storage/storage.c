@@ -4,9 +4,9 @@
 #include "first_init.h"
 #include <string.h>
 
-#define LOCATION_DEVICE 	0x081A0000
-#define LOCATION_WIRELESS 	0x081C0000
-#define LOCATION_HEATERS  	0x081E0000
+#define LOCATION_DEVICE 	0x080A0000 //0x081A0000
+#define LOCATION_WIRELESS 	0x080C0000 //0x081C0000
+#define LOCATION_HEATERS  	0x080E0000 //0x081E0000
 
 void write_wireless_params()
 {

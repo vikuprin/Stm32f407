@@ -9,7 +9,7 @@
 #define DEBUG_STORAGE(...)
 #endif
 
-#define CHECK_VALUE_1_0_0  2
+#define CHECK_VALUE_1_0_0  1
 
 void write_device_params();
 void read_device_params();

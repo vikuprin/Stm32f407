@@ -8,16 +8,6 @@ uint8_t service_response = 0;
 bool link_IP;
 bool reset_led;
 
-#define LED_LINK_Pin GPIO_PIN_5
-#define LED_LINK_GPIO_Port GPIOD
-
-#define LED_WORK_Pin GPIO_PIN_6
-#define LED_WORK_GPIO_Port GPIOD
-
-#define LED_FAILURE_Pin GPIO_PIN_7
-#define LED_FAILURE_GPIO_Port GPIOD
-
-
 void button_handler()
 {
 	if(HAL_GPIO_ReadPin(SERVICE_BTN_GPIO_Port, SERVICE_BTN_Pin) == GPIO_PIN_RESET)

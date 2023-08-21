@@ -32,10 +32,9 @@
 #include <string.h>
 //#include "sht.h"
 //#include "w25qxx.h"
-//#include "storage.h"
-//#include "sensor.h"
+#include "storage.h"
+#include "sensor.h"
 #include "XGZP6897D.h"
-//#include "aht20_i2c_drv.h"
 //#include "aht20_i2c_drv.h"
 //#include "remote_control.h"
 //#include "ModbusConfig.h"
@@ -86,13 +85,13 @@ void MX_FREERTOS_Init(void);
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-//  if (htim->Instance == TIM1) // check if the interrupt comes from TIM1
-//  {
-////    get_ds_data_mass();
-////    get_sht_data();
+  if (htim->Instance == TIM1) // check if the interrupt comes from TIM1
+  {
+//    get_ds_data_mass();
+//    get_sht_data();
 //    get_xgz_data();
-////    get_aht_data();
-//  }
+//    get_aht_data();
+  }
 //  if (htim->Instance == TIM12) // check if the interrupt comes from TIM12
 //  {
 //    link_callback_IP();
@@ -136,30 +135,31 @@ int main(void)
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
-//  MX_GPIO_Init();
-//  MX_DMA_Init();
-//  MX_UART5_Init();
-//  MX_SPI1_Init();
-//  MX_USART1_UART_Init();
-//  MX_I2C1_Init();
-//  MX_TIM1_Init();
-//  MX_TIM8_Init();
-//  MX_TIM12_Init();
+  MX_GPIO_Init();
+  MX_DMA_Init();
+  MX_UART5_Init();
+  MX_SPI1_Init();
+  MX_USART1_UART_Init();
+  MX_I2C1_Init();
+  MX_TIM1_Init();
+  MX_TIM8_Init();
+  MX_TIM12_Init();
+  MX_I2C3_Init();
   /* USER CODE BEGIN 2 */
-//  init_ds_devices();
+  init_ds_devices();
 //  init_sht_devices();
-//  HAL_TIM_Base_Start_IT(&htim1);
-//  init_storage();
+  HAL_TIM_Base_Start_IT(&htim1);
+  init_storage();
 //  init_modbus_master();
 //  HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_2);
 //  HAL_TIM_Base_Start_IT(&htim12);
   /* USER CODE END 2 */
 
   /* Init scheduler */
-//  osKernelInitialize();  /* Call init function for freertos objects (in freertos.c) */
-//  MX_FREERTOS_Init();
-//  /* Start scheduler */
-//  osKernelStart();
+  osKernelInitialize();  /* Call init function for freertos objects (in freertos.c) */
+  MX_FREERTOS_Init();
+  /* Start scheduler */
+  osKernelStart();
 
   /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */
