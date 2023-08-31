@@ -2,22 +2,35 @@
 #include "mqtt_client.h"
 #include "mqtt_objects.h"
 #include <stdlib.h>
+#include "cmsis_os.h"
 
 void publish_auth(char *version, char *mac_address, char *series, char *subtype, char *xtal_freq)
 {
-    char message[255];
+    char *message = malloc(256);
+    while (message == NULL)
+    {
+    	osDelay(10);
+        message = malloc(256);
+    }
     sprintf(message, "{\"type\": \"auth\", \"auth\":{\"device_mac\":\"%s\",\"version\":\"%s\"}, \"device_subtype\":{\"series\":\"%s\",\"subtype\":\"%s\",\"xtal_freq\":\"%s\"}}", mac_address, version, series, subtype, xtal_freq);
     DEBUG_MQTT("AUTH\n");
     DEBUG_MQTT("%s\n", message);
-    DEBUG_MQTT(" system_pub_topic %s\n", system_pub_topic);
+    DEBUG_MQTT("system_pub_topic %s\n", system_pub_topic);
     publish_message(system_pub_topic, message);
+    free(message);
 }
+
 
 char *on_off[2] = {"off", "on"};
 
 void publish_capabilities()
 {
-    char *capabilities = malloc(200);
+    char *capabilities = malloc(300);
+    while (capabilities == NULL)
+    {
+        vTaskDelay(10);
+        capabilities = malloc(300);
+    }
     get_str_capabiities(capabilities);
     publish_message(mode_pub_topic, capabilities);
     free(capabilities);

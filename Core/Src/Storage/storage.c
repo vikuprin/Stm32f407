@@ -68,6 +68,8 @@ void reset_nvs_parameteres()
 
 void set_default_data()
 {
+	device->inflow_speed = 1;
+	heaters->ten.temp_limit = TEN_TEMP_LIMIT;
     device->remote_control.error = false;
     sensors_data->out_state = false;
     sensors_data->in_state = false;

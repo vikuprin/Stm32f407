@@ -33,6 +33,7 @@ Core/Src/Remote_control/remote_control.o: \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
+ ../Core/Inc/usart.h ../Core/Inc/main.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h \
  ../Core/Inc/FreeRTOSConfig.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h \
@@ -40,7 +41,7 @@ Core/Src/Remote_control/remote_control.o: \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h \
- C:/Project/Stm32f407/Core/Src/Storage/storage.h \
+ C:/Project/Stm32f407/Core/Src/Storage/storage.h ../Core/Inc/usart.h \
  C:/Project/Stm32f407/Core/Inc/MODBUS-LIB/ModbusConfig.h \
  C:/Project/Stm32f407/Core/Inc/MODBUS-LIB/Modbus.h \
  C:/Project/Stm32f407/Core/Inc/MODBUS-LIB/ModbusConfig.h \
@@ -50,8 +51,7 @@ Core/Src/Remote_control/remote_control.o: \
  ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h \
- ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h \
- ../Core/Inc/usart.h ../Core/Inc/main.h
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h
 ../Core/Src/Remote_control/remote_control.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
@@ -86,6 +86,8 @@ Core/Src/Remote_control/remote_control.o: \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
+../Core/Inc/usart.h:
+../Core/Inc/main.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h:
 ../Core/Inc/FreeRTOSConfig.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h:
@@ -94,6 +96,7 @@ Core/Src/Remote_control/remote_control.o: \
 ../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h:
 C:/Project/Stm32f407/Core/Src/Storage/storage.h:
+../Core/Inc/usart.h:
 C:/Project/Stm32f407/Core/Inc/MODBUS-LIB/ModbusConfig.h:
 C:/Project/Stm32f407/Core/Inc/MODBUS-LIB/Modbus.h:
 C:/Project/Stm32f407/Core/Inc/MODBUS-LIB/ModbusConfig.h:
@@ -104,5 +107,3 @@ C:/Project/Stm32f407/Core/Inc/MODBUS-LIB/ModbusConfig.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h:
-../Core/Inc/usart.h:
-../Core/Inc/main.h:

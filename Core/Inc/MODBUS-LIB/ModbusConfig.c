@@ -2,7 +2,7 @@
 #include "Modbus.h"
 
 modbusHandler_t ModbusH2;
-uint16_t ModbusDATA2[8];
+int16_t ModbusDATA2[8];
 modbus_t telegram;
 
 int8_t modbus_master_set_one(uint8_t slave_id, uint8_t function_code, uint16_t reg_start, uint16_t data) // modbus_parameter: 0-HOLDING, 1-INPUT, 2-COIL, 3-DISCRETE
@@ -21,6 +21,10 @@ int8_t modbus_master_set_one(uint8_t slave_id, uint8_t function_code, uint16_t r
 	if (u32NotificationValue == 0)
 	{
 		return -1;
+	}
+	if (ModbusH2.i8lastError == ERR_TIME_OUT)
+	{
+		return -2;
 	}
 	return 1;
 }
@@ -41,6 +45,10 @@ int32_t modbus_master_get_one(uint8_t slave_id, uint8_t function_code, uint16_t 
 	{
 		return -1;
 	}
+	if (ModbusH2.i8lastError == ERR_TIME_OUT)
+	{
+		return -2;
+	}
 	return ModbusDATA2[0];
 }
 
@@ -59,6 +67,10 @@ int8_t modbus_master_set(uint8_t slave_id, uint8_t function_code, uint16_t reg_s
 	if (u32NotificationValue == 0)
 	{
 		return -1;
+	}
+	if (ModbusH2.i8lastError == ERR_TIME_OUT)
+	{
+		return -2;
 	}
 	return 1;
 }
@@ -79,6 +91,10 @@ int8_t modbus_master_get(uint8_t slave_id, uint8_t function_code, uint16_t reg_s
 	{
 		return -1;
 	}
+	if (ModbusH2.i8lastError == ERR_TIME_OUT)
+	{
+		return -2;
+	}
 	return 1;
 }
 
@@ -89,8 +105,8 @@ void init_modbus_master()
 	ModbusH2.port =  &huart5;
 	ModbusH2.u8id = 0; // For master it must be 0
 	ModbusH2.u16timeOut = 100;
-	ModbusH2.EN_Port = GPIOD;
-	ModbusH2.EN_Pin = GPIO_PIN_13;
+	ModbusH2.EN_Port = UART5_DIR_GPIO_Port;
+	ModbusH2.EN_Pin = UART5_DIR_Pin;
 	ModbusH2.u16regs = ModbusDATA2;
 	ModbusH2.u16regsize= sizeof(ModbusDATA2)/sizeof(ModbusDATA2[0]);
 	ModbusH2.xTypeHW = USART_HW_DMA;

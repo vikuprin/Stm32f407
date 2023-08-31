@@ -33,7 +33,8 @@ Core/Src/Mqtt/server_send_handler.o: \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
- ../Core/Src/Mqtt/mqtt_message.h ../Core/Src/Mqtt/mqtt_client.h \
+ ../Core/Inc/usart.h ../Core/Inc/main.h ../Core/Src/Mqtt/mqtt_message.h \
+ ../Core/Src/Mqtt/mqtt_client.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/apps/mqtt.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/apps/mqtt_opts.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/opt.h \
@@ -103,6 +104,8 @@ Core/Src/Mqtt/server_send_handler.o: \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
+../Core/Inc/usart.h:
+../Core/Inc/main.h:
 ../Core/Src/Mqtt/mqtt_message.h:
 ../Core/Src/Mqtt/mqtt_client.h:
 ../Middlewares/Third_Party/LwIP/src/include/lwip/apps/mqtt.h:

@@ -1,6 +1,7 @@
 #include "mqtt_objects.h"
 #include "string.h"
 #include "../../Inc/cJSON/cJSON.h"
+#include "cmsis_os.h"
 
 char *on_off_[2] = {"off", "on"};
 char *modes[4] = {"inflow", "inflow_max", "smart"};
@@ -9,12 +10,28 @@ void get_str_capabiities(char *capabilities_str)
 {
     cJSON *root, *capabilities;
     root = cJSON_CreateObject();
-    cJSON_AddItemToObject(root, "capabilities", capabilities = cJSON_CreateObject());
+    while (root == NULL)
+    {
+    	osDelay(10);
+        root = cJSON_CreateObject();
+    }
+    capabilities = cJSON_CreateObject();
+    while (capabilities == NULL)
+    {
+    	osDelay(10);
+        capabilities = cJSON_CreateObject();
+    }
+    cJSON_AddItemToObject(root, "capabilities", capabilities);
     cJSON_AddStringToObject(capabilities, "mode", modes[device->mode]);
     cJSON_AddStringToObject(capabilities, "on_off", on_off_[device->state]);
-    cJSON_AddNumberToObject(capabilities, "speed", device->inflow_speed);   // добавил
-    cJSON_AddNumberToObject(capabilities, "heat", heaters->ten.temp_limit); // добавил
+    cJSON_AddNumberToObject(capabilities, "speed", device->inflow_speed);
+    cJSON_AddNumberToObject(capabilities, "heat", heaters->ten.temp_limit);
     char *js_str = cJSON_Print(root);
+    while (js_str == NULL)
+    {
+    	osDelay(10);
+        js_str = cJSON_Print(root);
+    }
     strcpy(capabilities_str, js_str);
     cJSON_Delete(root);
     cJSON_free(js_str);

@@ -2,9 +2,12 @@
 #define _STORAGE_H
 
 #include "main.h"
+#include "usart.h"
 
 #if DEBUG_PRINT == 1
 #define DEBUG_STORAGE(...) printf("STORAGE: "__VA_ARGS__);
+#elif DEBUG_PRINT == 2
+#define DEBUG_STORAGE(...) sprintf(msg, "STORAGE: "__VA_ARGS__);HAL_UART_Transmit_IT(&huart4, (uint8_t*)msg, strlen(msg));
 #else
 #define DEBUG_STORAGE(...)
 #endif

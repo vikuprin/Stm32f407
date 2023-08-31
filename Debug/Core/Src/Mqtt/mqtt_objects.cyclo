@@ -1,6 +1,6 @@
-mqtt_objects.c:8:6:get_str_capabiities	1
-mqtt_objects.c:23:6:get_str_settings	1
-mqtt_objects.c:41:6:get_str_errors	1
-mqtt_objects.c:59:6:get_str_system_status	1
-mqtt_objects.c:77:6:get_str_temp_log	1
-mqtt_objects.c:97:6:get_str_extra_options	1
+mqtt_objects.c:9:6:get_str_capabiities	4
+mqtt_objects.c:40:6:get_str_settings	1
+mqtt_objects.c:58:6:get_str_errors	1
+mqtt_objects.c:76:6:get_str_system_status	1
+mqtt_objects.c:94:6:get_str_temp_log	1
+mqtt_objects.c:114:6:get_str_extra_options	1

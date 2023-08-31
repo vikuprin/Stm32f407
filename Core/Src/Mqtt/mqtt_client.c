@@ -7,6 +7,8 @@
 #include "FreeRTOS.h"
 #include "stdbool.h"
 #include "send_server_handler.h"
+#include "netif.h"
+#include "cmsis_os.h"
 
 mqtt_client_t *client;
 struct mqtt_connect_client_info_t ci;
@@ -151,15 +153,23 @@ static void mqtt_incoming_data_cb(void *arg, const u8_t *data, u16_t len, u8_t f
 	}
 }
 
+uint8_t count_sub_request_cb = 0;
+bool sub_request_cb = false;
 static void mqtt_sub_request_cb(void *arg, err_t result)
 {
 	DEBUG_MQTT("Subscribe result: %d\n", result);
+	count_sub_request_cb--;
+	if (count_sub_request_cb == 0)
+	{
+		sub_request_cb = true;
+	}
 }
 
 char *on_off_str_s[2] = {"off", "on"};
 char *modes_str_s[2] = {"inflow_mode", "inflow_max_mode"};
 char speeds_str[4];
 char temp_str[4];
+char gnetif_str[24];
 
 static void mqtt_connection_cb(mqtt_client_t *client, void *arg, mqtt_connection_status_t status)
 {
@@ -172,40 +182,43 @@ static void mqtt_connection_cb(mqtt_client_t *client, void *arg, mqtt_connection
 		/* Subscribe to a topic named "subtopic" with QoS level 1, call mqtt_sub_request_cb with result */
 		err = mqtt_subscribe(client, mode_topic, 1, mqtt_sub_request_cb, arg);
 		if (err == ERR_OK)
+		{
+			count_sub_request_cb++;
 			DEBUG_MQTT("subscribe to mode_topic\n");
+		}
 		err = mqtt_subscribe(client, system_topic, 1, mqtt_sub_request_cb, arg);
 		if (err == ERR_OK)
+		{
+			count_sub_request_cb++;
 			DEBUG_MQTT("subscribe to system_topic\n");
+		}
 		if (wireless_params->mqtt_type != VAKIO_MQTT)
 		{
 			err = mqtt_subscribe(client, speed_topic, 1, mqtt_sub_request_cb, arg);
 			if (err == ERR_OK)
+			{
+				count_sub_request_cb++;
 				DEBUG_MQTT("subscribe to speed_topic\n");
+			}
 			err = mqtt_subscribe(client, temp_limit_topic, 1, mqtt_sub_request_cb, arg);
 			if (err == ERR_OK)
+			{
+				count_sub_request_cb++;
 				DEBUG_MQTT("subscribe to temp_limit_topic\n");
+			}
 			err = mqtt_subscribe(client, workmode_topic, 1, mqtt_sub_request_cb, arg);
 			if (err == ERR_OK)
+			{
+				count_sub_request_cb++;
 				DEBUG_MQTT("subscribe to workmode_topic\n");
+			}
 			err = mqtt_subscribe(client, state_topic, 1, mqtt_sub_request_cb, arg);
 			if (err == ERR_OK)
+			{
+				count_sub_request_cb++;
 				DEBUG_MQTT("subscribe to state_topic\n");
+			}
 		}
-
-		/* Publish message to a topic*/
-        if (wireless_params->mqtt_type != VAKIO_MQTT)
-        {
-        	publish_message(workmode_topic, modes_str_s[device->mode]);
-        	publish_message(state_topic, on_off_str_s[device->state]);
-            sprintf(speeds_str, "%i", device->inflow_speed);
-            publish_message(speed_topic, speeds_str);
-            sprintf(temp_str, "%i", heaters->ten.temp_limit);
-            publish_message(temp_limit_topic, temp_str);
-        }
-//        publish_auth(VERSION, gnetif.hwaddr, SERIES, SUBTYPE, XTAL_FREQ);
-//        publish_capabilities();
-//        publish_settings();
-//        publish_errors();
 	}
 	else
 	{
@@ -232,14 +245,37 @@ void connect_mqtt(mqtt_client_t *client)
 	}
 }
 
+void publish_message_topic()
+{
+	/* Publish message to a topic*/
+    if (wireless_params->mqtt_type != VAKIO_MQTT)
+    {
+        	publish_message(workmode_topic, modes_str_s[device->mode]);
+        	publish_message(state_topic, on_off_str_s[device->state]);
+            sprintf(speeds_str, "%i", device->inflow_speed);
+            publish_message(speed_topic, speeds_str);
+            sprintf(temp_str, "%i", heaters->ten.temp_limit);
+            publish_message(temp_limit_topic, temp_str);
+    }
+        sprintf(gnetif_str, "%x:%x:%x:%x:%x:%x", gnetif.hwaddr[0], gnetif.hwaddr[1], gnetif.hwaddr[2], gnetif.hwaddr[3], gnetif.hwaddr[4], gnetif.hwaddr[5]);
+        publish_auth(VERSION, gnetif_str, SERIES, SUBTYPE, XTAL_FREQ);
+        publish_capabilities();
+        publish_settings();
+        publish_errors();
+}
+
 void start_mqtt()
 {
 	if(netif_link)
 	{
 		if(!mqtt_status)
 			connect_mqtt(client);
-		else
-			send_server_task();
+		if(sub_request_cb)
+		{
+			sub_request_cb = false;
+			publish_message_topic();
+		}
+//			send_server_task();
 	}
 }
 

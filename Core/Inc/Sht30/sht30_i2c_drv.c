@@ -1,7 +1,7 @@
 #include "sht30_i2c_drv.h"
 #include "i2c.h"
 
-static uint8_t	SHT30_Send_Cmd(SHT30_CMD cmd)
+static uint8_t SHT30_Send_Cmd(SHT30_CMD cmd)
 {
     uint8_t cmd_buffer[2];
     cmd_buffer[0] = cmd >> 8;

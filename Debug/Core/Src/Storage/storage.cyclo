@@ -9,4 +9,4 @@ storage.c:48:6:second_start_init	1
 storage.c:55:6:malloc_memory_parameters	1
 storage.c:63:6:reset_nvs_parameteres	1
 storage.c:69:6:set_default_data	1
-storage.c:82:6:init_storage	2
+storage.c:84:6:init_storage	2

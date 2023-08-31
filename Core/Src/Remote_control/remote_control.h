@@ -4,34 +4,28 @@
 
 #if DEBUG_PRINT == 1
 #define DEBUG_RC(...) printf("REMOTE CONTROL: "__VA_ARGS__);
+#elif DEBUG_PRINT == 2
+#define DEBUG_RC(...) sprintf(msg, "REMOTE CONTROL: "__VA_ARGS__);HAL_UART_Transmit_IT(&huart4, (uint8_t*)msg, strlen(msg));
 #else
 #define DEBUG_RC(...)
 #endif
 
+
 // PULT HOLDING
-#define REG_GET_STATE 48
-#define REG_SET_GET_MODE 49
-#define REG_SET_GET_WIND 50
-#define REG_GET_TEMP 51
-#define REG_SET_GET_TEN 52
-#define REG_SET_GET_SWITCH 53
-// MODE SETING
-#define SET_INFLOW_MODE 1
-#define SET_INFLOW_MAX_MODE 0
-// MODE WIND
-#define SET_INFLOW_SPEED_0 3
-#define SET_INFLOW_SPEED_2 0
-#define SET_INFLOW_SPEED_5 1
-#define SET_INFLOW_SPEED_7 2
-/*
-REG_GET_STATE:
-BIT0-BIT1 определение состояния скорости вент-ра: 0 - низкая скорость, 1 - средняя скорость, 2 - высокая скорость, 3 - выкл;
-BIT2: состояние клапана: 0 - закрыто, 1 - открыто; (по умолчанию открыт);
-BIT3: состояние клапана: 0 - вкл, 1 - выкл.;
-BIT4-BIT5: режим: 0 - охлаждение, 1 - обогрев, 2 - вентиляция;
-BIT6: режим ожидания;
-BIT7:  вкл/выкл прибор: 0 - выкл, 1 - вкл.
-*/
+#define REG_SWITCH 0
+#define REG_FAN 1
+#define REG_TEMP 2
+#define REG_WEEK 3
+#define REG_HOUR 4
+#define REG_MINUTE 5
+#define REG_CHILD 6
+#define REG_WORK 7
+#define REG_WATER 8
+#define REG_HOTWATER 9
+#define REG_HEATER 10
+#define REG_WARNING 11
+#define REG_FLOW 12
+#define REG_CLOCK 13
 
 void check_remote_control(void);
 

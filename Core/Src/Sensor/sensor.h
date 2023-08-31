@@ -5,6 +5,8 @@
 
 #if DEBUG_PRINT == 1
 #define DEBUG_DS(...) printf("DS18B20: "__VA_ARGS__);
+#elif DEBUG_PRINT == 2
+#define DEBUG_DS(...) sprintf(msg, "DS18B20: "__VA_ARGS__);HAL_UART_Transmit_IT(&huart4, (uint8_t*)msg, strlen(msg));
 #else
 #define DEBUG_DS(...)
 #endif

@@ -33,7 +33,8 @@ Core/Src/Peripheral/led_button_control.o: \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
- C:/Project/Stm32f407/Core/Src/Storage/storage.h \
+ ../Core/Inc/usart.h ../Core/Inc/main.h \
+ C:/Project/Stm32f407/Core/Src/Storage/storage.h ../Core/Inc/usart.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h
 ../Core/Src/Peripheral/led_button_control.h:
 ../Core/Inc/main.h:
@@ -69,5 +70,8 @@ Core/Src/Peripheral/led_button_control.o: \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
+../Core/Inc/usart.h:
+../Core/Inc/main.h:
 C:/Project/Stm32f407/Core/Src/Storage/storage.h:
+../Core/Inc/usart.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h:

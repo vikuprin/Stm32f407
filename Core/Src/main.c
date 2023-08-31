@@ -29,17 +29,18 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "stdio.h"
 #include <string.h>
-//#include "sht.h"
+#include "sht.h"
 //#include "w25qxx.h"
 #include "storage.h"
 #include "sensor.h"
 #include "XGZP6897D.h"
 //#include "aht20_i2c_drv.h"
 //#include "remote_control.h"
-//#include "ModbusConfig.h"
-//#include "fan.h"
-//#include "led_button_control.h"
+#include "ModbusConfig.h"
+#include "fan.h"
+#include "led_button_control.h"
 //#include "cJSON.h"
 /* USER CODE END Includes */
 
@@ -72,16 +73,16 @@ void MX_FREERTOS_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-//int _write(int file, char *ptr, int len)
-//{
-//  int DataIdx;
-//
-//  for (DataIdx = 0; DataIdx < len; DataIdx++)
-//  {
-//    ITM_SendChar(*ptr++);
-//  }
-//  return len;
-//}
+int _write(int file, char *ptr, int len)
+{
+  int DataIdx;
+
+  for (DataIdx = 0; DataIdx < len; DataIdx++)
+  {
+    ITM_SendChar(*ptr++);
+  }
+  return len;
+}
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
@@ -98,13 +99,13 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 //  }
 }
 
-//void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
-//{
-//  if (GPIO_Pin == SERVICE_BTN_Pin)
-//  {
-//    button_handler();
-//  }
-//}
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+  if (GPIO_Pin == SERVICE_BTN_Pin)
+  {
+    button_handler();
+  }
+}
 
 /* USER CODE END 0 */
 
@@ -145,13 +146,14 @@ int main(void)
   MX_TIM8_Init();
   MX_TIM12_Init();
   MX_I2C3_Init();
+  MX_UART4_Init();
   /* USER CODE BEGIN 2 */
   init_ds_devices();
-//  init_sht_devices();
+  init_sht_devices();
   HAL_TIM_Base_Start_IT(&htim1);
   init_storage();
-//  init_modbus_master();
-//  HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_2);
+  init_modbus_master();
+  HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_2);
 //  HAL_TIM_Base_Start_IT(&htim12);
   /* USER CODE END 2 */
 

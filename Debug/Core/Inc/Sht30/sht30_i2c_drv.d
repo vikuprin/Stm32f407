@@ -32,7 +32,7 @@ Core/Inc/Sht30/sht30_i2c_drv.o: ../Core/Inc/Sht30/sht30_i2c_drv.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
- ../Core/Inc/i2c.h ../Core/Inc/main.h
+ ../Core/Inc/usart.h ../Core/Inc/main.h ../Core/Inc/i2c.h
 ../Core/Inc/Sht30/sht30_i2c_drv.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
@@ -67,5 +67,6 @@ Core/Inc/Sht30/sht30_i2c_drv.o: ../Core/Inc/Sht30/sht30_i2c_drv.c \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
-../Core/Inc/i2c.h:
+../Core/Inc/usart.h:
 ../Core/Inc/main.h:
+../Core/Inc/i2c.h:

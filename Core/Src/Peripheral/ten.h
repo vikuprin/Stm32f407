@@ -4,6 +4,8 @@
 
 #if DEBUG_PRINT == 1
 #define DEBUG_TEN(...) printf("TEN: "__VA_ARGS__);
+#elif DEBUG_PRINT == 2
+#define DEBUG_TEN(...) sprintf(msg, "TEN: "__VA_ARGS__);HAL_UART_Transmit_IT(&huart4, (uint8_t*)msg, strlen(msg));
 #else
 #define DEBUG_TEN(...)
 #endif

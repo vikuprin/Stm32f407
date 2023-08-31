@@ -31,7 +31,8 @@ Core/Src/Storage/first_init.o: ../Core/Src/Storage/first_init.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
- ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
+ ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
+ ../Core/Inc/usart.h ../Core/Inc/main.h ../Core/Inc/usart.h
 ../Core/Src/Storage/first_init.h:
 ../Core/Src/Storage/storage.h:
 ../Core/Inc/main.h:
@@ -67,3 +68,6 @@ Core/Src/Storage/first_init.o: ../Core/Src/Storage/first_init.c \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
+../Core/Inc/usart.h:
+../Core/Inc/main.h:
+../Core/Inc/usart.h:

@@ -31,6 +31,10 @@
 //#include "httpserver.h"
 #include "remote_control.h"
 #include "led_button_control.h"
+#include "mqtt_message.h"
+#include "fan.h"
+#include "usart.h"
+#include "string.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -118,8 +122,8 @@ void MX_FREERTOS_Init(void) {
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
-  ledsTaskHandle = osThreadNew(LedsTask, NULL, &ledsTask_attributes);
-  damperTaskHandle = osThreadNew(DamperTask, NULL, &damperTask_attributes);
+//  ledsTaskHandle = osThreadNew(LedsTask, NULL, &ledsTask_attributes);
+//  damperTaskHandle = osThreadNew(DamperTask, NULL, &damperTask_attributes);
   /* USER CODE END RTOS_THREADS */
 
   /* USER CODE BEGIN RTOS_EVENTS */
@@ -142,11 +146,45 @@ void StartDefaultTask(void *argument)
   /* USER CODE BEGIN StartDefaultTask */
 //  init_mqtt();
 //  http_server_init();
-//  check_remote_control();
+  check_remote_control();
   /* Infinite loop */
   for(;;)
   {
+//	  inst_speed = device->speed_arr[device->inflow_speed];
+//	  set_inflow_fan1(inst_speed);
+
+//	set_inflow_fan1(0);
+//	osDelay(2000);
+//	set_inflow_fan1(10);
+//	osDelay(2000);
+//	set_inflow_fan1(20);
+//	osDelay(2000);
+//	set_inflow_fan1(30);
+//	osDelay(2000);
+//	set_inflow_fan1(40);
+//	osDelay(2000);
+//	set_inflow_fan1(50);
+//	osDelay(2000);
+//	set_inflow_fan1(100);
+//	osDelay(2000);
+//	HAL_GPIO_TogglePin(RELAY_CH2_GPIO_Port, RELAY_CH2_Pin);
+//	HAL_GPIO_TogglePin(RELAY_CH3_GPIO_Port, RELAY_CH3_Pin);
+//	HAL_GPIO_TogglePin(RELAY_CH4_GPIO_Port, RELAY_CH4_Pin);
+//	HAL_GPIO_TogglePin(HEAT_VALVE_GATE1_GPIO_Port, HEAT_VALVE_GATE1_Pin);
+//	HAL_GPIO_TogglePin(SSR_GATE1_GPIO_Port, SSR_GATE1_Pin);
+//	printf("HELLO WORLD\n");
+	  uint8_t ert = 5;
+//	HAL_UART_Transmit_IT(&huart4, sprintf("ert = %i\n", ert), 18);
+//	  HAL_UART_Transmit_IT(&huart4, "HELLOOOO\n", 18);
+//	  HAL_UART_Transmit_IT(&huart4, str, strlen(str));
+//	  DEBUG_MAIN("HELLO WORLD\n");
 //	start_mqtt();
+//		char msg[15];
+//		sprintf(msg, "speed %i\n", ert);  // convert int16_t to ascii, legal itoa
+//		HAL_UART_Transmit_IT(&huart4, (uint8_t *) msg, 14);
+
+
+
     osDelay(1000);
   }
   /* USER CODE END StartDefaultTask */

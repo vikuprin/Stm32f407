@@ -33,12 +33,19 @@ extern "C" {
 /* USER CODE BEGIN Includes */
 #include <stdio.h>
 #include "stdbool.h"
+#include "usart.h"
+
 #define DEBUG_PRINT 1
+
+uint8_t msg[80];
 #if DEBUG_PRINT == 1
 #define DEBUG_MAIN(...) printf("MAIN: "__VA_ARGS__);
+#elif DEBUG_PRINT == 2
+#define DEBUG_MAIN(...) sprintf(msg, "MAIN: "__VA_ARGS__);HAL_UART_Transmit_IT(&huart4, (uint8_t*)msg, strlen(msg));
 #else
 #define DEBUG_MAIN(...)
 #endif
+
 
 #define USER_MQTT 0
 #define VAKIO_MQTT 1
@@ -50,7 +57,7 @@ extern "C" {
 #define ON 1
 #define OFF 0
 #define MAXIMUM 100
-#define PULT_ID 1
+#define DEFAUL_PULT_ID 1
 #define FIRST_VALVE_ID 2
 
 #define MINUTE 60000000
@@ -69,8 +76,9 @@ extern "C" {
 
 #define VERSION "1.1.2"
 #define SUBTYPE "default"
-#define XTAL_FREQ "40"
-#define SERIES "esp32"
+#define XTAL_FREQ "80"
+#define SERIES "STM32"
+#define PROVERKA "OK"
 
 #define EXT_TEN_OFF_TEMP 45
 #define EXT_TEN_OFF_UNDER 5
@@ -119,8 +127,8 @@ extern "C" {
 typedef enum
 {
     INFLOW_MODE,
-    INFLOW_MAX_MODE,
-    SMART_MODE
+    SMART_MODE,
+    INFLOW_MAX_MODE
 } device_modes;
 
 typedef struct

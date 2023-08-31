@@ -32,7 +32,7 @@ Core/Src/Peripheral/ten.o: ../Core/Src/Peripheral/ten.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
- ../Core/Inc/tim.h ../Core/Inc/main.h
+ ../Core/Inc/usart.h ../Core/Inc/main.h ../Core/Inc/tim.h
 ../Core/Src/Peripheral/ten.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
@@ -67,5 +67,6 @@ Core/Src/Peripheral/ten.o: ../Core/Src/Peripheral/ten.c \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
-../Core/Inc/tim.h:
+../Core/Inc/usart.h:
 ../Core/Inc/main.h:
+../Core/Inc/tim.h:

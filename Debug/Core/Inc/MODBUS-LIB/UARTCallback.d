@@ -42,11 +42,12 @@ Core/Inc/MODBUS-LIB/UARTCallback.o: ../Core/Inc/MODBUS-LIB/UARTCallback.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
- ../Core/Inc/MODBUS-LIB/Modbus.h ../Core/Inc/MODBUS-LIB/ModbusConfig.h \
+ ../Core/Inc/usart.h ../Core/Inc/main.h ../Core/Inc/MODBUS-LIB/Modbus.h \
+ ../Core/Inc/MODBUS-LIB/ModbusConfig.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h \
- ../Core/Inc/usart.h ../Core/Inc/main.h
+ ../Core/Inc/usart.h
 ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h:
 ../Core/Inc/FreeRTOSConfig.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h:
@@ -91,10 +92,11 @@ Core/Inc/MODBUS-LIB/UARTCallback.o: ../Core/Inc/MODBUS-LIB/UARTCallback.c \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
+../Core/Inc/usart.h:
+../Core/Inc/main.h:
 ../Core/Inc/MODBUS-LIB/Modbus.h:
 ../Core/Inc/MODBUS-LIB/ModbusConfig.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h:
 ../Core/Inc/usart.h:
-../Core/Inc/main.h:

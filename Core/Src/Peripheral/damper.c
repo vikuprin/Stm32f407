@@ -13,7 +13,7 @@ void open_damper()
     	state_damper = 1;
     	timer_damper = HAL_GetTick(); // запуск таймера
     	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, GPIO_PIN_SET);
-        DEBUG_DAMP("opens damper\n");
+//        DEBUG_DAMP("opens damper\n");
     }
 }
 
@@ -21,7 +21,7 @@ void close_damper()
 {
 	state_damper = 0;
 	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, GPIO_PIN_RESET);
-	DEBUG_DAMP("close damper\n");
+//	DEBUG_DAMP("close damper\n");
 }
 
 void DamperTask(void *argument)
@@ -35,7 +35,7 @@ void DamperTask(void *argument)
     		if(state_damper == 1 && ((HAL_GetTick() - timer_damper) > OPENING_TIME))
     		{
     			state_damper = 2;
-    			DEBUG_DAMP("opened damper\n");
+//    			DEBUG_DAMP("opened damper\n");
     		}
     	}
         else

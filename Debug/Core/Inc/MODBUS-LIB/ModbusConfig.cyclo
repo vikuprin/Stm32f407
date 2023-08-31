@@ -1,5 +1,5 @@
-ModbusConfig.c:8:8:modbus_master_set_one	2
-ModbusConfig.c:28:9:modbus_master_get_one	2
-ModbusConfig.c:47:8:modbus_master_set	2
-ModbusConfig.c:66:8:modbus_master_get	2
-ModbusConfig.c:86:6:init_modbus_master	1
+ModbusConfig.c:8:8:modbus_master_set_one	3
+ModbusConfig.c:32:9:modbus_master_get_one	3
+ModbusConfig.c:55:8:modbus_master_set	3
+ModbusConfig.c:78:8:modbus_master_get	3
+ModbusConfig.c:102:6:init_modbus_master	1

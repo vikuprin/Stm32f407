@@ -32,6 +32,7 @@ Core/Src/Mqtt/mode_topic.o: ../Core/Src/Mqtt/mode_topic.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
+ ../Core/Inc/usart.h ../Core/Inc/main.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/apps/mqtt.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/apps/mqtt_opts.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/opt.h \
@@ -67,7 +68,7 @@ Core/Src/Mqtt/mode_topic.o: ../Core/Src/Mqtt/mode_topic.c \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/icmp.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/icmp.h \
  ../Core/Src/Mqtt/../../Inc/cJSON/cJSON.h \
- ../Core/Src/Mqtt/../Storage/storage.h \
+ ../Core/Src/Mqtt/../Storage/storage.h ../Core/Inc/usart.h \
  ../Core/Src/Mqtt/../../Inc/cJSON/utils.h \
  ../Core/Src/Mqtt/../../Inc/cJSON/cJSON.h
 ../Core/Src/Mqtt/mqtt_client.h:
@@ -104,6 +105,8 @@ Core/Src/Mqtt/mode_topic.o: ../Core/Src/Mqtt/mode_topic.c \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
+../Core/Inc/usart.h:
+../Core/Inc/main.h:
 ../Middlewares/Third_Party/LwIP/src/include/lwip/apps/mqtt.h:
 ../Middlewares/Third_Party/LwIP/src/include/lwip/apps/mqtt_opts.h:
 ../Middlewares/Third_Party/LwIP/src/include/lwip/opt.h:
@@ -140,5 +143,6 @@ Core/Src/Mqtt/mode_topic.o: ../Core/Src/Mqtt/mode_topic.c \
 ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/icmp.h:
 ../Core/Src/Mqtt/../../Inc/cJSON/cJSON.h:
 ../Core/Src/Mqtt/../Storage/storage.h:
+../Core/Inc/usart.h:
 ../Core/Src/Mqtt/../../Inc/cJSON/utils.h:
 ../Core/Src/Mqtt/../../Inc/cJSON/cJSON.h:
