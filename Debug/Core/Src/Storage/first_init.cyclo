@@ -1,3 +1,3 @@
 first_init.c:6:6:first_init_heaters	1
 first_init.c:22:6:first_init_wireless	1
-first_init.c:54:6:first_init_device	1
+first_init.c:53:6:first_init_device	1

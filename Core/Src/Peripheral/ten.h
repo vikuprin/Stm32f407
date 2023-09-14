@@ -12,6 +12,7 @@
 
 uint8_t ten_power;
 
+void ten_handler();
 void set_ten_power(uint8_t value);
 
 #endif // __TEN_H__

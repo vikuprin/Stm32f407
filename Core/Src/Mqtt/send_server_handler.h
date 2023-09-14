@@ -25,5 +25,5 @@ typedef enum
     ENTITY_SETTINGS,
 } send_entity_e;
 
-void send_server_task();
+void send_server();
 #endif

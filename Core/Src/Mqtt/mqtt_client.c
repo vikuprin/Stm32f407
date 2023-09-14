@@ -266,16 +266,22 @@ void publish_message_topic()
 
 void start_mqtt()
 {
-	if(netif_link)
+	if(netif_is_link_up(&gnetif))
 	{
 		if(!mqtt_status)
-			connect_mqtt(client);
-		if(sub_request_cb)
 		{
-			sub_request_cb = false;
-			publish_message_topic();
+			connect_mqtt(client);
+			osDelay(3000);
 		}
-//			send_server_task();
+		else
+		{
+			if(sub_request_cb)
+			{
+				sub_request_cb = false;
+				publish_message_topic();
+			}
+			send_server();
+		}
 	}
 }
 
@@ -361,3 +367,4 @@ void init_mqtt()
 	set_user_test();
 	set_mqtt_parameters();
 }
+

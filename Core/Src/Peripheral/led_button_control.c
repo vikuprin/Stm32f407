@@ -1,6 +1,9 @@
 #include "led_button_control.h"
 #include "storage.h"
 #include "cmsis_os2.h"
+#include "netif.h"
+
+extern struct netif gnetif;
 
 uint32_t  timme = 0;
 uint8_t service_response = 0;
@@ -51,8 +54,7 @@ void link_callback_IP()
 
 void start_failure_led()
 {
-	if (device->error_temp_hot || device->error_temp_cold || device->error_stop_hot || device->error_stop_cold ||
-        device->error_ds18_bus || device->error_ds18_lack)
+	if (device->error_temp_hot || device->error_temp_cold || device->error_stop_hot || device->error_stop_cold)
 		HAL_GPIO_WritePin(LED_FAILURE_GPIO_Port, LED_FAILURE_Pin, GPIO_PIN_SET);
     else
     	HAL_GPIO_WritePin(LED_FAILURE_GPIO_Port, LED_FAILURE_Pin, GPIO_PIN_RESET);
@@ -68,7 +70,7 @@ void start_work_led()
 
 void start_link_led()
 {
-    if(netif_link)
+	if(netif_is_link_up(&gnetif))
     {
         if(mqtt_status)
         {

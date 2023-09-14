@@ -40,8 +40,8 @@
 //#include "remote_control.h"
 #include "ModbusConfig.h"
 #include "fan.h"
+#include "ten.h"
 #include "led_button_control.h"
-//#include "cJSON.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -73,6 +73,8 @@ void MX_FREERTOS_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+uint32_t falling;
+
 int _write(int file, char *ptr, int len)
 {
   int DataIdx;
@@ -88,10 +90,14 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
   if (htim->Instance == TIM1) // check if the interrupt comes from TIM1
   {
-//    get_ds_data_mass();
+    get_ds_data_mass();
 //    get_sht_data();
 //    get_xgz_data();
 //    get_aht_data();
+  }
+  if (htim->Instance == TIM2) // check if the interrupt comes from TIM1
+  {
+	  ten_handler();
   }
 //  if (htim->Instance == TIM12) // check if the interrupt comes from TIM12
 //  {
@@ -99,11 +105,30 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 //  }
 }
 
+void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
+{
+    if (htim->Instance == TIM3)
+    {
+        if(htim->Channel == HAL_TIM_ACTIVE_CHANNEL_3)
+        {
+			falling = HAL_TIM_ReadCapturedValue(&htim3, TIM_CHANNEL_4); // чтение значения в регистре захвата/сравнения
+			if(falling > 0)
+				device->error_fan = false;
+			else
+				device->error_fan = true;
+        }
+        else if(htim->Channel == HAL_TIM_ACTIVE_CHANNEL_4) // FALLING с HIGH на LOW
+        {
+        	__HAL_TIM_SET_COUNTER(&htim3, 0x0000); // обнуление счётчика
+        }
+    }
+}
+
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
   if (GPIO_Pin == SERVICE_BTN_Pin)
   {
-    button_handler();
+	  button_handler();
   }
 }
 
@@ -147,13 +172,20 @@ int main(void)
   MX_TIM12_Init();
   MX_I2C3_Init();
   MX_UART4_Init();
+  MX_TIM2_Init();
+  MX_TIM9_Init();
+  MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
-  init_ds_devices();
-  init_sht_devices();
-  HAL_TIM_Base_Start_IT(&htim1);
   init_storage();
+  init_ds_devices();
+//  init_sht_devices();
+  HAL_TIM_Base_Start_IT(&htim1);
+  HAL_TIM_Base_Start_IT(&htim2);
   init_modbus_master();
   HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_2);
+  HAL_TIM_PWM_Start(&htim9, TIM_CHANNEL_2);
+  HAL_TIM_IC_Start_IT(&htim3, TIM_CHANNEL_3);
+  HAL_TIM_IC_Start_IT(&htim3, TIM_CHANNEL_4);
 //  HAL_TIM_Base_Start_IT(&htim12);
   /* USER CODE END 2 */
 

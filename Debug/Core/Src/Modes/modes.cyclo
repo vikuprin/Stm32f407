@@ -1,0 +1,7 @@
+modes.c:20:6:temp_cold	18
+modes.c:89:6:temp_hot	5
+modes.c:107:6:inflow_mode	12
+modes.c:132:6:inflow_max_mode	4
+modes.c:154:6:mode_handler	5
+modes.c:178:6:inflow_handler	5
+modes.c:186:6:MainTask	1

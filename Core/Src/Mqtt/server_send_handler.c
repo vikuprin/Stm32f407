@@ -87,7 +87,7 @@ bool check_param_u8(uint8_t *param_send, uint8_t *param, char *key)
     return check;
 }
 
-void send_server_task()
+void send_server()
 {
 	if (start_timer_f && (HAL_GetTick() - server_time) > 5000)
 		publish_from_timer();

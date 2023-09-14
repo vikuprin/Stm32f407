@@ -11,7 +11,7 @@
 #define DEBUG_DAMP(...)
 #endif
 
-uint8_t state_damper; //0-закрыт, 1-открывается, 2-открыт
+uint8_t damper_state; //0-закрыт, 1-открывается, 2-открыт
 
 void close_damper();
 void open_damper();

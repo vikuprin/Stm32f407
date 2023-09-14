@@ -32,7 +32,7 @@ void mass_temp()
 {
     if (count < 6)
     {
-        point[count] = temp[0]; //sensors_data->out;
+        point[count] = temp[1]; //sensors_data->out;
     }
     else
     {
@@ -40,15 +40,15 @@ void mass_temp()
         {
             point[i] = point[i + 1];
         }
-        point[5] = temp[0]; //sensors_data->out;
+        point[5] = temp[1]; //sensors_data->out;
     }
     count++;
-    DEBUG_DS("POINT[0]=%i\n", point[0]);
-    DEBUG_DS("POINT[1]=%i\n", point[1]);
-    DEBUG_DS("POINT[2]=%i\n", point[2]);
-    DEBUG_DS("POINT[3]=%i\n", point[3]);
-    DEBUG_DS("POINT[4]=%i\n", point[4]);
-    DEBUG_DS("POINT[5]=%i\n", point[5]);
+//    DEBUG_DS("POINT[0]=%i\n", point[0]);
+//    DEBUG_DS("POINT[1]=%i\n", point[1]);
+//    DEBUG_DS("POINT[2]=%i\n", point[2]);
+//    DEBUG_DS("POINT[3]=%i\n", point[3]);
+//    DEBUG_DS("POINT[4]=%i\n", point[4]);
+//    DEBUG_DS("POINT[5]=%i\n", point[5]);
     middle_temp();
 }
 
@@ -60,6 +60,7 @@ void get_ds_data()
 	for(uint8_t i = 0; i < OW.RomCnt; i++)
 	{
 		temp[ds_count] = DS18B20_Read(&OW, DS.DevAddr[i], &DS.Temperature[i]);
+		sensors_data->in = temp[ds_count];
 		DEBUG_DS("Temperature1 = %i\n", temp[ds_count]);
 		ds_count++;
 	}
@@ -71,6 +72,7 @@ void get_ds_data()
 	for(uint8_t i = 0; i < OW2.RomCnt; i++)
 	{
 		temp[ds_count] = DS18B20_Read(&OW2, DS2.DevAddr[i], &DS2.Temperature[i]);
+		sensors_data->out = temp[ds_count];
 		DEBUG_DS("Temperature2 = %i\n", temp[ds_count]);
 		ds_count++;
 	}
@@ -95,6 +97,8 @@ void init_ds_devices()
 	DS18B20_Init(&DS, &OW);
 	/* Set high temperature alarm on device number 0, 31 Deg C */
 	DS18B20_SetTempAlarm(&OW, DS.DevAddr[0], 0, 31);
+	if(OW.RomCnt == 1)
+		sensors_data->in_state = true;
 
 	OW2.DataPin = DS_Pin2;
 	OW2.DataPort = DS_GPIO_Port2;
@@ -102,5 +106,7 @@ void init_ds_devices()
 	/* Set high temperature alarm on device number 0, 31 Deg C */
 	DS18B20_Init(&DS2, &OW2);
 	DS18B20_SetTempAlarm(&OW2, DS2.DevAddr[0], 0, 60);
+	if(OW2.RomCnt == 1)
+		sensors_data->out_state = true;
 }
 

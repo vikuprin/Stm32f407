@@ -5,6 +5,7 @@
   ******************************************************************************
   */
 #include "onewire.h"
+#include "dwt.h"
 
 /**
   * @brief  The internal function is used as gpio pin mode

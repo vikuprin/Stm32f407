@@ -1,3 +1,4 @@
+#include "string.h"
 #include "mqtt_client.h"
 #include "mqtt_message.h"
 #include "../Storage/first_init.h"

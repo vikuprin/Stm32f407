@@ -1,0 +1,7 @@
+../Core/Src/Modes/modes.c:20:6:temp_cold	72	static
+../Core/Src/Modes/modes.c:89:6:temp_hot	32	static
+../Core/Src/Modes/modes.c:107:6:inflow_mode	8	static
+../Core/Src/Modes/modes.c:132:6:inflow_max_mode	40	static
+../Core/Src/Modes/modes.c:154:6:mode_handler	8	static
+../Core/Src/Modes/modes.c:178:6:inflow_handler	8	static
+../Core/Src/Modes/modes.c:186:6:MainTask	56	static

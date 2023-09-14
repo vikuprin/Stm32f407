@@ -98,7 +98,8 @@ Core/Src/freertos.o: ../Core/Src/freertos.c \
  C:/Project/Stm32f407/Core/Src/Remote_control/remote_control.h \
  C:/Project/Stm32f407/Core/Src/Peripheral/led_button_control.h \
  C:/Project/Stm32f407/Core/Src/Mqtt/mqtt_message.h \
- C:/Project/Stm32f407/Core/Src/Peripheral/fan.h ../Core/Inc/usart.h
+ C:/Project/Stm32f407/Core/Src/Peripheral/fan.h \
+ C:/Project/Stm32f407/Core/Src/Modes/modes.h ../Core/Inc/usart.h
 ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h:
 ../Core/Inc/FreeRTOSConfig.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h:
@@ -201,4 +202,5 @@ C:/Project/Stm32f407/Core/Src/Remote_control/remote_control.h:
 C:/Project/Stm32f407/Core/Src/Peripheral/led_button_control.h:
 C:/Project/Stm32f407/Core/Src/Mqtt/mqtt_message.h:
 C:/Project/Stm32f407/Core/Src/Peripheral/fan.h:
+C:/Project/Stm32f407/Core/Src/Modes/modes.h:
 ../Core/Inc/usart.h:

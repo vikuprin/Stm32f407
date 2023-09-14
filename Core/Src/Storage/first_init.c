@@ -46,7 +46,6 @@ void first_init_wireless()
 	// Айпи сервера
 	wireless_params->server_ip[0] = 0;
 	wireless_params->vakio_mqtt_connect_ip = false;
-	wireless_params->vakio_mqtt_connect_ip;
 	wireless_params->soft_ap_off_time = MIN_15_OFF_AP;
 	write_wireless_params();
 }
@@ -60,16 +59,15 @@ void first_init_device()
 	device->error_temp_cold = false;
 	device->error_stop_hot = false;
 	device->error_stop_cold = false;
+	device->error_fan = false;
 	device->mode = INFLOW_MODE;
 	device->last_mode = INFLOW_MODE;
 	device->inflow_speed = 1;
 	uint8_t speed_arr[8] = SPEED_ARR_DEFAUL;
 	memcpy(device->speed_arr, speed_arr, 8);
-	device->sensors_addr.out[0] = 0;
-	device->sensors_addr.in[0] = 0;
 	device->remote_control.find = OFF;
 	device->extra_options.deviation = 3;           // отклонение должно быть 3
-	device->extra_options.check_time = 1 * MINUTE; // время проверки должно быть 1-5 минут
+	device->extra_options.check_time = 1;          // время проверки должно быть 1-5 минут
 	device->extra_options.step_pwm = 5;            // шаг шим должно быть 5
 	write_device_params();
 }

@@ -229,7 +229,10 @@ static void low_level_init(struct netif *netif)
   heth.Init.MediaInterface = ETH_MEDIA_INTERFACE_RMII;
 
   /* USER CODE BEGIN MACADDRESS */
-
+  uint32_t idBase = *((uint32_t *)UID_BASE);
+  MACAddr[3] = (idBase & 0x00ff0000) >> 16;
+  MACAddr[4] = (idBase & 0x0000ff00) >> 8;
+  MACAddr[5] = (idBase & 0x000000ff);
   /* USER CODE END MACADDRESS */
 
   hal_eth_init_status = HAL_ETH_Init(&heth);

@@ -8,7 +8,7 @@
 ../Core/Src/Mqtt/mqtt_client.c:232:6:connect_mqtt	32	static
 ../Core/Src/Mqtt/mqtt_client.c:248:6:publish_message_topic	32	static
 ../Core/Src/Mqtt/mqtt_client.c:267:6:start_mqtt	8	static
-../Core/Src/Mqtt/mqtt_client.c:282:6:update_mqtt_parameters	32	static
-../Core/Src/Mqtt/mqtt_client.c:300:6:set_mqtt_parameters	24	static
-../Core/Src/Mqtt/mqtt_client.c:345:6:set_user_test	16	static
-../Core/Src/Mqtt/mqtt_client.c:358:6:init_mqtt	8	static
+../Core/Src/Mqtt/mqtt_client.c:288:6:update_mqtt_parameters	32	static
+../Core/Src/Mqtt/mqtt_client.c:306:6:set_mqtt_parameters	24	static
+../Core/Src/Mqtt/mqtt_client.c:351:6:set_user_test	16	static
+../Core/Src/Mqtt/mqtt_client.c:364:6:init_mqtt	8	static

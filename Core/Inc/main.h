@@ -60,7 +60,8 @@ uint8_t msg[80];
 #define DEFAUL_PULT_ID 1
 #define FIRST_VALVE_ID 2
 
-#define MINUTE 60000000
+#define MINUTE 60000
+#define SECOND 1000
 #define MIN_15_US 900000000
 #define MIN_60_US 3600000000
 #define MIN_15_OFF_AP 0
@@ -98,7 +99,7 @@ uint8_t msg[80];
 #define TEN_STARTED_VALUE 3
 #define TEN_POWER_KOEF 3
 
-#define INFLOW_MAX_MODE_TIME 300000000
+#define INFLOW_MAX_MODE_TIME (5 * MINUTE)
 #define MAX_BRG 250
 #define SMART_CO2_DEL 200
 
@@ -140,15 +141,19 @@ typedef struct
 typedef struct
 {
     uint8_t deviation;   // отклонение должно быть 3
-    uint32_t check_time; // время проверки должно быть 5 минут
+    uint8_t check_time;  // время проверки должно быть 1-5 минут
     uint8_t step_pwm;    // шаг шим должно быть 5
 } extra_options_s;
 
-typedef struct
+typedef enum
 {
-    char out[32];
-    char in[32];
-} sensors_addr_s;
+    REGULAR_MODE,
+    SERVICE_MODE,
+    DISTRIBUTION_MODE,
+    RESET_ERROR_MODE,
+    REBOOT_MODE,
+    ACCEPT_MODE
+} service_response_modes;
 
 typedef struct
 {
@@ -174,6 +179,7 @@ typedef struct
     bool error_stop_cold;
     bool error_ds18_bus;  // не исправна шина DS18B20
     bool error_ds18_lack; // не исправен один из датчиков DS18B20
+    bool error_fan;
     remote_control_s remote_control;
 	uint8_t check_1_0_0;
     uint8_t mode;
@@ -181,7 +187,6 @@ typedef struct
     uint8_t inflow_speed;
     uint8_t smart_speed_pwm;
     uint8_t speed_arr[8];
-    sensors_addr_s sensors_addr;
     extra_options_s extra_options;
 } device_s;
 
@@ -249,6 +254,9 @@ sensors_data_s *sensors_data;
 wireless_parameters_s *wireless_params;
 device_s *device;
 heaters_s *heaters;
+
+
+
 uint8_t inst_speed;
 device_s device_send;
 device_s device_check;
@@ -260,7 +268,6 @@ bool iSendMode;
 bool iSendState;
 bool iSendTemp;
 
-bool netif_link; // статус сети
 bool mqtt_status;  // статус mqtt
 /* USER CODE END ET */
 
@@ -290,12 +297,8 @@ void Error_Handler(void);
 #define SW_DIP5_GPIO_Port GPIOE
 #define SW_DIP6_Pin GPIO_PIN_5
 #define SW_DIP6_GPIO_Port GPIOE
-#define HEAT_VALVE_GATE1_Pin GPIO_PIN_3
-#define HEAT_VALVE_GATE1_GPIO_Port GPIOA
 #define SPI1_CS_Pin GPIO_PIN_4
 #define SPI1_CS_GPIO_Port GPIOA
-#define FAN_FG1_Pin GPIO_PIN_0
-#define FAN_FG1_GPIO_Port GPIOB
 #define SERVICE_BTN_Pin GPIO_PIN_10
 #define SERVICE_BTN_GPIO_Port GPIOD
 #define RELAY_CH1_Pin GPIO_PIN_12
