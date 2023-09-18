@@ -1,7 +1,8 @@
-../Core/Src/Modes/modes.c:20:6:temp_cold	72	static
-../Core/Src/Modes/modes.c:89:6:temp_hot	32	static
-../Core/Src/Modes/modes.c:107:6:inflow_mode	8	static
-../Core/Src/Modes/modes.c:132:6:inflow_max_mode	40	static
-../Core/Src/Modes/modes.c:154:6:mode_handler	8	static
-../Core/Src/Modes/modes.c:178:6:inflow_handler	8	static
-../Core/Src/Modes/modes.c:186:6:MainTask	56	static
+../Core/Src/Modes/modes.c:21:6:temp_cold	72	static
+../Core/Src/Modes/modes.c:90:6:temp_hot	32	static
+../Core/Src/Modes/modes.c:108:6:inflow_mode	8	static
+../Core/Src/Modes/modes.c:133:6:inflow_max_mode	40	static
+../Core/Src/Modes/modes.c:155:6:mode_handler	8	static
+../Core/Src/Modes/modes.c:179:6:pcnt_error	4	static
+../Core/Src/Modes/modes.c:193:6:inflow_handler	8	static
+../Core/Src/Modes/modes.c:204:6:MainTask	56	static

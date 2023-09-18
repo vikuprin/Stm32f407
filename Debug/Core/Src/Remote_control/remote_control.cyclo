@@ -1,6 +1,6 @@
 remote_control.c:15:8:modbus_set_holding	1
 remote_control.c:20:9:modbus_get_holding	1
-remote_control.c:46:6:rc_receive_temp	5
+remote_control.c:46:6:rc_receive_temp	4
 remote_control.c:67:6:rc_receive_fan	15
 remote_control.c:111:6:rc_receive_work	4
 remote_control.c:135:6:rc_receive_switch	4
@@ -11,6 +11,6 @@ remote_control.c:192:6:check_limit_work	2
 remote_control.c:201:6:check_changes	24
 remote_control.c:278:6:rc_send_handler	1
 remote_control.c:286:6:try_connect	3
-remote_control.c:304:6:RemoteControlTask	2
-remote_control.c:321:6:create_remote_control_task	1
-remote_control.c:326:6:check_remote_control	3
+remote_control.c:303:6:RemoteControlTask	2
+remote_control.c:320:6:create_remote_control_task	1
+remote_control.c:325:6:check_remote_control	3

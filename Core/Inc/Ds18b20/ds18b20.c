@@ -183,7 +183,11 @@ uint8_t DS18B20_Read(OneWire_t* OW, uint8_t *ROM, float *Destination)
 	uint8_t crc;
 
 	/* Check if device is DS18B20 */
-	if (!DS18B20_IsValid(ROM)) return 0;
+	if (!DS18B20_IsValid(ROM))
+	{
+		device->error_ds18b20 = true;
+		return 0;
+	}
 
 	/* Wait until line is released, then coversion is completed */
 	while(!OneWire_ReadBit(OW)) {};

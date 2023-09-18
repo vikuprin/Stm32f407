@@ -1,9 +1,9 @@
 mqtt_message.c:7:6:publish_auth	2
 mqtt_message.c:26:6:publish_capabilities	2
-mqtt_message.c:39:6:publish_temp_log	1
-mqtt_message.c:47:6:publish_system	1
-mqtt_message.c:56:6:publish_settings	1
-mqtt_message.c:64:6:publish_errors	1
-mqtt_message.c:72:6:publish_log	1
-mqtt_message.c:81:6:publish_extra_options	1
-mqtt_message.c:90:6:publish_firmware_state	1
+mqtt_message.c:39:6:publish_temp_log	2
+mqtt_message.c:52:6:publish_system	2
+mqtt_message.c:66:6:publish_settings	2
+mqtt_message.c:79:6:publish_errors	2
+mqtt_message.c:92:6:publish_log	2
+mqtt_message.c:105:6:publish_extra_options	2
+mqtt_message.c:119:6:publish_firmware_state	2

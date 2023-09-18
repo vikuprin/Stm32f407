@@ -4,7 +4,7 @@
 #include "math.h"
 #include "utils.h"
 
-uint8_t _ten_power;
+uint16_t _ten_power;
 
 float P, I, D, En;
 float En1 = 0;
@@ -25,7 +25,7 @@ int constrain(int X, int min, int max)
     }
 }
 
-void set_ten_power(uint8_t power)
+void set_ten_power(uint16_t power)
 {
 	if (_ten_power != power)
 	{
@@ -38,7 +38,7 @@ void set_ten_power(uint8_t power)
         	HAL_GPIO_WritePin (RELAY_CH2_GPIO_Port, RELAY_CH2_Pin, OFF);
         }
         _ten_power = power;
-		__HAL_TIM_SET_COMPARE(&htim9, TIM_CHANNEL_2, power); // * 65535 / 100);
+		__HAL_TIM_SET_COMPARE(&htim9, TIM_CHANNEL_2, power * 65535 / 1023);
 		DEBUG_TEN("Set power = %i \n", power);
 	}
 }
@@ -55,11 +55,10 @@ int computePID_true(float Xn, float X0n, float Kp, float Ki, float Kd, float dt,
 
 void ten_handler()
 {
-	if (device->state == ON && damper_state == 2 &&
-		heaters->on_off_ten == ON && device->inflow_speed > 0 && sensors_data->in_state && sensors_data->out_state &&
+	if (device->state == ON && damper_state == 2 && heaters->on_off_ten == ON && device->inflow_speed > 0 &&
 		device->error_temp_hot == false && device->error_stop_hot == false && device->error_stop_cold == false)
 	{
-		heaters->ten.power = computePID_true(sensors_data->out, heaters->ten.temp_limit, 75, 3.0, 13, 1, 0, 65535);
+		heaters->ten.power = computePID_true(sensors_data->out, heaters->ten.temp_limit, 75, 3.0, 13, 1, 0, 1023);
 		DEBUG_TEN("work mode\n");
 	}
 	else

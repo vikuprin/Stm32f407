@@ -1,4 +1,4 @@
 ../Core/Src/Mqtt/mode_topic.c:6:6:capabilities	24	static
 ../Core/Src/Mqtt/mode_topic.c:15:6:set_ten_settings	16	static
 ../Core/Src/Mqtt/mode_topic.c:35:6:settings_handler	24	static
-../Core/Src/Mqtt/mode_topic.c:50:6:mode_topic_handler	56	static
+../Core/Src/Mqtt/mode_topic.c:50:6:mode_topic_handler	64	static

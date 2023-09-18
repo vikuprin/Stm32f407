@@ -46,7 +46,6 @@ void first_init_wireless()
 	// Айпи сервера
 	wireless_params->server_ip[0] = 0;
 	wireless_params->vakio_mqtt_connect_ip = false;
-	wireless_params->soft_ap_off_time = MIN_15_OFF_AP;
 	write_wireless_params();
 }
 

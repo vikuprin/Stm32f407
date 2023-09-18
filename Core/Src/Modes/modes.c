@@ -7,6 +7,7 @@
 #include "mqtt_client.h"
 
 #define HOT_TEMP 60
+#define MAX_FAN_COUNT 10
 
 extern uint8_t ave;
 
@@ -106,7 +107,7 @@ void temp_hot()
 
 void inflow_mode()
 {
-    if (device->error_temp_hot == false && device->error_temp_cold == false && device->error_stop_hot == false && device->error_stop_cold == false && device->error_fan == false)
+    if (device->error_temp_hot == false && device->error_temp_cold == false && device->error_stop_hot == false && device->error_stop_cold == false)
     {
         inst_speed = device->speed_arr[device->inflow_speed];
     }
@@ -175,10 +176,27 @@ void mode_handler()
     }
 }
 
+void pcnt_error()
+{
+	if(inflow_power1 > 0)
+	{
+		fan_count++;
+		if(fan_count == MAX_FAN_COUNT)
+			device->error_fan = true;
+		else
+			device->error_fan = false;
+	}
+	else
+		fan_count = 0;
+}
+
 void inflow_handler()
 {
-    if (device->state == ON && damper_state == 2 && sensors_data->out_state && sensors_data->in_state)
+    if (device->state == ON && damper_state == 2)
+    {
         mode_handler();
+        pcnt_error();
+    }
     else
     	set_inflow_fan1(OFF);
 }

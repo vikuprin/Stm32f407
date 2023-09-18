@@ -42,6 +42,7 @@
 #include "fan.h"
 #include "ten.h"
 #include "led_button_control.h"
+#include "modes.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -90,19 +91,19 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
   if (htim->Instance == TIM1) // check if the interrupt comes from TIM1
   {
-    get_ds_data_mass();
+      get_ds_data_mass();
 //    get_sht_data();
 //    get_xgz_data();
 //    get_aht_data();
   }
-  if (htim->Instance == TIM2) // check if the interrupt comes from TIM1
+  if (htim->Instance == TIM2) // check if the interrupt comes from TIM2
   {
 	  ten_handler();
   }
-//  if (htim->Instance == TIM12) // check if the interrupt comes from TIM12
-//  {
-//    link_callback_IP();
-//  }
+  if (htim->Instance == TIM12) // check if the interrupt comes from TIM12
+  {
+      link_callback_IP();
+  }
 }
 
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
@@ -111,15 +112,16 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
     {
         if(htim->Channel == HAL_TIM_ACTIVE_CHANNEL_3)
         {
-			falling = HAL_TIM_ReadCapturedValue(&htim3, TIM_CHANNEL_4); // чтение значения в регистре захвата/сравнения
-			if(falling > 0)
-				device->error_fan = false;
-			else
-				device->error_fan = true;
+//			falling = HAL_TIM_ReadCapturedValue(&htim3, TIM_CHANNEL_4); // чтение значения в регистре захвата/сравнения
+//			if(falling > 0)
+//				device->error_fan = false;
+//			else
+//				device->error_fan = true;
         }
         else if(htim->Channel == HAL_TIM_ACTIVE_CHANNEL_4) // FALLING с HIGH на LOW
         {
         	__HAL_TIM_SET_COUNTER(&htim3, 0x0000); // обнуление счётчика
+        	fan_count = 0;
         }
     }
 }
@@ -186,7 +188,7 @@ int main(void)
   HAL_TIM_PWM_Start(&htim9, TIM_CHANNEL_2);
   HAL_TIM_IC_Start_IT(&htim3, TIM_CHANNEL_3);
   HAL_TIM_IC_Start_IT(&htim3, TIM_CHANNEL_4);
-//  HAL_TIM_Base_Start_IT(&htim12);
+  HAL_TIM_Base_Start_IT(&htim12);
   /* USER CODE END 2 */
 
   /* Init scheduler */

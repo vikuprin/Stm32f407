@@ -142,6 +142,15 @@ void set_extra_options_handler(cJSON *data_json)
 
 void system_topic_handler(char *data)
 {
+    if (data == NULL)
+    {
+        const char *error_ptr = cJSON_GetErrorPtr();
+        if (error_ptr != NULL)
+        {
+            fprintf(stderr, "Error before: %s\n", error_ptr);
+        }
+        return;
+    }
     cJSON *data_json = cJSON_Parse(data);
     if (data == NULL)
     {
@@ -198,4 +207,9 @@ void system_topic_handler(char *data)
             firmware_handler(firmware_js);
         }
     }
+    if (extra_options_js != NULL)
+    {
+        set_extra_options_handler(extra_options_js);
+    }
+    cJSON_Delete(data_json);
 }

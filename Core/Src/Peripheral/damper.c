@@ -29,8 +29,8 @@ void DamperTask(void *argument)
 	damper_state = 0;
     for(;;)
     {
-    	if(device->state == ON && device->error_stop_hot == false && device->error_stop_cold == false &&
-            sensors_data->out_state && sensors_data->in_state && ds_count == 2)
+    	if(device->state == ON && device->error_stop_hot == false && device->error_stop_cold == false && device->error_ds18b20 == false &&
+            sensors_data->out_state && sensors_data->in_state && ds_count == 2 && device->error_fan == false)
     	{
     		open_damper();
     		if(damper_state == 1 && ((HAL_GetTick() - damper_time) > OPENING_TIME))

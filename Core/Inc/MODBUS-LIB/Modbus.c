@@ -342,7 +342,6 @@ void ModbusStart(modbusHandler_t * modH)
           {
               // return RS485 transceiver to transmit mode
 	    	  HAL_GPIO_WritePin(modH->EN_Port, modH->EN_Pin, GPIO_PIN_RESET);
-//	    	  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
           }
 
           if (modH->uModbusType == MB_SLAVE &&  modH->u16regs == NULL )

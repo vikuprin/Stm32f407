@@ -226,7 +226,8 @@ void MX_TIM9_Init(void)
 {
 
   /* USER CODE BEGIN TIM9_Init 0 */
-
+//	  htim9.Init.Prescaler = 3000-1;
+//	  htim9.Init.Period = 56000-1;
   /* USER CODE END TIM9_Init 0 */
 
   TIM_OC_InitTypeDef sConfigOC = {0};
@@ -235,7 +236,7 @@ void MX_TIM9_Init(void)
 
   /* USER CODE END TIM9_Init 1 */
   htim9.Instance = TIM9;
-  htim9.Init.Prescaler = 30000-1;
+  htim9.Init.Prescaler = 3000-1;
   htim9.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim9.Init.Period = 56000-1;
   htim9.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
@@ -263,7 +264,8 @@ void MX_TIM12_Init(void)
 {
 
   /* USER CODE BEGIN TIM12_Init 0 */
-
+//	  htim12.Init.Prescaler = 1000;
+//	  htim12.Init.Period = 10000;
   /* USER CODE END TIM12_Init 0 */
 
   TIM_ClockConfigTypeDef sClockSourceConfig = {0};
@@ -272,9 +274,9 @@ void MX_TIM12_Init(void)
 
   /* USER CODE END TIM12_Init 1 */
   htim12.Instance = TIM12;
-  htim12.Init.Prescaler = 8400-1;
+  htim12.Init.Prescaler = 1000;
   htim12.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim12.Init.Period = 65535;
+  htim12.Init.Period = 10000;
   htim12.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim12.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim12) != HAL_OK)

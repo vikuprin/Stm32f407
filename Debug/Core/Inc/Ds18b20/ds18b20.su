@@ -4,6 +4,6 @@
 ../Core/Inc/Ds18b20/ds18b20.c:134:9:DS18B20_Start	16	static
 ../Core/Inc/Ds18b20/ds18b20.c:155:6:DS18B20_StartAll	16	static
 ../Core/Inc/Ds18b20/ds18b20.c:175:9:DS18B20_Read	56	static
-../Core/Inc/Ds18b20/ds18b20.c:281:9:DS18B20_SetTempAlarm	32	static
-../Core/Inc/Ds18b20/ds18b20.c:346:9:DS18B20_AlarmSearch	24	static
-../Core/Inc/Ds18b20/ds18b20.c:376:9:DS18B20_Init	16	static
+../Core/Inc/Ds18b20/ds18b20.c:285:9:DS18B20_SetTempAlarm	32	static
+../Core/Inc/Ds18b20/ds18b20.c:350:9:DS18B20_AlarmSearch	24	static
+../Core/Inc/Ds18b20/ds18b20.c:380:9:DS18B20_Init	16	static

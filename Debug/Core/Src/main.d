@@ -91,7 +91,8 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  C:/Project/Stm32f407/Core/Inc/MODBUS-LIB/ModbusConfig.h \
  C:/Project/Stm32f407/Core/Src/Peripheral/fan.h \
  C:/Project/Stm32f407/Core/Src/Peripheral/ten.h \
- C:/Project/Stm32f407/Core/Src/Peripheral/led_button_control.h
+ C:/Project/Stm32f407/Core/Src/Peripheral/led_button_control.h \
+ C:/Project/Stm32f407/Core/Src/Modes/modes.h
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -192,3 +193,4 @@ C:/Project/Stm32f407/Core/Inc/MODBUS-LIB/ModbusConfig.h:
 C:/Project/Stm32f407/Core/Src/Peripheral/fan.h:
 C:/Project/Stm32f407/Core/Src/Peripheral/ten.h:
 C:/Project/Stm32f407/Core/Src/Peripheral/led_button_control.h:
+C:/Project/Stm32f407/Core/Src/Modes/modes.h:

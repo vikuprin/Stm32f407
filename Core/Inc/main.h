@@ -58,28 +58,21 @@ uint8_t msg[80];
 #define OFF 0
 #define MAXIMUM 100
 #define DEFAUL_PULT_ID 1
-#define FIRST_VALVE_ID 2
 
 #define MINUTE 60000
 #define SECOND 1000
-#define MIN_15_US 900000000
-#define MIN_60_US 3600000000
-#define MIN_15_OFF_AP 0
-#define MIN_60_OFF_AP 1
-#define MIN_NEVER_OFF_AP 2
 
-#define DEFAULT_AP_SSID "VakioCityAIR"
+#define DEFAULT_AP_SSID "VakioCityAIR-350"
 #define DEFAULT_AP_PASSWORD ""
 
 #define DEFAULT_MQTT_PORT 1883
 
 #define DEFAULT_USER_TOPIC "vakio"
 
-#define VERSION "1.1.2"
+#define VERSION "1.1.1"
 #define SUBTYPE "default"
-#define XTAL_FREQ "80"
+#define XTAL_FREQ "168"
 #define SERIES "STM32"
-#define PROVERKA "OK"
 
 #define EXT_TEN_OFF_TEMP 45
 #define EXT_TEN_OFF_UNDER 5
@@ -100,11 +93,7 @@ uint8_t msg[80];
 #define TEN_POWER_KOEF 3
 
 #define INFLOW_MAX_MODE_TIME (5 * MINUTE)
-#define MAX_BRG 250
-#define SMART_CO2_DEL 200
 
-
-#define MIN_FAN_POWER_TEN 30
 #define SPEED_ARR_DEFAUL               \
     {                                  \
         0, 20, 27, 41, 55, 70, 85, 100 \
@@ -177,8 +166,7 @@ typedef struct
     bool error_temp_cold;
     bool error_stop_hot;
     bool error_stop_cold;
-    bool error_ds18_bus;  // не исправна шина DS18B20
-    bool error_ds18_lack; // не исправен один из датчиков DS18B20
+    bool error_ds18b20;
     bool error_fan;
     remote_control_s remote_control;
 	uint8_t check_1_0_0;

@@ -49,6 +49,15 @@ void settings_handler(cJSON *settings_js)
 
 void mode_topic_handler(char *data)
 {
+    if (data == NULL)
+    {
+        const char *error_ptr = cJSON_GetErrorPtr();
+        if (error_ptr != NULL)
+        {
+            fprintf(stderr, "Error before: %s\n", error_ptr);
+        }
+        return;
+    }
     cJSON *data_json = cJSON_Parse(data);
     if (data == NULL)
     {
@@ -82,6 +91,7 @@ void mode_topic_handler(char *data)
             cJSON *capabilities_js = cJSON_GetArrayItem(capabilities_js_arr, count);
             capabilities(capabilities_js);
         }
-        write_device_params();
     }
+    cJSON_Delete(data_json);
+    write_device_params();
 }

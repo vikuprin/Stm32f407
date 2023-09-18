@@ -103,8 +103,7 @@ void send_server()
         check_param_u8(&device_check.error_stop_hot, &device->error_stop_hot, "stop_hot") ||
         check_param_u8(&device_check.error_temp_cold, &device->error_temp_cold, "temp_cold") ||
         check_param_u8(&device_check.error_stop_cold, &device->error_stop_cold, "stop_cold") ||
-        check_param_u8(&device_check.error_ds18_bus, &device->error_ds18_bus, "DS18_bus") ||
-        check_param_u8(&device_check.error_ds18_lack, &device->error_ds18_lack, "DS18_lack") ||
+        check_param_u8(&device_check.error_ds18b20, &device->error_ds18b20, "ds18b20") ||
         check_param_u8(&device_check.remote_control.error, &device->remote_control.error, "remote_control"))
 
         send_array_device[FAULTS] = true;

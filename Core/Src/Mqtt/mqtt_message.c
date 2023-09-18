@@ -38,7 +38,12 @@ void publish_capabilities()
 
 void publish_temp_log()
 {
-    char *temp_log = malloc(800);
+    char *temp_log = malloc(600);
+    while (temp_log == NULL)
+    {
+        vTaskDelay(10);
+        temp_log = malloc(600);
+    }
     get_str_temp_log(temp_log);
     publish_message(temp_log_pub_topic, temp_log);
     free(temp_log);
@@ -47,6 +52,11 @@ void publish_temp_log()
 void publish_system()
 {
     char *system = malloc(300);
+    while (system == NULL)
+    {
+        vTaskDelay(10);
+        system = malloc(300);
+    }
     get_str_system_status(system);
     DEBUG_MQTT("Device system %s\n", system);
     publish_message(log_pub_topic, system);
@@ -56,6 +66,11 @@ void publish_system()
 void publish_settings()
 {
     char *settings = malloc(600);
+    while (settings == NULL)
+    {
+        vTaskDelay(10);
+        settings = malloc(600);
+    }
     get_str_settings(settings);
     publish_message(mode_pub_topic, settings);
     free(settings);
@@ -63,7 +78,12 @@ void publish_settings()
 
 void publish_errors()
 {
-    char *errors = malloc(600);
+    char *errors = malloc(300);
+    while (errors == NULL)
+    {
+        vTaskDelay(10);
+        errors = malloc(300);
+    }
     get_str_errors(errors);
     publish_message(system_pub_topic, errors);
     free(errors);
@@ -71,8 +91,12 @@ void publish_errors()
 
 void publish_log(char *log)
 {
-
-    char message[255];
+	char *message = malloc(256);
+    while (message == NULL)
+    {
+        vTaskDelay(10);
+        message = malloc(256);
+    }
     sprintf(message, "%s", log);
     DEBUG_MQTT("LOG %s\n", log);
     publish_message_qos0(log_pub_topic, message);
@@ -81,7 +105,12 @@ void publish_log(char *log)
 void publish_extra_options()
 {
 
-    char *extra = malloc(600);
+    char *extra = malloc(256);
+    while (extra == NULL)
+    {
+        vTaskDelay(10);
+        extra = malloc(256);
+    }
     get_str_extra_options(extra);
     publish_message(log_pub_topic, extra);
     free(extra);
@@ -89,7 +118,12 @@ void publish_extra_options()
 
 void publish_firmware_state(char *state)
 {
-    char message[255];
+    char *message = malloc(256);
+    while (message == NULL)
+    {
+        vTaskDelay(10);
+        message = malloc(256);
+    }
     sprintf(message, "{\"firmware_state\":\"%s\"}", state);
     publish_message(log_pub_topic, message);
 }

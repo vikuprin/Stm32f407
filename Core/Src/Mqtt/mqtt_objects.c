@@ -64,8 +64,7 @@ void get_str_errors(char *errors)
     cJSON_AddNumberToObject(errors_js, "temp_cold", device->error_temp_cold);
     cJSON_AddNumberToObject(errors_js, "stop_hot", device->error_stop_hot);
     cJSON_AddNumberToObject(errors_js, "stop_cold", device->error_stop_cold);
-    cJSON_AddNumberToObject(errors_js, "ds18_bus", device->error_ds18_bus);
-    cJSON_AddNumberToObject(errors_js, "ds18_lack", device->error_ds18_lack);
+    cJSON_AddNumberToObject(errors_js, "ds18_bus", device->error_ds18b20);
 
     char *js_str = cJSON_Print(root);
     strcpy(errors, js_str);

@@ -12,6 +12,7 @@
 #endif
 
 uint8_t cold_speed;
+uint8_t fan_count;
 
 void MainTask(void *argument);
 

@@ -6,4 +6,4 @@ system_topic.c:65:6:error_handler	2
 system_topic.c:87:6:reset_handler	5
 system_topic.c:110:6:logging_handler	5
 system_topic.c:132:6:set_extra_options_handler	1
-system_topic.c:143:6:system_topic_handler	12
+system_topic.c:143:6:system_topic_handler	15

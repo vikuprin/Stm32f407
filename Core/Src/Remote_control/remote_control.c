@@ -55,11 +55,11 @@ void rc_receive_temp()
             limit_temp = true;
             reg_temp = 10;
         }
-        if (reg_temp > 25)
-        {
-            limit_temp = true;
-            reg_temp = 25;
-        }
+//        if (reg_temp > 25)
+//        {
+//            limit_temp = true;
+//            reg_temp = 25;
+//        }
         heaters->ten.temp_limit = reg_temp;
     }
 }
@@ -289,8 +289,7 @@ void try_connect()
     if (count_link == LIMIT_LINK)
     {
         count_link = 0;
-//        mbc_master_destroy();
-//        start_modbus_master();
+        init_modbus_master();
         new_reg_switch = modbus_get_holding(DEFAUL_PULT_ID, REG_SWITCH);
         if (new_reg_switch >= 0)
         {
@@ -337,5 +336,5 @@ void check_remote_control()
 	        device->remote_control.error = ON;
 	    }
 	}
-//	write_device_params();
+	write_device_params();
 }
