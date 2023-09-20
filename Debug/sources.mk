@@ -31,6 +31,7 @@ Core/Inc/Sht30 \
 Core/Inc/W25qxx \
 Core/Inc/XGZP6897D \
 Core/Inc/cJSON \
+Core/Src/Httpserver \
 Core/Src/Modes \
 Core/Src/Mqtt \
 Core/Src/Peripheral \
@@ -47,6 +48,7 @@ Middlewares/Third_Party/FreeRTOS/Source \
 Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F \
 Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang \
 Middlewares/Third_Party/LwIP/src/api \
+Middlewares/Third_Party/LwIP/src/apps/http \
 Middlewares/Third_Party/LwIP/src/apps/mqtt \
 Middlewares/Third_Party/LwIP/src/core \
 Middlewares/Third_Party/LwIP/src/core/ipv4 \

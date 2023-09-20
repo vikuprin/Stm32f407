@@ -55,18 +55,18 @@ int computePID_true(float Xn, float X0n, float Kp, float Ki, float Kd, float dt,
 
 void ten_handler()
 {
-	if (device->state == ON && damper_state == 2 && heaters->on_off_ten == ON && device->inflow_speed > 0 &&
+	if (device->state == ON && damper_state == 2 && device->inflow_speed > 0 &&
 		device->error_temp_hot == false && device->error_stop_hot == false && device->error_stop_cold == false)
 	{
-		heaters->ten.power = computePID_true(sensors_data->out, heaters->ten.temp_limit, 75, 3.0, 13, 1, 0, 1023);
+		ten_power = computePID_true(sensors_data->out, device->temp_limit, 75, 3.0, 13, 1, 0, 1023);
 		DEBUG_TEN("work mode\n");
 	}
 	else
 	{
-		heaters->ten.power = 0;
+		ten_power = 0;
 		DEBUG_TEN("ten off\n");
 	}
-	set_ten_power(heaters->ten.power);
+	set_ten_power(ten_power);
 	// publish_temp_log();
-	DEBUG_TEN("TEN_POWER %i\n", heaters->ten.power);
+	DEBUG_TEN("TEN_POWER %i\n", ten_power);
 }

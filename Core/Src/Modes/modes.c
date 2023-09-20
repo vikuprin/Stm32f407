@@ -30,7 +30,7 @@ void temp_cold()
     	cold_time = HAL_GetTick();
         DEBUG_MODES("callback_temp_cold_timer\n");
         if (device->state == ON	&& damper_state == 2 && sensors_data->out_state && sensors_data->in_state && inflow_max_flag == false &&
-            device->inflow_speed > 0 && (ave < (heaters->ten.temp_limit - device->extra_options.deviation)) && (heaters->ten.power >= 970)) // должно быть 970
+            device->inflow_speed > 0 && (ave < (device->temp_limit - device->extra_options.deviation)) && (ten_power >= 970)) // должно быть 970
         {
             if (temp_cold_state == false)
             {

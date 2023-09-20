@@ -3,22 +3,6 @@
 #include "main.h"
 #include <string.h>
 
-void first_init_heaters()
-{
-    heaters->ten.off_temp = TEN_OFF_TEMP;
-    heaters->ten.off_temp_under = TEN_OFF_UNDER;
-    heaters->ten.temp_limit = TEN_TEMP_LIMIT;
-    heaters->ten.started_value = TEN_STARTED_VALUE;
-    heaters->ten.power_koef = TEN_POWER_KOEF;
-
-    heaters->on_off_ten = ON;
-    heaters->update_koef_time = 5000000;
-    heaters->delta = 1;
-    heaters->delta_high = 10;
-    heaters->koef_grow = 50;
-    write_heaters();
-}
-
 void first_init_wireless()
 {
 	// Настройки брокера Вакио

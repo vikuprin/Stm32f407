@@ -1,3 +1,2 @@
-../Core/Src/Storage/first_init.c:6:6:first_init_heaters	8	static
-../Core/Src/Storage/first_init.c:22:6:first_init_wireless	8	static
-../Core/Src/Storage/first_init.c:52:6:first_init_device	16	static
+../Core/Src/Storage/first_init.c:6:6:first_init_wireless	8	static
+../Core/Src/Storage/first_init.c:36:6:first_init_device	16	static

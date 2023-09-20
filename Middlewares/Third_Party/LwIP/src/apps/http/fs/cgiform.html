@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <style>
+   #mqttIP0 {width: 22px;}
+   #mqttIP1 {width: 22px;} 
+   #mqttIP2 {width: 22px;} 
+   #mqttIP3 {width: 22px;} 
+  </style>
+<body>
+
+<h2>Настройка брокера VK-44</h2>
+
+<form action="/form.cgi">
+  <label for="mqttBroker">Название брокера:</label><br>
+  <input type="text" id="mqttBroker" name="mqttBroker" value=""><br>
+  
+  <div style="display:inline-block">
+  <label for="mqttIP0">IP брокера:</label><br>
+  <input type="text" id="mqttIP0" name="mqttIP0" value="">
+  
+  <label for="mqttIP1"></label>
+  <input type="text" id="mqttIP1" name="mqttIP1" value="">
+  
+  <label for="mqttIP2"></label>
+  <input type="text" id="mqttIP2" name="mqttIP2" value="">
+  
+  <label for="mqttIP3"></label>
+  <input type="text" id="mqttIP3" name="mqttIP3" value="">
+  </div><br>
+  
+  <label for="mqttPort">Порт:</label><br>
+  <input type="text" id="mqttPort" name="mqttPort" value=""><br>
+  
+  <label for="mqttLogin">Логин:</label><br>
+  <input type="text" id="mqttLogin" name="mqttLogin" value=""><br>
+  
+  <label for="mqttPassword">Пароль:</label><br>
+  <input type="text" id="mqttPassword" name="mqttPassword" value=""><br>
+  
+  <label for="mqttID">ID:</label><br>
+  <input type="text" id="mqttID" name="mqttID" value=""><br>
+  
+  <label for="mqttTopic">Топик:</label><br>
+  <input type="text" id="mqttTopic" name="mqttTopic" value=""><br><br>
+  
+  <input type="submit" value="Сохранить">
+</form> 
+
+</body>
+</html>

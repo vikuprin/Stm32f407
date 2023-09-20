@@ -9,6 +9,7 @@
 #include "send_server_handler.h"
 #include "netif.h"
 #include "cmsis_os.h"
+#include "inet.h"
 
 mqtt_client_t *client;
 struct mqtt_connect_client_info_t ci;
@@ -134,13 +135,13 @@ static void mqtt_incoming_data_cb(void *arg, const u8_t *data, u16_t len, u8_t f
                 {
                     int temp_ = 0;
                     temp_ = atoi((char*)data);
-                    heaters->ten.temp_limit = temp_;
+                    device->temp_limit = temp_;
                     if (temp_ > 30)
-                        heaters->ten.temp_limit = 30;
+                    	device->temp_limit = 30;
                     if (temp_ < 10)
-                        heaters->ten.temp_limit = 10;
-                    heaters_check.ten.temp_limit = heaters->ten.temp_limit;
-                    heaters_send.ten.temp_limit = heaters->ten.temp_limit;
+                    	device->temp_limit = 10;
+                    device_check.temp_limit = device->temp_limit;
+                    device_send.temp_limit = device->temp_limit;
                 }
                 iSendTemp = false;
             }
@@ -254,7 +255,7 @@ void publish_message_topic()
         	publish_message(state_topic, on_off_str_s[device->state]);
             sprintf(speeds_str, "%i", device->inflow_speed);
             publish_message(speed_topic, speeds_str);
-            sprintf(temp_str, "%i", heaters->ten.temp_limit);
+            sprintf(temp_str, "%i", device->temp_limit);
             publish_message(temp_limit_topic, temp_str);
     }
         sprintf(gnetif_str, "%x:%x:%x:%x:%x:%x", gnetif.hwaddr[0], gnetif.hwaddr[1], gnetif.hwaddr[2], gnetif.hwaddr[3], gnetif.hwaddr[4], gnetif.hwaddr[5]);
@@ -351,7 +352,6 @@ void set_mqtt_parameters()
 void set_user_test()
 {
 	wireless_params->mqtt_type = USER_MQTT;
-
 	uint8_t test_ip[] = { 195, 140, 146, 112 };
 	memcpy(wireless_params->user_mqtt.host, test_ip, 4);
 	wireless_params->user_mqtt.port = 12212;
@@ -364,7 +364,6 @@ void set_user_test()
 void init_mqtt()
 {
 	client = mqtt_client_new();
-	set_user_test();
+//	set_user_test();
 	set_mqtt_parameters();
 }
-

@@ -38,12 +38,12 @@ void publish_from_timer()
             publish_message(speed_topic, speeds_str_send);
             device_send.inflow_speed = device_check.inflow_speed;
         }
-        if (heaters_send.ten.temp_limit != heaters_check.ten.temp_limit)
+        if (device_send.temp_limit != device_check.temp_limit)
         {
             iSendTemp = true;
-            sprintf(temp_str_send, "%i", heaters->ten.temp_limit);
+            sprintf(temp_str_send, "%i", device->temp_limit);
             publish_message(temp_limit_topic, temp_str_send);
-            heaters_send.ten.temp_limit = heaters_check.ten.temp_limit;
+            device_send.temp_limit = device_check.temp_limit;
         }
     }
 
@@ -95,7 +95,7 @@ void send_server()
     if (check_param_u8(&device_check.state, &device->state, "State") ||
         check_param_u8(&device_check.inflow_speed, &device->inflow_speed, "Speed") ||
         check_param_u8(&device_check.mode, &device->mode, "Mode") ||
-        check_param_u8(&heaters_check.ten.temp_limit, &heaters->ten.temp_limit, "Temp"))
+        check_param_u8(&device_check.temp_limit, &device->temp_limit, "Temp"))
 
         send_array_device[CAPABILITIES] = true;
 

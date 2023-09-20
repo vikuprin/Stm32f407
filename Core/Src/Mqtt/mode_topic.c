@@ -8,28 +8,15 @@ void capabilities(cJSON *capabilities_js)
     check_char_on_off(capabilities_js, "on_off", &device->state);
     check_char_mode(capabilities_js, "mode", &device->mode);
     check_js_param_u8(capabilities_js, "speed", &device->inflow_speed);
-    check_js_param_u8(capabilities_js, "heat", &heaters->ten.temp_limit);
+    check_js_param_u8(capabilities_js, "heat", &device->temp_limit);
     device_check = *device;
 }
 
 void set_ten_settings(cJSON *data_json)
 {
-    check_char_on_off(data_json, "on_off", &heaters->on_off_ten);
-    check_js_param_u8(data_json, "started_value", &heaters->ten.started_value);
-    check_js_param_int(data_json, "temp_limit", &heaters->ten.temp_limit);
-    check_js_param_int(data_json, "off_temp", &heaters->ten.off_temp);
-    check_js_param_int(data_json, "off_temp_under", &heaters->ten.off_temp_under);
-    check_js_param_int(data_json, "koef_grow", &heaters->koef_grow);
-    check_js_param_int(data_json, "update_koef_time", &heaters->update_koef_time);
-    check_js_param_int(data_json, "delta", &heaters->delta);
-
-    DEBUG_MQTT("Set ten on_off_ten = %i", heaters->on_off_ten);
-    DEBUG_MQTT("Set ten temp_limit = %i", heaters->ten.temp_limit);
-    DEBUG_MQTT("Set ten off_temp = %i", heaters->ten.off_temp);
-    DEBUG_MQTT("Set ten off_temp_under = %i", heaters->ten.off_temp_under);
-    DEBUG_MQTT("Set ten started_value = %i", heaters->ten.started_value);
-    DEBUG_MQTT("Set ten power_koef = %i", heaters->ten.power_koef);
-    write_heaters();
+	check_js_param_int(data_json, "temp_limit", &device->temp_limit);
+    DEBUG_MQTT("Set ten temp_limit = %i", device->temp_limit);
+    write_device_params();
 }
 
 void settings_handler(cJSON *settings_js)

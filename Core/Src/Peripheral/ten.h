@@ -10,8 +10,6 @@
 #define DEBUG_TEN(...)
 #endif
 
-uint8_t ten_power;
-
 void ten_handler();
 void set_ten_power(uint16_t value);
 

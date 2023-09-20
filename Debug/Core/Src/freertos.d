@@ -95,6 +95,7 @@ Core/Src/freertos.o: ../Core/Src/freertos.c \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/tcpbase.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/icmp.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/icmp.h \
+ C:/Project/Stm32f407/Core/Src/Httpserver/httpserver.h \
  C:/Project/Stm32f407/Core/Src/Remote_control/remote_control.h \
  C:/Project/Stm32f407/Core/Src/Peripheral/led_button_control.h \
  C:/Project/Stm32f407/Core/Src/Mqtt/mqtt_message.h \
@@ -198,6 +199,7 @@ C:/Project/Stm32f407/Core/Src/Mqtt/mqtt_client.h:
 ../Middlewares/Third_Party/LwIP/src/include/lwip/tcpbase.h:
 ../Middlewares/Third_Party/LwIP/src/include/lwip/icmp.h:
 ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/icmp.h:
+C:/Project/Stm32f407/Core/Src/Httpserver/httpserver.h:
 C:/Project/Stm32f407/Core/Src/Remote_control/remote_control.h:
 C:/Project/Stm32f407/Core/Src/Peripheral/led_button_control.h:
 C:/Project/Stm32f407/Core/Src/Mqtt/mqtt_message.h:

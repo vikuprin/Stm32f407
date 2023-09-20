@@ -95,14 +95,9 @@ void reset_handler(cJSON *reset_js)
     {
         first_init_device();
     }
-    if (check_js_param_char(reset_js, "heaters", &reset_option))
-    {
-        first_init_heaters();
-    }
     if (check_js_param_char(reset_js, "all", &reset_option))
     {
         first_init_device();
-        first_init_heaters();
         first_init_wireless();
     }
 }

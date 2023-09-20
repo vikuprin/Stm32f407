@@ -175,6 +175,7 @@ typedef struct
     uint8_t inflow_speed;
     uint8_t smart_speed_pwm;
     uint8_t speed_arr[8];
+    uint8_t temp_limit;
     extra_options_s extra_options;
 } device_s;
 
@@ -208,55 +209,23 @@ typedef struct
     char server_ip[8];         // для перепрошивки
     char domain[12];
 } wireless_parameters_s;
-
-////////////////////////////////
-
-typedef struct
-{
-    bool state_log;
-    bool state;
-    int temp_limit;
-    int off_temp;
-    int off_temp_under;
-    uint16_t power;
-    uint8_t started_value;
-    int power_koef;
-} ten_s;
-
-typedef struct
-{
-    ten_s ten;
-    int koef;
-    float delta;
-    float delta_high;
-    int koef_grow;
-    uint64_t update_koef_time;
-    bool on_off_ten;
-} heaters_s;
-
 //////////////////////////////////
-
-uint16_t co2_master_data[15];
 
 sensors_data_s *sensors_data;
 wireless_parameters_s *wireless_params;
 device_s *device;
-heaters_s *heaters;
 
-
-
+uint16_t ten_power;
 uint8_t inst_speed;
 device_s device_send;
 device_s device_check;
-heaters_s heaters_send;
-heaters_s heaters_check;
 
 bool iSendSpeed;
 bool iSendMode;
 bool iSendState;
 bool iSendTemp;
 
-bool mqtt_status;  // статус mqtt
+bool mqtt_status;
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/

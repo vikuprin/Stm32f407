@@ -18,8 +18,6 @@ void write_device_params();
 void read_device_params();
 void write_wireless_params();
 void read_wireless_params();
-void write_heaters();
-void read_heaters();
 
 void init_storage();
 void reset_nvs_parameteres();

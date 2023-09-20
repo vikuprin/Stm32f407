@@ -60,7 +60,7 @@ void rc_receive_temp()
 //            limit_temp = true;
 //            reg_temp = 25;
 //        }
-        heaters->ten.temp_limit = reg_temp;
+        device->temp_limit = reg_temp;
     }
 }
 
@@ -254,19 +254,19 @@ void check_changes()
             }
         }
         // проверяем изменения в установке температуры тена
-        if (heaters->ten.temp_limit != reg_temp)
+        if (device->temp_limit != reg_temp)
         {
-            modbus_set_holding(DEFAUL_PULT_ID, REG_TEMP, heaters->ten.temp_limit);
+            modbus_set_holding(DEFAUL_PULT_ID, REG_TEMP, device->temp_limit);
             DEBUG_RC("sent a message ten");
         }
         // проверяем изменения в установке значка включения тена
-        if (heaters->ten.power > 0 && !reg_heater)
+        if (ten_power > 0 && !reg_heater)
         {
             reg_heater = true;
             modbus_set_holding(DEFAUL_PULT_ID, REG_HEATER, ON);
             DEBUG_RC("sent a message ten.power > 0\n");
         }
-        if (heaters->ten.power == 0 && reg_heater)
+        if (ten_power == 0 && reg_heater)
         {
             reg_heater = false;
             modbus_set_holding(DEFAUL_PULT_ID, REG_HEATER, OFF);

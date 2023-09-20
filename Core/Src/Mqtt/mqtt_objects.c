@@ -25,7 +25,7 @@ void get_str_capabiities(char *capabilities_str)
     cJSON_AddStringToObject(capabilities, "mode", modes[device->mode]);
     cJSON_AddStringToObject(capabilities, "on_off", on_off_[device->state]);
     cJSON_AddNumberToObject(capabilities, "speed", device->inflow_speed);
-    cJSON_AddNumberToObject(capabilities, "heat", heaters->ten.temp_limit);
+    cJSON_AddNumberToObject(capabilities, "heat", device->temp_limit);
     char *js_str = cJSON_Print(root);
     while (js_str == NULL)
     {
@@ -43,11 +43,7 @@ void get_str_settings(char *settings)
     root = cJSON_CreateObject();
     cJSON_AddItemToObject(root, "settings", settings_js = cJSON_CreateObject());
     cJSON_AddItemToObject(settings_js, "ten", ten = cJSON_CreateObject());
-    cJSON_AddNumberToObject(ten, "temp_limit", heaters->ten.temp_limit);
-    cJSON_AddNumberToObject(ten, "on_off", heaters->on_off_ten);
-    cJSON_AddNumberToObject(ten, "koef_grow", heaters->koef_grow);
-    cJSON_AddNumberToObject(ten, "update_koef_time", heaters->update_koef_time);
-    cJSON_AddNumberToObject(ten, "delta", heaters->delta);
+    cJSON_AddNumberToObject(ten, "temp_limit", device->temp_limit);
 
     char *js_str = cJSON_Print(root);
     strcpy(settings, js_str);
@@ -76,8 +72,7 @@ void get_str_system_status(char *system_str)
 {
     cJSON *root;
     root = cJSON_CreateObject();
-    cJSON_AddNumberToObject(root, "heat_koef", heaters->koef);
-    cJSON_AddNumberToObject(root, "ten_power", heaters->ten.power);
+    cJSON_AddNumberToObject(root, "ten_power", ten_power);
     cJSON_AddNumberToObject(root, "temp_out", sensors_data->out);
     cJSON_AddNumberToObject(root, "temp_in", sensors_data->in);
     cJSON_AddNumberToObject(root, "state_out_sensor", sensors_data->out_state);
@@ -98,8 +93,8 @@ void get_str_temp_log(char *temp_log_str)
     cJSON_AddNumberToObject(root, "temp_out", sensors_data->out);
     cJSON_AddNumberToObject(root, "temp_out_real", sensors_data->out_real);
     cJSON_AddNumberToObject(root, "temp_in", sensors_data->in);
-    cJSON_AddNumberToObject(root, "heat_koef", heaters->ten.power);
-    cJSON_AddNumberToObject(root, "temp_limit", heaters->ten.temp_limit);
+    cJSON_AddNumberToObject(root, "heat_koef", ten_power);
+    cJSON_AddNumberToObject(root, "temp_limit", device->temp_limit);
     cJSON_AddNumberToObject(root, "speed", device->speed_arr[device->inflow_speed]);
     cJSON_AddNumberToObject(root, "inst_speed", inst_speed);
 

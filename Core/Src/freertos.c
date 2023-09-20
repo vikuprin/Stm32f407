@@ -28,7 +28,7 @@
 #include "lwip.h"
 #include "lwip/api.h"
 #include "mqtt_client.h"
-//#include "httpserver.h"
+#include "httpserver.h"
 #include "remote_control.h"
 #include "led_button_control.h"
 #include "mqtt_message.h"
@@ -154,7 +154,7 @@ void StartDefaultTask(void *argument)
   /* init code for LWIP */
   MX_LWIP_Init();
   /* USER CODE BEGIN StartDefaultTask */
-//  http_server_init();
+  http_server_init();
   check_remote_control();
   init_mqtt();
   device_send = *device;
