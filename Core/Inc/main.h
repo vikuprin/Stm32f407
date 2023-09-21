@@ -192,7 +192,7 @@ typedef struct
     char login[12];
     char password[12];
     char client_id[12];
-    char host[8];
+    char host[16];
     int port;
     char topic[12];
 } mqtt_client_s;

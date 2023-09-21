@@ -116,25 +116,10 @@ const char *CGIForm_Handler(int iIndex, int iNumParams, char *pcParam[], char *p
 				wireless_params->mqtt_type = USER_MQTT;
 			}
 
-			else if (strcmp(pcParam[i], "mqttIP0") == 0)  // if the fname string is found
+			else if (strcmp(pcParam[i], "mqttIP") == 0)  // if the fname string is found
 			{
-				memset(wireless_params->user_mqtt.host, '\0', 8);
-				wireless_params->user_mqtt.host[0] = atoi(pcValue[i]);
-			}
-
-			else if (strcmp(pcParam[i], "mqttIP1") == 0)  // if the fname string is found
-			{
-				wireless_params->user_mqtt.host[1] = atoi(pcValue[i]);
-			}
-
-			else if (strcmp(pcParam[i], "mqttIP2") == 0)  // if the fname string is found
-			{
-				wireless_params->user_mqtt.host[2] = atoi(pcValue[i]);
-			}
-
-			else if (strcmp(pcParam[i], "mqttIP3") == 0)  // if the fname string is found
-			{
-				wireless_params->user_mqtt.host[3] = atoi(pcValue[i]);
+				memset(wireless_params->user_mqtt.host, '\0', 16);
+				strcpy(wireless_params->user_mqtt.host, pcValue[i]);
 			}
 
 			else if (strcmp(pcParam[i], "mqttPort") == 0)  // if the fname string is found

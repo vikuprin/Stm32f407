@@ -1,3 +1,3 @@
-httpserver.c:106:13:CGIForm_Handler	13
-httpserver.c:176:13:CGILED_Handler	5
-httpserver.c:199:6:http_server_init	1
+httpserver.c:106:13:CGIForm_Handler	10
+httpserver.c:161:13:CGILED_Handler	5
+httpserver.c:184:6:http_server_init	1

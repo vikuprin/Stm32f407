@@ -289,14 +289,36 @@ void start_mqtt()
 void update_mqtt_parameters(char *host, int port, char *username, char *password, char *client_id)
 {
 	memset(&ci, 0, sizeof(ci));
-	IP4_ADDR(&ip_addr, host[0], host[1], host[2], host[3]);
+	char _host[16];
+	memcpy(_host, host, 16);
+	char str[4];
+	char sep[4]=".";
+	char *istr;
+    istr = strtok (_host,sep);
+    uint8_t i = 0;
+    while (istr != NULL)
+    {
+	    str[i] = atoi(istr);
+	    i++;
+	    istr = strtok(NULL, sep);
+    }
+    IP4_ADDR(&ip_addr, str[0], str[1], str[2], str[3]);
+
 	mqtt_port = port;
     ci.client_user = username;
     ci.client_pass = password;
     ci.client_id = client_id;
     ci.keep_alive = 60;
     DEBUG_MQTT("***************UPDATE MQTT***********\n");
-    DEBUG_MQTT("host = %i.%i.%i.%i\n", host[0], host[1], host[2], host[3]);
+    if(wireless_params->mqtt_type)
+    {
+    	DEBUG_MQTT("VAKIO mqtt_type\n");
+    }
+    else
+    {
+    	DEBUG_MQTT("USER mqtt_type\n");
+    }
+    DEBUG_MQTT("host = %i.%i.%i.%i\n", str[0], str[1], str[2], str[3]);
     DEBUG_MQTT("login = %s\n", ci.client_user);
     DEBUG_MQTT("password = %s\n", ci.client_pass);
     DEBUG_MQTT("port = %i\n", mqtt_port);
