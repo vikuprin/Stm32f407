@@ -78,7 +78,8 @@ Middlewares/Third_Party/LwIP/src/apps/mdns/mdns.o: \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h \
- ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h
+ ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h \
+ ../Middlewares/Third_Party/LwIP/src/include/lwip/igmp.h
 ../Middlewares/Third_Party/LwIP/src/include/lwip/apps/mdns.h:
 ../Middlewares/Third_Party/LwIP/src/include/lwip/apps/mdns_opts.h:
 ../Middlewares/Third_Party/LwIP/src/include/lwip/opt.h:
@@ -160,3 +161,4 @@ Middlewares/Third_Party/LwIP/src/apps/mdns/mdns.o: \
 ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h:
+../Middlewares/Third_Party/LwIP/src/include/lwip/igmp.h:

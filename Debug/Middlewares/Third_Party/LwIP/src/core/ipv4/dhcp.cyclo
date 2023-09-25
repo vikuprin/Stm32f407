@@ -30,6 +30,7 @@ dhcp.c:1432:1:dhcp_option	2
 dhcp.c:1444:1:dhcp_option_byte	2
 dhcp.c:1452:1:dhcp_option_short	2
 dhcp.c:1461:1:dhcp_option_long	2
+dhcp.c:1473:1:dhcp_option_hostname	6
 dhcp.c:1507:1:dhcp_parse_reply	50
 dhcp.c:1754:1:dhcp_recv	24
 dhcp.c:1874:1:dhcp_create_msg	16

@@ -182,7 +182,7 @@ const char *CGILED_Handler(int iIndex, int iNumParams, char *pcParam[], char *pc
 }
 
 void http_server_init()
-{ 
+{
 	httpd_init();
 
 	CGI_TAB[0] = FORM_CGI;

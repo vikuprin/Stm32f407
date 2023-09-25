@@ -57,7 +57,17 @@ osThreadAttr_t attributes;
 /* USER CODE END OS_THREAD_ATTR_CMSIS_RTOS_V2 */
 
 /* USER CODE BEGIN 2 */
+static void
+srv_txt(struct mdns_service *service, void *txt_userdata)
+{
+  err_t res;
+  LWIP_UNUSED_ARG(txt_userdata);
 
+  printf("mdns\n");
+
+  res = mdns_resp_add_service_txtitem(service, "path=/", 6);
+  LWIP_ERROR("mdns add service txt failed\n", (res == ERR_OK), return);
+}
 /* USER CODE END 2 */
 
 /**
@@ -66,37 +76,37 @@ osThreadAttr_t attributes;
 void MX_LWIP_Init(void)
 {
   /* IP addresses initialization */
-//  if(HAL_GPIO_ReadPin(SW_DIP1_GPIO_Port, SW_DIP1_Pin) == 0)
-//  {
-//	  IP_ADDRESS[0] = 192;
-//	  IP_ADDRESS[1] = 168;
-//	  IP_ADDRESS[2] = 88;
-//	  IP_ADDRESS[3] = 4;
-//	  NETMASK_ADDRESS[0] = 255;
-//	  NETMASK_ADDRESS[1] = 255;
-//	  NETMASK_ADDRESS[2] = 255;
-//	  NETMASK_ADDRESS[3] = 0;
-//	  GATEWAY_ADDRESS[0] = 192;
-//	  GATEWAY_ADDRESS[1] = 168;
-//	  GATEWAY_ADDRESS[2] = 88;
-//	  GATEWAY_ADDRESS[3] = 1;
-//  }
+  if(HAL_GPIO_ReadPin(SW_DIP1_GPIO_Port, SW_DIP1_Pin) == 0)
+  {
+	  IP_ADDRESS[0] = 192;
+	  IP_ADDRESS[1] = 168;
+	  IP_ADDRESS[2] = 88;
+	  IP_ADDRESS[3] = 4;
+	  NETMASK_ADDRESS[0] = 255;
+	  NETMASK_ADDRESS[1] = 255;
+	  NETMASK_ADDRESS[2] = 255;
+	  NETMASK_ADDRESS[3] = 0;
+	  GATEWAY_ADDRESS[0] = 192;
+	  GATEWAY_ADDRESS[1] = 168;
+	  GATEWAY_ADDRESS[2] = 88;
+	  GATEWAY_ADDRESS[3] = 1;
+  }
   /* Initilialize the LwIP stack with RTOS */
   tcpip_init( NULL, NULL );
 
   /* IP addresses initialization with DHCP (IPv4) */
-//  if(HAL_GPIO_ReadPin(SW_DIP1_GPIO_Port, SW_DIP1_Pin) == 0)
-//  {
-//	  IP4_ADDR(&ipaddr, IP_ADDRESS[0], IP_ADDRESS[1], IP_ADDRESS[2], IP_ADDRESS[3]);
-//	  IP4_ADDR(&netmask, NETMASK_ADDRESS[0], NETMASK_ADDRESS[1] , NETMASK_ADDRESS[2], NETMASK_ADDRESS[3]);
-//	  IP4_ADDR(&gw, GATEWAY_ADDRESS[0], GATEWAY_ADDRESS[1], GATEWAY_ADDRESS[2], GATEWAY_ADDRESS[3]);
-//  }
-//  else
-//  {
+  if(HAL_GPIO_ReadPin(SW_DIP1_GPIO_Port, SW_DIP1_Pin) == 0)
+  {
+	  IP4_ADDR(&ipaddr, IP_ADDRESS[0], IP_ADDRESS[1], IP_ADDRESS[2], IP_ADDRESS[3]);
+	  IP4_ADDR(&netmask, NETMASK_ADDRESS[0], NETMASK_ADDRESS[1] , NETMASK_ADDRESS[2], NETMASK_ADDRESS[3]);
+	  IP4_ADDR(&gw, GATEWAY_ADDRESS[0], GATEWAY_ADDRESS[1], GATEWAY_ADDRESS[2], GATEWAY_ADDRESS[3]);
+  }
+  else
+  {
 	  ipaddr.addr = 0;
 	  netmask.addr = 0;
 	  gw.addr = 0;
-//  }
+  }
   /* add the network interface (IPv4/IPv6) with RTOS */
   netif_add(&gnetif, &ipaddr, &netmask, &gw, NULL, &ethernetif_init, &tcpip_input);
 
@@ -132,14 +142,14 @@ void MX_LWIP_Init(void)
 /* USER CODE END OS_THREAD_NEW_CMSIS_RTOS_V2 */
 
   /* Start DHCP negotiation for a network interface (IPv4) */
-//  if(HAL_GPIO_ReadPin(SW_DIP1_GPIO_Port, SW_DIP1_Pin) == 1)
-//  {
+  if(HAL_GPIO_ReadPin(SW_DIP1_GPIO_Port, SW_DIP1_Pin) == 1)
+  {
 	  dhcp_start(&gnetif);
-//  }
+  }
 /* USER CODE BEGIN 3 */
-//  mdns_resp_init();
-//  mdns_resp_add_netif(&gnetif, gnetif.hostname, 120);
-//  mdns_resp_add_service(&gnetif, "lwip.local", "_http", DNSSD_PROTO_TCP, 80, 3600, srv_txt, NULL);
+  mdns_resp_init();
+  mdns_resp_add_netif(&gnetif, gnetif.hostname, 120);
+  mdns_resp_add_service(&gnetif, "lwip.local", "_http", DNSSD_PROTO_TCP, 80, 3600, srv_txt, NULL);
 
 /* USER CODE END 3 */
 }

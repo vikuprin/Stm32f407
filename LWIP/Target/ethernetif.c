@@ -32,7 +32,7 @@
 #include "lwip/tcpip.h"
 /* Within 'USER CODE' section, code will be kept by default at each generation */
 /* USER CODE BEGIN 0 */
-
+#include "stm32f407xx.h"
 /* USER CODE END 0 */
 
 /* Private define ------------------------------------------------------------*/
@@ -287,7 +287,10 @@ static void low_level_init(struct netif *netif)
   HAL_ETH_Start(&heth);
 
 /* USER CODE BEGIN PHY_PRE_CONFIG */
-
+#if LWIP_IPV4 && LWIP_IGMP
+ netif->flags |= NETIF_FLAG_IGMP;
+#endif
+ (heth.Instance)->MACFFR |= ETH_MULTICASTFRAMESFILTER_NONE;
 /* USER CODE END PHY_PRE_CONFIG */
 
   /* Read Register Configuration */

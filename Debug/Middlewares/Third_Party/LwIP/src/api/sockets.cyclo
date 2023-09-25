@@ -45,10 +45,13 @@ sockets.c:2747:1:lwip_getpeername	1
 sockets.c:2753:1:lwip_getsockname	1
 sockets.c:2759:1:lwip_getsockopt	7
 sockets.c:2859:1:lwip_sockopt_to_ipopt	5
-sockets.c:2882:1:lwip_getsockopt_impl	55
+sockets.c:2882:1:lwip_getsockopt_impl	70
 sockets.c:3205:1:lwip_setsockopt	6
-sockets.c:3303:1:lwip_setsockopt_impl	47
+sockets.c:3303:1:lwip_setsockopt_impl	71
 sockets.c:3743:1:lwip_ioctl	8
 sockets.c:3836:1:lwip_fcntl	14
 sockets.c:3919:1:lwip_inet_ntop	4
 sockets.c:3952:1:lwip_inet_pton	2
+sockets.c:3989:1:lwip_socket_register_membership	4
+sockets.c:4017:1:lwip_socket_unregister_membership	6
+sockets.c:4044:1:lwip_socket_drop_registered_memberships	4
