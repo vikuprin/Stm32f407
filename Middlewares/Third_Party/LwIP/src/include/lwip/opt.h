@@ -1067,7 +1067,7 @@
  * LWIP_IGMP==1: Turn on IGMP module.
  */
 #if !defined LWIP_IGMP || defined __DOXYGEN__
-#define LWIP_IGMP                       1
+#define LWIP_IGMP                       0
 #endif
 #if !LWIP_IPV4
 #undef LWIP_IGMP
@@ -1582,7 +1582,7 @@
  * field.
  */
 #if !defined LWIP_NETIF_HOSTNAME || defined __DOXYGEN__
-#define LWIP_NETIF_HOSTNAME             1
+#define LWIP_NETIF_HOSTNAME             0
 #endif
 
 /**
@@ -1597,7 +1597,7 @@
  * changes its up/down status (i.e., due to DHCP IP acquisition)
  */
 #if !defined LWIP_NETIF_STATUS_CALLBACK || defined __DOXYGEN__
-#define LWIP_NETIF_STATUS_CALLBACK      1
+#define LWIP_NETIF_STATUS_CALLBACK      0
 #endif
 
 /**
@@ -1606,7 +1606,7 @@
  * @see netif_ext_status_callback
  */
 #if !defined LWIP_NETIF_EXT_STATUS_CALLBACK || defined __DOXYGEN__
-#define LWIP_NETIF_EXT_STATUS_CALLBACK  1
+#define LWIP_NETIF_EXT_STATUS_CALLBACK  0
 #endif
 
 /**
@@ -1663,7 +1663,7 @@
  * data in client_data member array of struct netif (max. 256).
  */
 #if !defined LWIP_NUM_NETIF_CLIENT_DATA || defined __DOXYGEN__
-#define LWIP_NUM_NETIF_CLIENT_DATA      1
+#define LWIP_NUM_NETIF_CLIENT_DATA      0
 #endif
 /**
  * @}

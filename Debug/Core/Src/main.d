@@ -32,7 +32,7 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
  ../Core/Inc/usart.h ../Core/Inc/main.h \
- ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h \
  ../Core/Inc/FreeRTOSConfig.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h \
@@ -42,7 +42,13 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h \
- ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h \
  ../Core/Inc/dma.h ../Core/Inc/i2c.h ../LWIP/App/lwip.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/opt.h \
  ../LWIP/Target/lwipopts.h \
@@ -88,7 +94,7 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  C:/Project/Stm32f407/Core/Src/Storage/storage.h \
  C:/Project/Stm32f407/Core/Src/Sensor/sensor.h \
  C:/Project/Stm32f407/Core/Inc/XGZP6897D/XGZP6897D.h \
- C:/Project/Stm32f407/Core/Inc/MODBUS-LIB/ModbusConfig.h \
+ C:/Project/Stm32f407/Core/Src/Remote_control/remote_control.h \
  C:/Project/Stm32f407/Core/Src/Peripheral/fan.h \
  C:/Project/Stm32f407/Core/Src/Peripheral/ten.h \
  C:/Project/Stm32f407/Core/Src/Peripheral/led_button_control.h \
@@ -128,7 +134,7 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
 ../Core/Inc/usart.h:
 ../Core/Inc/main.h:
-../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h:
+../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h:
 ../Core/Inc/FreeRTOSConfig.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h:
@@ -138,7 +144,13 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h:
-../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h:
+../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h:
+../Middlewares/Third_Party/FreeRTOS/Source/include/task.h:
+../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h:
+../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h:
+../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h:
+../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h:
+../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h:
 ../Core/Inc/dma.h:
 ../Core/Inc/i2c.h:
 ../LWIP/App/lwip.h:
@@ -189,7 +201,7 @@ C:/Project/Stm32f407/Core/Src/Sensor/sht.h:
 C:/Project/Stm32f407/Core/Src/Storage/storage.h:
 C:/Project/Stm32f407/Core/Src/Sensor/sensor.h:
 C:/Project/Stm32f407/Core/Inc/XGZP6897D/XGZP6897D.h:
-C:/Project/Stm32f407/Core/Inc/MODBUS-LIB/ModbusConfig.h:
+C:/Project/Stm32f407/Core/Src/Remote_control/remote_control.h:
 C:/Project/Stm32f407/Core/Src/Peripheral/fan.h:
 C:/Project/Stm32f407/Core/Src/Peripheral/ten.h:
 C:/Project/Stm32f407/Core/Src/Peripheral/led_button_control.h:

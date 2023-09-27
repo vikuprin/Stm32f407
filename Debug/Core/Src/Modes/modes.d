@@ -37,7 +37,23 @@ Core/Src/Modes/modes.o: ../Core/Src/Modes/modes.c \
  C:/Project/Stm32f407/Core/Src/Peripheral/ten.h \
  C:/Project/Stm32f407/Core/Src/Peripheral/damper.h \
  C:/Project/Stm32f407/Core/Src/Peripheral/fan.h \
- ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h \
+ ../Core/Inc/FreeRTOSConfig.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h \
  C:/Project/Stm32f407/Core/Src/Mqtt/mqtt_client.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/apps/mqtt.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/apps/mqtt_opts.h \
@@ -113,7 +129,23 @@ C:/Project/Stm32f407/Core/Src/Sensor/sensor.h:
 C:/Project/Stm32f407/Core/Src/Peripheral/ten.h:
 C:/Project/Stm32f407/Core/Src/Peripheral/damper.h:
 C:/Project/Stm32f407/Core/Src/Peripheral/fan.h:
-../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h:
+../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h:
+../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h:
+../Core/Inc/FreeRTOSConfig.h:
+../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h:
+../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h:
+../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h:
+../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h:
+../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h:
+../Middlewares/Third_Party/FreeRTOS/Source/include/task.h:
+../Middlewares/Third_Party/FreeRTOS/Source/include/list.h:
+../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h:
+../Middlewares/Third_Party/FreeRTOS/Source/include/task.h:
+../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h:
+../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h:
+../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h:
+../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h:
+../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h:
 C:/Project/Stm32f407/Core/Src/Mqtt/mqtt_client.h:
 ../Middlewares/Third_Party/LwIP/src/include/lwip/apps/mqtt.h:
 ../Middlewares/Third_Party/LwIP/src/include/lwip/apps/mqtt_opts.h:

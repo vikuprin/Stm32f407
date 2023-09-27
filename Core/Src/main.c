@@ -37,8 +37,8 @@
 #include "sensor.h"
 #include "XGZP6897D.h"
 //#include "aht20_i2c_drv.h"
-//#include "remote_control.h"
-#include "ModbusConfig.h"
+#include "remote_control.h"
+//#include "ModbusConfig.h"
 #include "fan.h"
 #include "ten.h"
 #include "led_button_control.h"
@@ -183,7 +183,7 @@ int main(void)
 //  init_sht_devices();
   HAL_TIM_Base_Start_IT(&htim1);
   HAL_TIM_Base_Start_IT(&htim2);
-  init_modbus_master();
+//  init_modbus_master();
   HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_2);
   HAL_TIM_PWM_Start(&htim9, TIM_CHANNEL_2);
   HAL_TIM_IC_Start_IT(&htim3, TIM_CHANNEL_3);
@@ -191,8 +191,7 @@ int main(void)
   HAL_TIM_Base_Start_IT(&htim12);
   /* USER CODE END 2 */
 
-  /* Init scheduler */
-  osKernelInitialize();  /* Call init function for freertos objects (in freertos.c) */
+  /* Call init function for freertos objects (in freertos.c) */
   MX_FREERTOS_Init();
   /* Start scheduler */
   osKernelStart();

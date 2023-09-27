@@ -26,7 +26,6 @@
 #include "lwip/sio.h"
 #endif /* MDK ARM Compiler */
 #include "ethernetif.h"
-#include <string.h>
 
 /* USER CODE BEGIN 0 */
 #include "lwip/apps/mdns.h"
@@ -48,13 +47,6 @@ struct netif gnetif;
 ip4_addr_t ipaddr;
 ip4_addr_t netmask;
 ip4_addr_t gw;
-uint8_t IP_ADDRESS[4];
-uint8_t NETMASK_ADDRESS[4];
-uint8_t GATEWAY_ADDRESS[4];
-/* USER CODE BEGIN OS_THREAD_ATTR_CMSIS_RTOS_V2 */
-#define INTERFACE_THREAD_STACK_SIZE ( 1024 )
-osThreadAttr_t attributes;
-/* USER CODE END OS_THREAD_ATTR_CMSIS_RTOS_V2 */
 
 /* USER CODE BEGIN 2 */
 static void
@@ -75,38 +67,14 @@ srv_txt(struct mdns_service *service, void *txt_userdata)
   */
 void MX_LWIP_Init(void)
 {
-  /* IP addresses initialization */
-  if(HAL_GPIO_ReadPin(SW_DIP1_GPIO_Port, SW_DIP1_Pin) == 0)
-  {
-	  IP_ADDRESS[0] = 192;
-	  IP_ADDRESS[1] = 168;
-	  IP_ADDRESS[2] = 88;
-	  IP_ADDRESS[3] = 4;
-	  NETMASK_ADDRESS[0] = 255;
-	  NETMASK_ADDRESS[1] = 255;
-	  NETMASK_ADDRESS[2] = 255;
-	  NETMASK_ADDRESS[3] = 0;
-	  GATEWAY_ADDRESS[0] = 192;
-	  GATEWAY_ADDRESS[1] = 168;
-	  GATEWAY_ADDRESS[2] = 88;
-	  GATEWAY_ADDRESS[3] = 1;
-  }
   /* Initilialize the LwIP stack with RTOS */
   tcpip_init( NULL, NULL );
 
   /* IP addresses initialization with DHCP (IPv4) */
-  if(HAL_GPIO_ReadPin(SW_DIP1_GPIO_Port, SW_DIP1_Pin) == 0)
-  {
-	  IP4_ADDR(&ipaddr, IP_ADDRESS[0], IP_ADDRESS[1], IP_ADDRESS[2], IP_ADDRESS[3]);
-	  IP4_ADDR(&netmask, NETMASK_ADDRESS[0], NETMASK_ADDRESS[1] , NETMASK_ADDRESS[2], NETMASK_ADDRESS[3]);
-	  IP4_ADDR(&gw, GATEWAY_ADDRESS[0], GATEWAY_ADDRESS[1], GATEWAY_ADDRESS[2], GATEWAY_ADDRESS[3]);
-  }
-  else
-  {
-	  ipaddr.addr = 0;
-	  netmask.addr = 0;
-	  gw.addr = 0;
-  }
+  ipaddr.addr = 0;
+  netmask.addr = 0;
+  gw.addr = 0;
+
   /* add the network interface (IPv4/IPv6) with RTOS */
   netif_add(&gnetif, &ipaddr, &netmask, &gw, NULL, &ethernetif_init, &tcpip_input);
 
@@ -128,24 +96,20 @@ void MX_LWIP_Init(void)
   netif_set_link_callback(&gnetif, ethernetif_update_config);
 
   /* create a binary semaphore used for informing ethernetif of frame reception */
-  Netif_LinkSemaphore = osSemaphoreNew(1, 1, NULL);
+  osSemaphoreDef(Netif_SEM);
+  Netif_LinkSemaphore = osSemaphoreCreate(osSemaphore(Netif_SEM) , 1 );
 
   link_arg.netif = &gnetif;
   link_arg.semaphore = Netif_LinkSemaphore;
   /* Create the Ethernet link handler thread */
-/* USER CODE BEGIN OS_THREAD_NEW_CMSIS_RTOS_V2 */
-  memset(&attributes, 0x0, sizeof(osThreadAttr_t));
-  attributes.name = "LinkThr";
-  attributes.stack_size = INTERFACE_THREAD_STACK_SIZE;
-  attributes.priority = osPriorityBelowNormal;
-  osThreadNew(ethernetif_set_link, &link_arg, &attributes);
-/* USER CODE END OS_THREAD_NEW_CMSIS_RTOS_V2 */
+/* USER CODE BEGIN OS_THREAD_DEF_CREATE_CMSIS_RTOS_V1 */
+  osThreadDef(LinkThr, ethernetif_set_link, osPriorityBelowNormal, 0, configMINIMAL_STACK_SIZE * 2);
+  osThreadCreate (osThread(LinkThr), &link_arg);
+/* USER CODE END OS_THREAD_DEF_CREATE_CMSIS_RTOS_V1 */
 
   /* Start DHCP negotiation for a network interface (IPv4) */
-  if(HAL_GPIO_ReadPin(SW_DIP1_GPIO_Port, SW_DIP1_Pin) == 1)
-  {
-	  dhcp_start(&gnetif);
-  }
+  dhcp_start(&gnetif);
+
 /* USER CODE BEGIN 3 */
   mdns_resp_init();
   mdns_resp_add_netif(&gnetif, gnetif.hostname, 120);

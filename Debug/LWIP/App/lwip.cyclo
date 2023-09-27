@@ -1,2 +1,2 @@
-lwip.c:61:1:srv_txt	2
-lwip.c:76:6:MX_LWIP_Init	5
+lwip.c:53:1:srv_txt	2
+lwip.c:68:6:MX_LWIP_Init	2

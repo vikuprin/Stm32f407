@@ -37,7 +37,7 @@ Core/Src/Sensor/sensor.o: ../Core/Src/Sensor/sensor.c \
  C:/Project/Stm32f407/Core/Inc/Ds18b20/onewire.h ../Core/Inc/usart.h \
  C:/Project/Stm32f407/Core/Inc/Ds18b20/onewire.h \
  C:/Project/Stm32f407/Core/Inc/Ds18b20/dwt.h \
- ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h \
  ../Core/Inc/FreeRTOSConfig.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h \
@@ -47,7 +47,13 @@ Core/Src/Sensor/sensor.o: ../Core/Src/Sensor/sensor.c \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h \
- ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h
 ../Core/Src/Sensor/sensor.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
@@ -89,7 +95,7 @@ C:/Project/Stm32f407/Core/Inc/Ds18b20/onewire.h:
 ../Core/Inc/usart.h:
 C:/Project/Stm32f407/Core/Inc/Ds18b20/onewire.h:
 C:/Project/Stm32f407/Core/Inc/Ds18b20/dwt.h:
-../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h:
+../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h:
 ../Core/Inc/FreeRTOSConfig.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h:
@@ -99,4 +105,10 @@ C:/Project/Stm32f407/Core/Inc/Ds18b20/dwt.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h:
-../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h:
+../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h:
+../Middlewares/Third_Party/FreeRTOS/Source/include/task.h:
+../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h:
+../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h:
+../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h:
+../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h:
+../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h:

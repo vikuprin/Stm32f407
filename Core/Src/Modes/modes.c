@@ -3,7 +3,7 @@
 #include "ten.h"
 #include "damper.h"
 #include "fan.h"
-#include "cmsis_os2.h"
+#include "cmsis_os.h"
 #include "mqtt_client.h"
 
 #define HOT_TEMP 60

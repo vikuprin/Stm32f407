@@ -68,7 +68,7 @@ Core/Src/Mqtt/mqtt_message.o: ../Core/Src/Mqtt/mqtt_message.c \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/icmp.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/icmp.h \
  ../Core/Src/Mqtt/mqtt_objects.h \
- ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h \
  ../Core/Inc/FreeRTOSConfig.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h \
@@ -78,7 +78,13 @@ Core/Src/Mqtt/mqtt_message.o: ../Core/Src/Mqtt/mqtt_message.c \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h \
- ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h
 ../Core/Src/Mqtt/mqtt_message.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
@@ -151,7 +157,7 @@ Core/Src/Mqtt/mqtt_message.o: ../Core/Src/Mqtt/mqtt_message.c \
 ../Middlewares/Third_Party/LwIP/src/include/lwip/icmp.h:
 ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/icmp.h:
 ../Core/Src/Mqtt/mqtt_objects.h:
-../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h:
+../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h:
 ../Core/Inc/FreeRTOSConfig.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h:
@@ -161,4 +167,10 @@ Core/Src/Mqtt/mqtt_message.o: ../Core/Src/Mqtt/mqtt_message.c \
 ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h:
-../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h:
+../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h:
+../Middlewares/Third_Party/FreeRTOS/Source/include/task.h:
+../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h:
+../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h:
+../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h:
+../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h:
+../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h:

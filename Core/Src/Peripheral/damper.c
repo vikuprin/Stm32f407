@@ -1,6 +1,6 @@
 #include "damper.h"
 #include "sensor.h"
-#include "cmsis_os2.h"
+#include "cmsis_os.h"
 
 #define OPENING_TIME (45 * SECOND)
 

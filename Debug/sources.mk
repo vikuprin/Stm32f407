@@ -26,7 +26,6 @@ Core/Inc/Aht20 \
 Core/Inc/Ds18b20 \
 Core/Inc/Epm_24c32 \
 Core/Inc/FLASH_SECTOR_F4 \
-Core/Inc/MODBUS-LIB \
 Core/Inc/Sht30 \
 Core/Inc/W25qxx \
 Core/Inc/XGZP6897D \
@@ -43,7 +42,7 @@ Core/Startup \
 Drivers/STM32F4xx_HAL_Driver/Src \
 LWIP/App \
 LWIP/Target \
-Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 \
+Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS \
 Middlewares/Third_Party/FreeRTOS/Source \
 Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F \
 Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang \

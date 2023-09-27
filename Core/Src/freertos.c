@@ -29,7 +29,7 @@
 #include "lwip/api.h"
 #include "mqtt_client.h"
 #include "httpserver.h"
-#include "remote_control.h"
+//#include "remote_control.h"
 #include "led_button_control.h"
 #include "mqtt_message.h"
 #include "fan.h"
@@ -57,47 +57,57 @@
 /* USER CODE BEGIN Variables */
 extern struct netif gnetif;
 /////////////////////////////////
-osThreadId_t ledsTaskHandle;
-const osThreadAttr_t ledsTask_attributes = {
-  .name = "ledsTask",
-  .priority = (osPriority_t) osPriorityNormal,
-  .stack_size = 256 * 4
-};
-
-osThreadId_t damperTaskHandle;
-const osThreadAttr_t damperTask_attributes = {
-  .name = "damperTask",
-  .priority = (osPriority_t) osPriorityNormal,
-  .stack_size = 128 * 4
-};
-
-osThreadId_t mainTaskHandle;
-const osThreadAttr_t mainTask_attributes = {
-  .name = "mainTask",
-  .priority = (osPriority_t) osPriorityNormal,
-  .stack_size = 256 * 4
-};
+osThreadId ledsTaskHandle;
+osThreadId damperTaskHandle;
+osThreadId mainTaskHandle;
 ////////////////////////////////
 /* USER CODE END Variables */
-/* Definitions for defaultTask */
-osThreadId_t defaultTaskHandle;
-const osThreadAttr_t defaultTask_attributes = {
-  .name = "defaultTask",
-  .stack_size = 1024 * 4,
-  .priority = (osPriority_t) osPriorityNormal,
-};
+osThreadId defaultTaskHandle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
-//extern void LedsTask(void *argument);
+
+extern void LedsTask(void *argument);
 extern void DamperTask(void *argument);
 extern void MainTask(void *argument);
 /* USER CODE END FunctionPrototypes */
 
-void StartDefaultTask(void *argument);
+void StartDefaultTask(void const * argument);
 
 extern void MX_LWIP_Init(void);
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
+
+/* GetIdleTaskMemory prototype (linked to static allocation support) */
+void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer, StackType_t **ppxIdleTaskStackBuffer, uint32_t *pulIdleTaskStackSize );
+
+/* GetTimerTaskMemory prototype (linked to static allocation support) */
+void vApplicationGetTimerTaskMemory( StaticTask_t **ppxTimerTaskTCBBuffer, StackType_t **ppxTimerTaskStackBuffer, uint32_t *pulTimerTaskStackSize );
+
+/* USER CODE BEGIN GET_IDLE_TASK_MEMORY */
+static StaticTask_t xIdleTaskTCBBuffer;
+static StackType_t xIdleStack[configMINIMAL_STACK_SIZE];
+
+void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer, StackType_t **ppxIdleTaskStackBuffer, uint32_t *pulIdleTaskStackSize )
+{
+  *ppxIdleTaskTCBBuffer = &xIdleTaskTCBBuffer;
+  *ppxIdleTaskStackBuffer = &xIdleStack[0];
+  *pulIdleTaskStackSize = configMINIMAL_STACK_SIZE;
+  /* place for user code */
+}
+/* USER CODE END GET_IDLE_TASK_MEMORY */
+
+/* USER CODE BEGIN GET_TIMER_TASK_MEMORY */
+static StaticTask_t xTimerTaskTCBBuffer;
+static StackType_t xTimerStack[configTIMER_TASK_STACK_DEPTH];
+
+void vApplicationGetTimerTaskMemory( StaticTask_t **ppxTimerTaskTCBBuffer, StackType_t **ppxTimerTaskStackBuffer, uint32_t *pulTimerTaskStackSize )
+{
+  *ppxTimerTaskTCBBuffer = &xTimerTaskTCBBuffer;
+  *ppxTimerTaskStackBuffer = &xTimerStack[0];
+  *pulTimerTaskStackSize = configTIMER_TASK_STACK_DEPTH;
+  /* place for user code */
+}
+/* USER CODE END GET_TIMER_TASK_MEMORY */
 
 /**
   * @brief  FreeRTOS initialization
@@ -126,19 +136,21 @@ void MX_FREERTOS_Init(void) {
   /* USER CODE END RTOS_QUEUES */
 
   /* Create the thread(s) */
-  /* creation of defaultTask */
-  defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
+  /* definition and creation of defaultTask */
+  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 1024);
+  defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
-  ledsTaskHandle = osThreadNew(LedsTask, NULL, &ledsTask_attributes);
-  damperTaskHandle = osThreadNew(DamperTask, NULL, &damperTask_attributes);
-  mainTaskHandle = osThreadNew(MainTask, NULL, &mainTask_attributes);
-  /* USER CODE END RTOS_THREADS */
+  osThreadDef(mainTask, MainTask, osPriorityNormal, 0, 1024);
+  mainTaskHandle = osThreadCreate(osThread(mainTask), NULL);
 
-  /* USER CODE BEGIN RTOS_EVENTS */
-  /* add events, ... */
-  /* USER CODE END RTOS_EVENTS */
+  osThreadDef(ledsTask, LedsTask, osPriorityNormal, 0, 1024);
+  ledsTaskHandle = osThreadCreate(osThread(ledsTask), NULL);
+
+  osThreadDef(damperTask, DamperTask, osPriorityNormal, 0, 1024);
+  damperTaskHandle = osThreadCreate(osThread(damperTask), NULL);
+  /* USER CODE END RTOS_THREADS */
 
 }
 
@@ -149,20 +161,24 @@ void MX_FREERTOS_Init(void) {
   * @retval None
   */
 /* USER CODE END Header_StartDefaultTask */
-void StartDefaultTask(void *argument)
+void StartDefaultTask(void const * argument)
 {
   /* init code for LWIP */
   MX_LWIP_Init();
   /* USER CODE BEGIN StartDefaultTask */
+  while (dhcp_supplied_address(&gnetif) == 0)
+  {
+     osDelay(50);
+  }
   http_server_init();
-  check_remote_control();
-  init_mqtt();
-  device_send = *device;
-  device_check = *device;
+//  check_remote_control();
+//  init_mqtt();
+//  device_send = *device;
+//  device_check = *device;
   /* Infinite loop */
   for(;;)
   {
-	  start_mqtt();
+//	  start_mqtt();
 	  osDelay(1000);
   }
   /* USER CODE END StartDefaultTask */
@@ -179,4 +195,3 @@ void StartDefaultTask(void *argument)
 //HAL_GPIO_TogglePin(HEAT_VALVE_GATE1_GPIO_Port, HEAT_VALVE_GATE1_Pin);
 //HAL_GPIO_TogglePin(SSR_GATE1_GPIO_Port, SSR_GATE1_Pin);
 /* USER CODE END Application */
-

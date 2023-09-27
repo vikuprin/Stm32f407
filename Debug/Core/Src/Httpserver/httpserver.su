@@ -1,3 +1,3 @@
-../Core/Src/Httpserver/httpserver.c:106:13:CGIForm_Handler	40	static
-../Core/Src/Httpserver/httpserver.c:161:13:CGILED_Handler	32	static
-../Core/Src/Httpserver/httpserver.c:184:6:http_server_init	8	static
+../Core/Src/Httpserver/httpserver.c:15:13:http_server	64	static
+../Core/Src/Httpserver/httpserver.c:110:13:http_thread	32	static
+../Core/Src/Httpserver/httpserver.c:145:6:http_server_init	16	static
