@@ -38,7 +38,6 @@
 #include "XGZP6897D.h"
 //#include "aht20_i2c_drv.h"
 #include "remote_control.h"
-//#include "ModbusConfig.h"
 #include "fan.h"
 #include "ten.h"
 #include "led_button_control.h"
@@ -71,7 +70,6 @@ void MX_FREERTOS_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
-
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 uint32_t falling;
@@ -140,6 +138,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
   * @brief  The application entry point.
   * @retval int
   */
+extern uint16_t modbusData;
 int main(void)
 {
   /* USER CODE BEGIN 1 */
@@ -177,13 +176,13 @@ int main(void)
   MX_TIM2_Init();
   MX_TIM9_Init();
   MX_TIM3_Init();
+  MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
   init_storage();
   init_ds_devices();
 //  init_sht_devices();
   HAL_TIM_Base_Start_IT(&htim1);
   HAL_TIM_Base_Start_IT(&htim2);
-//  init_modbus_master();
   HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_2);
   HAL_TIM_PWM_Start(&htim9, TIM_CHANNEL_2);
   HAL_TIM_IC_Start_IT(&htim3, TIM_CHANNEL_3);

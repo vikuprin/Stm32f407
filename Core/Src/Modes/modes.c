@@ -201,6 +201,8 @@ void inflow_handler()
     	set_inflow_fan1(OFF);
 }
 
+char coilValue[1] = {0x0F};
+uint16_t regValue[2] = {2, 10};
 void MainTask(void *argument)
 {
     DEBUG_MODES("DEVICE STATE %i\n", device->state);

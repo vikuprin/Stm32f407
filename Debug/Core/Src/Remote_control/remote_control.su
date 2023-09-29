@@ -1,0 +1,13 @@
+../Core/Src/Remote_control/remote_control.c:32:6:rc_receive_temp	8	static
+../Core/Src/Remote_control/remote_control.c:53:6:rc_receive_fan	16	static
+../Core/Src/Remote_control/remote_control.c:97:6:rc_receive_work	8	static
+../Core/Src/Remote_control/remote_control.c:121:6:rc_receive_switch	8	static
+../Core/Src/Remote_control/remote_control.c:149:6:rc_receive_handler	8	static
+../Core/Src/Remote_control/remote_control.c:160:6:check_limit_temp	8	static
+../Core/Src/Remote_control/remote_control.c:169:6:check_limit_fan	8	static
+../Core/Src/Remote_control/remote_control.c:178:6:check_limit_work	8	static
+../Core/Src/Remote_control/remote_control.c:187:6:check_changes	8	static
+../Core/Src/Remote_control/remote_control.c:264:6:rc_send_handler	8	static
+../Core/Src/Remote_control/remote_control.c:288:6:RemoteControlTask	16	static
+../Core/Src/Remote_control/remote_control.c:305:6:create_remote_control_task	48	static
+../Core/Src/Remote_control/remote_control.c:311:6:check_remote_control	8	static

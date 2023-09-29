@@ -29,7 +29,7 @@
 #include "lwip/api.h"
 #include "mqtt_client.h"
 #include "httpserver.h"
-//#include "remote_control.h"
+#include "remote_control.h"
 #include "led_button_control.h"
 #include "mqtt_message.h"
 #include "fan.h"
@@ -137,7 +137,7 @@ void MX_FREERTOS_Init(void) {
 
   /* Create the thread(s) */
   /* definition and creation of defaultTask */
-  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 1024);
+  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 5*1024);
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
@@ -171,14 +171,14 @@ void StartDefaultTask(void const * argument)
      osDelay(50);
   }
   http_server_init();
-//  check_remote_control();
-//  init_mqtt();
-//  device_send = *device;
-//  device_check = *device;
+  check_remote_control();
+  init_mqtt();
+  device_send = *device;
+  device_check = *device;
   /* Infinite loop */
   for(;;)
   {
-//	  start_mqtt();
+	  start_mqtt();
 	  osDelay(1000);
   }
   /* USER CODE END StartDefaultTask */

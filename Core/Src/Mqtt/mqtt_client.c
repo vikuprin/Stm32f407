@@ -374,9 +374,10 @@ void set_mqtt_parameters()
 void set_user_test()
 {
 	wireless_params->mqtt_type = USER_MQTT;
-	uint8_t test_ip[] = { 195, 140, 146, 112 };
-	memcpy(wireless_params->user_mqtt.host, test_ip, 4);
+//	uint8_t test_ip[] = { 195, 140, 146, 112 };
+//	memcpy(wireless_params->user_mqtt.host, test_ip, 4);
 	wireless_params->user_mqtt.port = 12212;
+	strcpy(wireless_params->user_mqtt.host, "195.140.146.112\0");
 	strcpy(wireless_params->user_mqtt.login, "u_Ioo5RJ\0");
 	strcpy(wireless_params->user_mqtt.password, "7L8Uuagq\0");
 	strcpy(wireless_params->user_mqtt.client_id, "STM32\0");
@@ -386,6 +387,6 @@ void set_user_test()
 void init_mqtt()
 {
 	client = mqtt_client_new();
-//	set_user_test();
+	set_user_test();
 	set_mqtt_parameters();
 }

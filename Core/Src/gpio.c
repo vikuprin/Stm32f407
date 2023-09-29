@@ -61,8 +61,8 @@ void MX_GPIO_Init(void)
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOD, RELAY_CH1_Pin|RELAY_CH2_Pin|RELAY_CH3_Pin|RELAY_CH4_Pin
-                          |UART5_DIR_Pin|LED_LINK_Pin|LED_WORK_Pin|LED_FAILURE_Pin, GPIO_PIN_RESET);
-
+                          |LED_LINK_Pin|LED_WORK_Pin|LED_FAILURE_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(UART5_DIR_GPIO_Port, UART5_DIR_Pin, GPIO_PIN_SET);
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(SSR_GATE1_GPIO_Port, SSR_GATE1_Pin, GPIO_PIN_RESET);
 

@@ -26,6 +26,7 @@ Core/Inc/Aht20 \
 Core/Inc/Ds18b20 \
 Core/Inc/Epm_24c32 \
 Core/Inc/FLASH_SECTOR_F4 \
+Core/Inc/MODBUS-LIB \
 Core/Inc/Sht30 \
 Core/Inc/W25qxx \
 Core/Inc/XGZP6897D \

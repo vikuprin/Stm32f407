@@ -1,0 +1,5 @@
+../Core/Inc/MODBUS-LIB/modbus_config.c:11:6:HAL_UART_TxCpltCallback	16	static
+../Core/Inc/MODBUS-LIB/modbus_config.c:17:6:HAL_UARTEx_RxEventCallback	16	static
+../Core/Inc/MODBUS-LIB/modbus_config.c:30:6:sendData	16	static
+../Core/Inc/MODBUS-LIB/modbus_config.c:38:8:modbus_set_holding	24	static
+../Core/Inc/MODBUS-LIB/modbus_config.c:64:9:modbus_get_holding	24	static

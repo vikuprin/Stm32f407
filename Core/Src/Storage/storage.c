@@ -56,6 +56,7 @@ void reset_nvs_parameteres()
 
 void set_default_data()
 {
+	device->state = OFF;
 	device->inflow_speed = 1;
 	device->temp_limit = TEN_TEMP_LIMIT;
     device->remote_control.error = false;

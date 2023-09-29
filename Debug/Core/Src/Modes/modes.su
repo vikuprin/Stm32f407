@@ -5,4 +5,4 @@
 ../Core/Src/Modes/modes.c:155:6:mode_handler	8	static
 ../Core/Src/Modes/modes.c:179:6:pcnt_error	4	static
 ../Core/Src/Modes/modes.c:193:6:inflow_handler	8	static
-../Core/Src/Modes/modes.c:204:6:MainTask	56	static
+../Core/Src/Modes/modes.c:206:6:MainTask	56	static
