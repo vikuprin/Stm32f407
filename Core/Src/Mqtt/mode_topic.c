@@ -2,6 +2,15 @@
 #include "../../Inc/cJSON/cJSON.h"
 #include "../Storage/storage.h"
 #include "../../Inc/cJSON/utils.h"
+#include "cmsis_os.h"
+
+#if DEBUG_PRINT == 1
+#define DEBUG_MQTT_MODE(...) printf("MQTT_MODE: "__VA_ARGS__);
+#elif DEBUG_PRINT == 2
+#define DEBUG_MQTT_MODE(...) sprintf(msg, "MQTT_MODE: "__VA_ARGS__);HAL_UART_Transmit_IT(&huart4, (uint8_t*)msg, strlen(msg));
+#else
+#define DEBUG_MQTT_MODE(...)
+#endif
 
 void capabilities(cJSON *capabilities_js)
 {
@@ -46,14 +55,10 @@ void mode_topic_handler(char *data)
         return;
     }
     cJSON *data_json = cJSON_Parse(data);
-    if (data == NULL)
+    while (data_json == NULL)
     {
-        const char *error_ptr = cJSON_GetErrorPtr();
-        if (error_ptr != NULL)
-        {
-            fprintf(stderr, "Error before: %s\n", error_ptr);
-        }
-        return;
+        vTaskDelay(10);
+        data_json = cJSON_Parse(data);
     }
     cJSON *capabilities_js_arr = cJSON_GetObjectItem(data_json, "capabilities");
     cJSON *settings_js_arr = cJSON_GetObjectItem(data_json, "settings");
@@ -61,7 +66,7 @@ void mode_topic_handler(char *data)
     if (settings_js_arr != NULL)
     {
         int js_size = cJSON_GetArraySize(settings_js_arr);
-        DEBUG_MQTT("Get settings_js_arr %i\n", js_size);
+        DEBUG_MQTT_MODE("Get settings_js_arr %i\n", js_size);
         for (int count = 0; count < js_size; count++)
         {
             cJSON *settings_js = cJSON_GetArrayItem(settings_js_arr, count);
@@ -72,7 +77,7 @@ void mode_topic_handler(char *data)
     if (capabilities_js_arr != NULL)
     {
         int js_size = cJSON_GetArraySize(capabilities_js_arr);
-        DEBUG_MQTT("Get capabilities %i\n", js_size);
+        DEBUG_MQTT_MODE("Get capabilities %i\n", js_size);
         for (int count = 0; count < js_size; count++)
         {
             cJSON *capabilities_js = cJSON_GetArrayItem(capabilities_js_arr, count);

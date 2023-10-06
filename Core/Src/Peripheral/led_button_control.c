@@ -109,7 +109,7 @@ void start_service_led()
 		service_response = 0;
 }
 
-void LedsTask(void *argument)
+void LedsTask(void const * argument)
 {
     for (;;)
     {

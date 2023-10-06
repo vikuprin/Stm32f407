@@ -138,7 +138,6 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
   * @brief  The application entry point.
   * @retval int
   */
-extern uint16_t modbusData;
 int main(void)
 {
   /* USER CODE BEGIN 1 */

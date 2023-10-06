@@ -24,7 +24,7 @@ void close_damper()
 	DEBUG_DAMP("close damper\n");
 }
 
-void DamperTask(void *argument)
+void DamperTask(void const * argument)
 {
 	damper_state = 0;
     for(;;)

@@ -387,6 +387,6 @@ void set_user_test()
 void init_mqtt()
 {
 	client = mqtt_client_new();
-	set_user_test();
+//	set_user_test();
 	set_mqtt_parameters();
 }

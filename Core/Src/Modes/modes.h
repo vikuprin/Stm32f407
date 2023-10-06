@@ -14,6 +14,6 @@
 uint8_t cold_speed;
 uint8_t fan_count;
 
-void MainTask(void *argument);
+void MainTask(void const * argument);
 
 #endif // __MODES_H__

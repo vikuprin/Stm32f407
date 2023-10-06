@@ -1,3 +1,11 @@
-httpserver.c:15:13:http_server	5
-httpserver.c:110:13:http_thread	4
-httpserver.c:145:6:http_server_init	1
+httpserver.c:19:6:set_ota_url	2
+httpserver.c:42:12:flash_data	9
+httpserver.c:105:12:erase_sectors	5
+httpserver.c:157:12:read_sectors	5
+httpserver.c:185:13:go_to_app	1
+httpserver.c:201:12:http_get_content_length	3
+httpserver.c:217:5:registration_data_handler_post	8
+httpserver.c:279:14:http_get_recv_str	2
+httpserver.c:313:13:http_server	14
+httpserver.c:431:13:http_thread	4
+httpserver.c:466:6:http_server_init	1

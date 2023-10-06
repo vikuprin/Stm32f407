@@ -15,6 +15,6 @@ uint8_t damper_state; //0-закрыт, 1-открывается, 2-открыт
 
 void close_damper();
 void open_damper();
-void DamperTask(void *argument);
+void DamperTask(void const * argument);
 
 #endif

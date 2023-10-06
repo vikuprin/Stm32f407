@@ -66,10 +66,9 @@ osThreadId defaultTaskHandle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
-
-extern void LedsTask(void *argument);
-extern void DamperTask(void *argument);
-extern void MainTask(void *argument);
+extern void LedsTask(void const * argument);
+extern void DamperTask(void const * argument);
+extern void MainTask(void const * argument);
 /* USER CODE END FunctionPrototypes */
 
 void StartDefaultTask(void const * argument);
@@ -186,12 +185,5 @@ void StartDefaultTask(void const * argument)
 
 /* Private application code --------------------------------------------------*/
 /* USER CODE BEGIN Application */
-//inst_speed = device->speed_arr[device->inflow_speed];
-//set_inflow_fan1(inst_speed);
-//
-//HAL_GPIO_TogglePin(RELAY_CH2_GPIO_Port, RELAY_CH2_Pin);
-//HAL_GPIO_TogglePin(RELAY_CH3_GPIO_Port, RELAY_CH3_Pin);
-//HAL_GPIO_TogglePin(RELAY_CH4_GPIO_Port, RELAY_CH4_Pin);
-//HAL_GPIO_TogglePin(HEAT_VALVE_GATE1_GPIO_Port, HEAT_VALVE_GATE1_Pin);
-//HAL_GPIO_TogglePin(SSR_GATE1_GPIO_Port, SSR_GATE1_Pin);
+
 /* USER CODE END Application */

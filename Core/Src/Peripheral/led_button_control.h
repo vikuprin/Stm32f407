@@ -12,7 +12,7 @@
 
 void link_callback_IP();
 void button_handler();
-void LedsTask(void *argument);
+void LedsTask(void const * argument);
 
 #endif // __LED_BUTTON_CONTROL_H__
 
