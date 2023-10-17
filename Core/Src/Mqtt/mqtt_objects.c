@@ -25,6 +25,7 @@ void get_str_capabiities(char *capabilities_str)
     cJSON_AddStringToObject(capabilities, "mode", modes[device->mode]);
     cJSON_AddStringToObject(capabilities, "on_off", on_off_[device->state]);
     cJSON_AddNumberToObject(capabilities, "speed", device->inflow_speed);
+    cJSON_AddNumberToObject(capabilities, "ten_state", device->ten_state);
     cJSON_AddNumberToObject(capabilities, "heat", device->temp_limit);
     char *js_str = cJSON_Print(root);
     while (js_str == NULL)
@@ -33,20 +34,6 @@ void get_str_capabiities(char *capabilities_str)
         js_str = cJSON_Print(root);
     }
     strcpy(capabilities_str, js_str);
-    cJSON_Delete(root);
-    cJSON_free(js_str);
-}
-
-void get_str_settings(char *settings)
-{
-    cJSON *root, *settings_js, *ten;
-    root = cJSON_CreateObject();
-    cJSON_AddItemToObject(root, "settings", settings_js = cJSON_CreateObject());
-    cJSON_AddItemToObject(settings_js, "ten", ten = cJSON_CreateObject());
-    cJSON_AddNumberToObject(ten, "temp_limit", device->temp_limit);
-
-    char *js_str = cJSON_Print(root);
-    strcpy(settings, js_str);
     cJSON_Delete(root);
     cJSON_free(js_str);
 }
@@ -72,7 +59,7 @@ void get_str_system_status(char *system_str)
 {
     cJSON *root;
     root = cJSON_CreateObject();
-    cJSON_AddNumberToObject(root, "ten_power", ten_power);
+    cJSON_AddNumberToObject(root, "ten_power", device->ten_power);
     cJSON_AddNumberToObject(root, "temp_out", sensors_data->out);
     cJSON_AddNumberToObject(root, "temp_in", sensors_data->in);
     cJSON_AddNumberToObject(root, "state_out_sensor", sensors_data->out_state);
@@ -85,20 +72,21 @@ void get_str_system_status(char *system_str)
     cJSON_free(js_str);
 }
 
+extern uint8_t ave;
 void get_str_temp_log(char *temp_log_str)
 {
     cJSON *root;
     root = cJSON_CreateObject();
-    cJSON_AddNumberToObject(root, "device_state", device->state);
-    cJSON_AddNumberToObject(root, "temp_out", sensors_data->out);
-    cJSON_AddNumberToObject(root, "temp_out_real", sensors_data->out_real);
     cJSON_AddNumberToObject(root, "temp_in", sensors_data->in);
-    cJSON_AddNumberToObject(root, "heat_koef", ten_power);
+    cJSON_AddNumberToObject(root, "temp_out", sensors_data->out);
+    cJSON_AddNumberToObject(root, "temp_ave", ave);
+    cJSON_AddNumberToObject(root, "Kp", device->extra_options.Kp);
+    cJSON_AddNumberToObject(root, "Ki", device->extra_options.Ki);
+    cJSON_AddNumberToObject(root, "Kd", device->extra_options.Kd);
     cJSON_AddNumberToObject(root, "temp_limit", device->temp_limit);
-    cJSON_AddNumberToObject(root, "speed", device->speed_arr[device->inflow_speed]);
-    cJSON_AddNumberToObject(root, "inst_speed", inst_speed);
+    cJSON_AddNumberToObject(root, "ten_power", device->ten_power);
+    cJSON_AddNumberToObject(root, "ten_state", device->ten_state);
 
-    // {"entity_on_off_dependence":"off","entity_dependence":{"device_id_master":0,"mode":"humidity","value":50}}
     char *js_str = cJSON_Print(root);
     strcpy(temp_log_str, js_str);
     cJSON_Delete(root);
@@ -113,6 +101,11 @@ void get_str_extra_options(char *extra)
     cJSON_AddNumberToObject(extra_js, "deviation", device->extra_options.deviation);
     cJSON_AddNumberToObject(extra_js, "check_time", device->extra_options.check_time);
     cJSON_AddNumberToObject(extra_js, "step_pwm", device->extra_options.step_pwm);
+
+    cJSON_AddNumberToObject(extra_js, "Kp", device->extra_options.Kp);
+    cJSON_AddNumberToObject(extra_js, "Ki", device->extra_options.Ki);
+    cJSON_AddNumberToObject(extra_js, "Kd", device->extra_options.Kd);
+    cJSON_AddNumberToObject(extra_js, "ten_state", device->ten_state);
 
     char *js_str = cJSON_Print(root);
     strcpy(extra, js_str);

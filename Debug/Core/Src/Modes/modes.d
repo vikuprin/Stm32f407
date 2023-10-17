@@ -33,10 +33,10 @@ Core/Src/Modes/modes.o: ../Core/Src/Modes/modes.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
  ../Core/Inc/usart.h ../Core/Inc/main.h \
- C:/Project/Stm32f407/Core/Src/Sensor/sensor.h \
- C:/Project/Stm32f407/Core/Src/Peripheral/ten.h \
- C:/Project/Stm32f407/Core/Src/Peripheral/damper.h \
- C:/Project/Stm32f407/Core/Src/Peripheral/fan.h \
+ D:/Project/Stm32f407/Core/Src/Sensor/sensor.h \
+ D:/Project/Stm32f407/Core/Src/Peripheral/ten.h \
+ D:/Project/Stm32f407/Core/Src/Peripheral/damper.h \
+ D:/Project/Stm32f407/Core/Src/Peripheral/fan.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h \
  ../Core/Inc/FreeRTOSConfig.h \
@@ -54,7 +54,7 @@ Core/Src/Modes/modes.o: ../Core/Src/Modes/modes.c \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h \
- C:/Project/Stm32f407/Core/Src/Mqtt/mqtt_client.h \
+ D:/Project/Stm32f407/Core/Src/Mqtt/mqtt_client.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/apps/mqtt.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/apps/mqtt_opts.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/opt.h \
@@ -88,7 +88,8 @@ Core/Src/Modes/modes.o: ../Core/Src/Modes/modes.c \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/ip6.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/ip.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/icmp.h \
- ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/icmp.h
+ ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/icmp.h \
+ D:/Project/Stm32f407/Core/Src/Remote_control/remote_control.h
 ../Core/Src/Modes/modes.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
@@ -125,10 +126,10 @@ Core/Src/Modes/modes.o: ../Core/Src/Modes/modes.c \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
 ../Core/Inc/usart.h:
 ../Core/Inc/main.h:
-C:/Project/Stm32f407/Core/Src/Sensor/sensor.h:
-C:/Project/Stm32f407/Core/Src/Peripheral/ten.h:
-C:/Project/Stm32f407/Core/Src/Peripheral/damper.h:
-C:/Project/Stm32f407/Core/Src/Peripheral/fan.h:
+D:/Project/Stm32f407/Core/Src/Sensor/sensor.h:
+D:/Project/Stm32f407/Core/Src/Peripheral/ten.h:
+D:/Project/Stm32f407/Core/Src/Peripheral/damper.h:
+D:/Project/Stm32f407/Core/Src/Peripheral/fan.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h:
 ../Core/Inc/FreeRTOSConfig.h:
@@ -146,7 +147,7 @@ C:/Project/Stm32f407/Core/Src/Peripheral/fan.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h:
-C:/Project/Stm32f407/Core/Src/Mqtt/mqtt_client.h:
+D:/Project/Stm32f407/Core/Src/Mqtt/mqtt_client.h:
 ../Middlewares/Third_Party/LwIP/src/include/lwip/apps/mqtt.h:
 ../Middlewares/Third_Party/LwIP/src/include/lwip/apps/mqtt_opts.h:
 ../Middlewares/Third_Party/LwIP/src/include/lwip/opt.h:
@@ -181,3 +182,4 @@ C:/Project/Stm32f407/Core/Src/Mqtt/mqtt_client.h:
 ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/ip.h:
 ../Middlewares/Third_Party/LwIP/src/include/lwip/icmp.h:
 ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/icmp.h:
+D:/Project/Stm32f407/Core/Src/Remote_control/remote_control.h:

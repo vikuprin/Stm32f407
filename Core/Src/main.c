@@ -37,7 +37,6 @@
 #include "sensor.h"
 #include "XGZP6897D.h"
 //#include "aht20_i2c_drv.h"
-#include "remote_control.h"
 #include "fan.h"
 #include "ten.h"
 #include "led_button_control.h"

@@ -29,7 +29,6 @@
 #include "lwip/api.h"
 #include "mqtt_client.h"
 #include "httpserver.h"
-#include "remote_control.h"
 #include "led_button_control.h"
 #include "mqtt_message.h"
 #include "fan.h"
@@ -170,7 +169,6 @@ void StartDefaultTask(void const * argument)
      osDelay(50);
   }
   http_server_init();
-  check_remote_control();
   init_mqtt();
   device_send = *device;
   device_check = *device;

@@ -3,6 +3,7 @@
 #include "damper.h"
 #include "math.h"
 #include "utils.h"
+#include "mqtt_message.h"
 
 uint16_t _ten_power;
 
@@ -55,18 +56,18 @@ int computePID_true(float Xn, float X0n, float Kp, float Ki, float Kd, float dt,
 
 void ten_handler()
 {
-	if (device->state == ON && damper_state == 2 && device->inflow_speed > 0 &&
+	if (device->state == ON && device->ten_state == ON && damper_state == 2 && device->error_ds18b20 == false &&
 		device->error_temp_hot == false && device->error_stop_hot == false && device->error_stop_cold == false)
 	{
-		ten_power = computePID_true(sensors_data->out, device->temp_limit, 75, 3.0, 13, 1, 0, 1023);
+//		device->ten_power = computePID_true(sensors_data->out, device->temp_limit, 75, 3.0, 13, 3, 0, 1023);
+		device->ten_power = computePID_true(sensors_data->out, device->temp_limit, (float)device->extra_options.Kp / 10, (float)device->extra_options.Ki / 10, (float)device->extra_options.Ki / 10, 3, 0, 1023);
 		DEBUG_TEN("work mode\n");
 	}
 	else
 	{
-		ten_power = 0;
+		device->ten_power = 0;
 		DEBUG_TEN("ten off\n");
 	}
-	set_ten_power(ten_power);
-	// publish_temp_log();
-	DEBUG_TEN("TEN_POWER %i\n", ten_power);
+	set_ten_power(device->ten_power);
+	publish_temp_log();
 }

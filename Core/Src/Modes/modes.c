@@ -5,6 +5,7 @@
 #include "fan.h"
 #include "cmsis_os.h"
 #include "mqtt_client.h"
+#include "remote_control.h"
 
 #define HOT_TEMP 60
 #define MAX_FAN_COUNT 10
@@ -30,7 +31,7 @@ void temp_cold()
     	cold_time = HAL_GetTick();
         DEBUG_MODES("callback_temp_cold_timer\n");
         if (device->state == ON	&& damper_state == 2 && sensors_data->out_state && sensors_data->in_state && inflow_max_flag == false &&
-            device->inflow_speed > 0 && (ave < (device->temp_limit - device->extra_options.deviation)) && (ten_power >= 970)) // должно быть 970
+            device->inflow_speed > 0 && (ave < (device->temp_limit - device->extra_options.deviation)) && (device->ten_power >= 970)) // должно быть 970
         {
             if (temp_cold_state == false)
             {
@@ -192,7 +193,7 @@ void pcnt_error()
 
 void inflow_handler()
 {
-    if (device->state == ON && damper_state == 2)
+    if (device->state == ON && damper_state == 2 && device->error_ds18b20 == false)
     {
         mode_handler();
         pcnt_error();
@@ -201,14 +202,13 @@ void inflow_handler()
     	set_inflow_fan1(OFF);
 }
 
-char coilValue[1] = {0x0F};
-uint16_t regValue[2] = {2, 10};
 void MainTask(void const * argument)
 {
     DEBUG_MODES("DEVICE STATE %i\n", device->state);
     DEBUG_MODES("DEVICE MODE %i\n", device->mode);
     DEBUG_MODES("DEVICE inflow_speed %i\n", device->inflow_speed);
     DEBUG_MODES("speed {%i,%i,%i,%i,%i,%i,%i,%i}\n", device->speed_arr[0], device->speed_arr[1], device->speed_arr[2], device->speed_arr[3], device->speed_arr[4], device->speed_arr[5], device->speed_arr[6], device->speed_arr[7]);
+    check_remote_control();
     for(;;)
     {
     	temp_hot();  // функция проверки перегрева

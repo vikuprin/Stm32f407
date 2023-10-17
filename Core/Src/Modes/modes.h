@@ -11,6 +11,7 @@
 #define DEBUG_MODES(...)
 #endif
 
+uint8_t inst_speed;
 uint8_t cold_speed;
 uint8_t fan_count;
 

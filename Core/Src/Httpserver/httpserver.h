@@ -10,6 +10,9 @@
 #endif
 
 #include "lwip/api.h"
+#define HTTPD_200      "200 OK"
+#define HTTPD_304      "304 Not Modified"
+
 void http_server_init(void);
 
 #endif /* __HTTPSERVER_NETCONN_H__ */

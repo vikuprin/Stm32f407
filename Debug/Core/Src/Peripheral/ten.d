@@ -34,8 +34,9 @@ Core/Src/Peripheral/ten.o: ../Core/Src/Peripheral/ten.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
  ../Core/Inc/usart.h ../Core/Inc/main.h ../Core/Inc/tim.h \
  ../Core/Src/Peripheral/damper.h \
- C:/Project/Stm32f407/Core/Inc/cJSON/utils.h \
- C:/Project/Stm32f407/Core/Inc/cJSON/cJSON.h
+ D:/Project/Stm32f407/Core/Inc/cJSON/utils.h \
+ D:/Project/Stm32f407/Core/Inc/cJSON/cJSON.h \
+ D:/Project/Stm32f407/Core/Src/Mqtt/mqtt_message.h
 ../Core/Src/Peripheral/ten.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
@@ -74,5 +75,6 @@ Core/Src/Peripheral/ten.o: ../Core/Src/Peripheral/ten.c \
 ../Core/Inc/main.h:
 ../Core/Inc/tim.h:
 ../Core/Src/Peripheral/damper.h:
-C:/Project/Stm32f407/Core/Inc/cJSON/utils.h:
-C:/Project/Stm32f407/Core/Inc/cJSON/cJSON.h:
+D:/Project/Stm32f407/Core/Inc/cJSON/utils.h:
+D:/Project/Stm32f407/Core/Inc/cJSON/cJSON.h:
+D:/Project/Stm32f407/Core/Src/Mqtt/mqtt_message.h:

@@ -1,4 +1,4 @@
-remote_control.c:32:6:rc_receive_temp	5
+remote_control.c:32:6:rc_receive_temp	4
 remote_control.c:53:6:rc_receive_fan	15
 remote_control.c:97:6:rc_receive_work	4
 remote_control.c:121:6:rc_receive_switch	3

@@ -132,6 +132,9 @@ typedef struct
     uint8_t deviation;   // отклонение должно быть 3
     uint8_t check_time;  // время проверки должно быть 1-5 минут
     uint8_t step_pwm;    // шаг шим должно быть 5
+    uint16_t Kp;
+    uint8_t Ki;
+    uint8_t Kd;
 } extra_options_s;
 
 typedef enum
@@ -147,12 +150,7 @@ typedef enum
 typedef struct
 {
     float out;
-    float out_real;
     float in;
-    float max;
-    float min;
-    float delta_max;
-    float delta_min;
     bool out_state;
     bool in_state;
 } sensors_data_s;
@@ -175,7 +173,9 @@ typedef struct
     uint8_t inflow_speed;
     uint8_t smart_speed_pwm;
     uint8_t speed_arr[8];
+    bool ten_state;
     uint8_t temp_limit;
+    uint16_t ten_power;
     extra_options_s extra_options;
 } device_s;
 
@@ -215,8 +215,6 @@ sensors_data_s *sensors_data;
 wireless_parameters_s *wireless_params;
 device_s *device;
 
-uint16_t ten_power;
-uint8_t inst_speed;
 device_s device_send;
 device_s device_check;
 

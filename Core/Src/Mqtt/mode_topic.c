@@ -17,7 +17,7 @@ void capabilities(cJSON *capabilities_js)
     check_char_on_off(capabilities_js, "on_off", &device->state);
     check_char_mode(capabilities_js, "mode", &device->mode);
     check_js_param_u8(capabilities_js, "speed", &device->inflow_speed);
-    check_js_param_u8(capabilities_js, "heat", &device->temp_limit);
+    check_js_param_u8(capabilities_js, "temp_limit", &device->temp_limit);
     device_check = *device;
 }
 

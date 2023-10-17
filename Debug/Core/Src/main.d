@@ -90,15 +90,14 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../LWIP/Target/ethernetif.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/tcpip.h \
  ../Core/Inc/spi.h ../Core/Inc/tim.h ../Core/Inc/usart.h \
- ../Core/Inc/gpio.h C:/Project/Stm32f407/Core/Src/Sensor/sht.h \
- C:/Project/Stm32f407/Core/Src/Storage/storage.h \
- C:/Project/Stm32f407/Core/Src/Sensor/sensor.h \
- C:/Project/Stm32f407/Core/Inc/XGZP6897D/XGZP6897D.h \
- C:/Project/Stm32f407/Core/Src/Remote_control/remote_control.h \
- C:/Project/Stm32f407/Core/Src/Peripheral/fan.h \
- C:/Project/Stm32f407/Core/Src/Peripheral/ten.h \
- C:/Project/Stm32f407/Core/Src/Peripheral/led_button_control.h \
- C:/Project/Stm32f407/Core/Src/Modes/modes.h
+ ../Core/Inc/gpio.h D:/Project/Stm32f407/Core/Src/Sensor/sht.h \
+ D:/Project/Stm32f407/Core/Src/Storage/storage.h \
+ D:/Project/Stm32f407/Core/Src/Sensor/sensor.h \
+ D:/Project/Stm32f407/Core/Inc/XGZP6897D/XGZP6897D.h \
+ D:/Project/Stm32f407/Core/Src/Peripheral/fan.h \
+ D:/Project/Stm32f407/Core/Src/Peripheral/ten.h \
+ D:/Project/Stm32f407/Core/Src/Peripheral/led_button_control.h \
+ D:/Project/Stm32f407/Core/Src/Modes/modes.h
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -197,12 +196,11 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Core/Inc/tim.h:
 ../Core/Inc/usart.h:
 ../Core/Inc/gpio.h:
-C:/Project/Stm32f407/Core/Src/Sensor/sht.h:
-C:/Project/Stm32f407/Core/Src/Storage/storage.h:
-C:/Project/Stm32f407/Core/Src/Sensor/sensor.h:
-C:/Project/Stm32f407/Core/Inc/XGZP6897D/XGZP6897D.h:
-C:/Project/Stm32f407/Core/Src/Remote_control/remote_control.h:
-C:/Project/Stm32f407/Core/Src/Peripheral/fan.h:
-C:/Project/Stm32f407/Core/Src/Peripheral/ten.h:
-C:/Project/Stm32f407/Core/Src/Peripheral/led_button_control.h:
-C:/Project/Stm32f407/Core/Src/Modes/modes.h:
+D:/Project/Stm32f407/Core/Src/Sensor/sht.h:
+D:/Project/Stm32f407/Core/Src/Storage/storage.h:
+D:/Project/Stm32f407/Core/Src/Sensor/sensor.h:
+D:/Project/Stm32f407/Core/Inc/XGZP6897D/XGZP6897D.h:
+D:/Project/Stm32f407/Core/Src/Peripheral/fan.h:
+D:/Project/Stm32f407/Core/Src/Peripheral/ten.h:
+D:/Project/Stm32f407/Core/Src/Peripheral/led_button_control.h:
+D:/Project/Stm32f407/Core/Src/Modes/modes.h:

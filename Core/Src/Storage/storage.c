@@ -58,6 +58,7 @@ void set_default_data()
 {
 	device->state = OFF;
 	device->inflow_speed = 1;
+	device->ten_state = ON;
 	device->temp_limit = TEN_TEMP_LIMIT;
     device->remote_control.error = false;
     sensors_data->out_state = false;
@@ -70,12 +71,8 @@ void init_storage()
 	read_device_params();
 	// Проверка на первый запуск устройства
 	if (device->check_1_0_0 != CHECK_VALUE_1_0_0)
-	{
 		first_start_init();
-	}
 	else
-	{
 		second_start_init();
-	}
 	set_default_data();
 }

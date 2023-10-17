@@ -110,10 +110,6 @@ void logging_handler(cJSON *logging_js)
     {
         publish_system();
     }
-    else if (strcmp("settings", log_type) == 0)
-    {
-        publish_settings();
-    }
     else if (strcmp("capabilities", log_type) == 0)
     {
         publish_capabilities();
@@ -129,9 +125,20 @@ void set_extra_options_handler(cJSON *data_json)
     check_js_param_u8(data_json, "deviation", &device->extra_options.deviation);
     check_js_param_u8(data_json, "check_time", &device->extra_options.check_time);
     check_js_param_u8(data_json, "step_pwm", &device->extra_options.step_pwm);
+
+    check_js_param_int(data_json, "Kp", &device->extra_options.Kp);
+    check_js_param_u8(data_json, "Ki", &device->extra_options.Ki);
+    check_js_param_u8(data_json, "Kd", &device->extra_options.Kd);
+
+    check_js_param_u8(data_json, "ten_state", &device->ten_state);
+
     DEBUG_MQTT("Set deviation %i\n", device->extra_options.deviation);
     DEBUG_MQTT("Set check_time %i\n", device->extra_options.check_time);
     DEBUG_MQTT("Set step_pwm %i\n", device->extra_options.step_pwm);
+    DEBUG_MQTT("Set Kp %i\n", device->extra_options.Kp);
+    DEBUG_MQTT("Set Ki %i\n", device->extra_options.Ki);
+    DEBUG_MQTT("Set Kd %i\n", device->extra_options.Kd);
+    DEBUG_MQTT("ten_state %i\n", device->ten_state);
     write_device_params();
 }
 

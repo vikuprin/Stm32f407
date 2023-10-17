@@ -41,7 +41,7 @@ Core/Src/Remote_control/remote_control.o: \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h \
- C:/Project/Stm32f407/Core/Src/Storage/storage.h ../Core/Inc/usart.h \
+ D:/Project/Stm32f407/Core/Src/Storage/storage.h ../Core/Inc/usart.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h \
@@ -52,8 +52,8 @@ Core/Src/Remote_control/remote_control.o: \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h \
- C:/Project/Stm32f407/Core/Inc/MODBUS-LIB/modbus_crc.h \
- C:/Project/Stm32f407/Core/Inc/MODBUS-LIB/modbus_config.h
+ D:/Project/Stm32f407/Core/Inc/MODBUS-LIB/modbus_crc.h \
+ D:/Project/Stm32f407/Core/Inc/MODBUS-LIB/modbus_config.h
 ../Core/Src/Remote_control/remote_control.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
@@ -97,7 +97,7 @@ Core/Src/Remote_control/remote_control.o: \
 ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h:
-C:/Project/Stm32f407/Core/Src/Storage/storage.h:
+D:/Project/Stm32f407/Core/Src/Storage/storage.h:
 ../Core/Inc/usart.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h:
@@ -109,5 +109,5 @@ C:/Project/Stm32f407/Core/Src/Storage/storage.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h:
-C:/Project/Stm32f407/Core/Inc/MODBUS-LIB/modbus_crc.h:
-C:/Project/Stm32f407/Core/Inc/MODBUS-LIB/modbus_config.h:
+D:/Project/Stm32f407/Core/Inc/MODBUS-LIB/modbus_crc.h:
+D:/Project/Stm32f407/Core/Inc/MODBUS-LIB/modbus_config.h:

@@ -79,6 +79,11 @@ void get_ds_data()
 	DEBUG_DS("ds_count = %i\n", ds_count);
 	/* Search Alarm triggered and store in DS data structure */
 	DS18B20_AlarmSearch(&DS2, &OW2);
+
+	if(ds_count == 2)
+		device->error_ds18b20 = false;
+	else
+		device->error_ds18b20 = true;
 }
 
 void get_ds_data_mass()
@@ -108,5 +113,10 @@ void init_ds_devices()
 	DS18B20_SetTempAlarm(&OW2, DS2.DevAddr[0], 0, 60);
 	if(OW2.RomCnt == 1)
 		sensors_data->out_state = true;
+
+	if(sensors_data->in_state && sensors_data->out_state)
+		device->error_ds18b20 = false;
+	else
+		device->error_ds18b20 = true;
 }
 

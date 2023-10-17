@@ -7,4 +7,4 @@
 ../Core/Src/Storage/storage.c:44:6:malloc_memory_parameters	8	static
 ../Core/Src/Storage/storage.c:51:6:reset_nvs_parameteres	8	static
 ../Core/Src/Storage/storage.c:57:6:set_default_data	4	static
-../Core/Src/Storage/storage.c:67:6:init_storage	8	static
+../Core/Src/Storage/storage.c:68:6:init_storage	8	static

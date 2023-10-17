@@ -32,7 +32,7 @@ Core/Src/Sensor/sht.o: ../Core/Src/Sensor/sht.c ../Core/Src/Sensor/sht.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
  ../Core/Inc/usart.h ../Core/Inc/main.h \
- C:/Project/Stm32f407/Core/Inc/Sht30/sht30_i2c_drv.h
+ D:/Project/Stm32f407/Core/Inc/Sht30/sht30_i2c_drv.h
 ../Core/Src/Sensor/sht.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
@@ -69,4 +69,4 @@ Core/Src/Sensor/sht.o: ../Core/Src/Sensor/sht.c ../Core/Src/Sensor/sht.h \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
 ../Core/Inc/usart.h:
 ../Core/Inc/main.h:
-C:/Project/Stm32f407/Core/Inc/Sht30/sht30_i2c_drv.h:
+D:/Project/Stm32f407/Core/Inc/Sht30/sht30_i2c_drv.h:

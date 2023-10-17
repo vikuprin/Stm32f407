@@ -1,5 +1,5 @@
-Core/Src/Mqtt/server_send_handler.o: \
- ../Core/Src/Mqtt/server_send_handler.c \
+Core/Src/Mqtt/send_server_handler.o: \
+ ../Core/Src/Mqtt/send_server_handler.c \
  ../Core/Src/Mqtt/send_server_handler.h ../Core/Inc/main.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Core/Inc/stm32f4xx_hal_conf.h \

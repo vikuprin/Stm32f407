@@ -17,7 +17,7 @@
 "./Core/Src/Mqtt/mqtt_client.o"
 "./Core/Src/Mqtt/mqtt_message.o"
 "./Core/Src/Mqtt/mqtt_objects.o"
-"./Core/Src/Mqtt/server_send_handler.o"
+"./Core/Src/Mqtt/send_server_handler.o"
 "./Core/Src/Mqtt/system_topic.o"
 "./Core/Src/Peripheral/damper.o"
 "./Core/Src/Peripheral/fan.o"

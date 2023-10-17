@@ -4,6 +4,8 @@
 #include "mqtt_objects.h"
 #include "math.h"
 
+#define SEND_DELAY (1 * SECOND)
+
 char *modes_str_send[2] = {"inflow_mode", "inflow_max_mode"};
 char *on_off_str_send[2] = {"off", "on"};
 char speeds_str_send[10];
@@ -49,13 +51,8 @@ void publish_from_timer()
 
     if (send_array_device[CAPABILITIES])
     {
+    	send_array_device[CAPABILITIES] = false;
         publish_capabilities();
-        send_array_device[CAPABILITIES] = false;
-    }
-    if (send_array_device[SETTINGS])
-    {
-        send_array_device[SETTINGS] = false;
-        publish_settings();
     }
     if (send_array_device[FAULTS])
     {
@@ -89,7 +86,7 @@ bool check_param_u8(uint8_t *param_send, uint8_t *param, char *key)
 
 void send_server()
 {
-	if (start_timer_f && (HAL_GetTick() - server_time) > 5000)
+	if (start_timer_f && (HAL_GetTick() - server_time) > SEND_DELAY)
 		publish_from_timer();
 
     if (check_param_u8(&device_check.state, &device->state, "State") ||

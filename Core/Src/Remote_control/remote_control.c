@@ -41,11 +41,11 @@ void rc_receive_temp()
             limit_temp = true;
             reg_temp = 10;
         }
-        if (reg_temp > 25)
-        {
-            limit_temp = true;
-            reg_temp = 25;
-        }
+//        if (reg_temp > 25)
+//        {
+//            limit_temp = true;
+//            reg_temp = 25;
+//        }
         device->temp_limit = reg_temp;
     }
 }
@@ -246,13 +246,13 @@ void check_changes()
             DEBUG_RC("sent a message ten");
         }
         // проверяем изменения в установке значка включения тена
-        if (ten_power > 0 && !reg_heater)
+        if (device->ten_power > 0 && !reg_heater)
         {
             reg_heater = true;
             modbus_set_holding(DEFAUL_PULT_ID, REG_HEATER, ON);
             DEBUG_RC("sent a message ten.power > 0\n");
         }
-        if (ten_power == 0 && reg_heater)
+        if (device->ten_power == 0 && reg_heater)
         {
             reg_heater = false;
             modbus_set_holding(DEFAUL_PULT_ID, REG_HEATER, OFF);
@@ -285,7 +285,7 @@ void rc_send_handler()
 //    }
 //}
 
-void RemoteControlTask(void *argument)
+void RemoteControlTask(void const * argument)
 {
 	for (;;)
 	{

@@ -1,4 +1,4 @@
-mode_topic.c:15:6:capabilities	1
+mode_topic.c:15:6:capabilities	2
 mode_topic.c:24:6:set_ten_settings	1
 mode_topic.c:31:6:settings_handler	4
 mode_topic.c:46:6:mode_topic_handler	8

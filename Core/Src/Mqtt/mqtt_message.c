@@ -38,11 +38,11 @@ void publish_capabilities()
 
 void publish_temp_log()
 {
-    char *temp_log = malloc(600);
+    char *temp_log = malloc(300);
     while (temp_log == NULL)
     {
         vTaskDelay(10);
-        temp_log = malloc(600);
+        temp_log = malloc(300);
     }
     get_str_temp_log(temp_log);
     publish_message(temp_log_pub_topic, temp_log);
@@ -61,19 +61,6 @@ void publish_system()
     DEBUG_MQTT("Device system %s\n", system);
     publish_message(log_pub_topic, system);
     free(system);
-}
-
-void publish_settings()
-{
-    char *settings = malloc(600);
-    while (settings == NULL)
-    {
-        vTaskDelay(10);
-        settings = malloc(600);
-    }
-    get_str_settings(settings);
-    publish_message(mode_pub_topic, settings);
-    free(settings);
 }
 
 void publish_errors()

@@ -261,18 +261,17 @@ void publish_message_topic()
         sprintf(gnetif_str, "%x:%x:%x:%x:%x:%x", gnetif.hwaddr[0], gnetif.hwaddr[1], gnetif.hwaddr[2], gnetif.hwaddr[3], gnetif.hwaddr[4], gnetif.hwaddr[5]);
         publish_auth(VERSION, gnetif_str, SERIES, SUBTYPE, XTAL_FREQ);
         publish_capabilities();
-        publish_settings();
         publish_errors();
 }
 
 void start_mqtt()
 {
-	if(netif_is_link_up(&gnetif))
+	if(netif_is_link_up(&gnetif) && wireless_params->vakio_mqtt.host[0] != 0)
 	{
 		if(!mqtt_status)
 		{
 			connect_mqtt(client);
-			osDelay(3000);
+			osDelay(5000);
 		}
 		else
 		{
@@ -340,12 +339,12 @@ void set_mqtt_parameters()
         DEBUG_MQTT("DEVICE LOGIN %s\n", wireless_params->vakio_mqtt.login);
         DEBUG_MQTT("DEVICE PASSWORD %s\n", wireless_params->vakio_mqtt.password);
         // Записываем топики для подписки и публикаций
-        sprintf(log_pub_topic, "device/%s/%s/VK200/log", wireless_params->vakio.user_id, wireless_params->vakio.device_id);
-        sprintf(mode_topic, "server/%s/%s/VK200/mode", wireless_params->vakio.user_id, wireless_params->vakio.device_id);
-        sprintf(mode_pub_topic, "device/%s/%s/VK200/mode", wireless_params->vakio.user_id, wireless_params->vakio.device_id);
-        sprintf(system_topic, "server/%s/%s/VK200/system", wireless_params->vakio.user_id, wireless_params->vakio.device_id);
-        sprintf(system_pub_topic, "device/%s/%s/VK200/system", wireless_params->vakio.user_id, wireless_params->vakio.device_id);
-        sprintf(temp_log_pub_topic, "device/%s/%s/VK200/temp", wireless_params->vakio.user_id, wireless_params->vakio.device_id);
+        sprintf(log_pub_topic, "device/%s/%s/cityair350/log", wireless_params->vakio.user_id, wireless_params->vakio.device_id);
+        sprintf(mode_topic, "server/%s/%s/cityair350/mode", wireless_params->vakio.user_id, wireless_params->vakio.device_id);
+        sprintf(mode_pub_topic, "device/%s/%s/cityair350/mode", wireless_params->vakio.user_id, wireless_params->vakio.device_id);
+        sprintf(system_topic, "server/%s/%s/cityair350/system", wireless_params->vakio.user_id, wireless_params->vakio.device_id);
+        sprintf(system_pub_topic, "device/%s/%s/cityair350/system", wireless_params->vakio.user_id, wireless_params->vakio.device_id);
+        sprintf(temp_log_pub_topic, "device/%s/%s/cityair350/temp", wireless_params->vakio.user_id, wireless_params->vakio.device_id);
     }
     else
     {
@@ -355,11 +354,11 @@ void set_mqtt_parameters()
                                wireless_params->user_mqtt.password,
                                wireless_params->user_mqtt.client_id);
         // Записываем топики для подписки и публикаций
-        sprintf(log_pub_topic, "device/%s/VK200/log", wireless_params->user_mqtt.topic);
-        sprintf(mode_topic, "server/%s/VK200/mode", wireless_params->user_mqtt.topic);
-        sprintf(mode_pub_topic, "device/%s/VK200/mode", wireless_params->user_mqtt.topic);
-        sprintf(system_topic, "server/%s/VK200/system", wireless_params->user_mqtt.topic);
-        sprintf(system_pub_topic, "device/%s/VK200/system", wireless_params->user_mqtt.topic);
+        sprintf(log_pub_topic, "device/%s/cityair350/log", wireless_params->user_mqtt.topic);
+        sprintf(mode_topic, "server/%s/cityair350/mode", wireless_params->user_mqtt.topic);
+        sprintf(mode_pub_topic, "device/%s/cityair350/mode", wireless_params->user_mqtt.topic);
+        sprintf(system_topic, "server/%s/cityair350/system", wireless_params->user_mqtt.topic);
+        sprintf(system_pub_topic, "device/%s/cityair350/system", wireless_params->user_mqtt.topic);
         sprintf(workmode_topic, "%s/workmode", wireless_params->user_mqtt.topic);     // изменения
         sprintf(speed_topic, "%s/speed", wireless_params->user_mqtt.topic);           // изменения
         sprintf(temp_limit_topic, "%s/temp_limit", wireless_params->user_mqtt.topic); // изменения

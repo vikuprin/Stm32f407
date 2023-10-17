@@ -13,6 +13,106 @@
 #include "storage.h"
 #include "cJSON.h"
 
+/************************ CGI HANDLER ***************************/
+const char *CGIForm_Handler(int iIndex, int iNumParams, char *pcParam[], char *pcValue[]);
+const char *CGILED_Handler(int iIndex, int iNumParams, char *pcParam[], char *pcValue[]);
+
+const tCGI FORM_CGI = {"/form.cgi", CGIForm_Handler};
+const tCGI LED_CGI = {"/led.cgi", CGILED_Handler};
+
+char name[30];
+tCGI CGI_TAB[2];
+
+const char *CGIForm_Handler(int iIndex, int iNumParams, char *pcParam[], char *pcValue[])
+{
+	if (iIndex == 0)
+	{
+		for (int i=0; i<iNumParams; i++)
+		{
+			if (strcmp(pcParam[i], "mqttBroker") == 0)  // if the fname string is found
+			{
+				memset(name, '\0', 30);
+				strcpy(name, pcValue[i]);
+				wireless_params->mqtt_type = USER_MQTT;
+			}
+
+			else if (strcmp(pcParam[i], "mqttIP") == 0)  // if the fname string is found
+			{
+				memset(wireless_params->user_mqtt.host, '\0', 16);
+				strcpy(wireless_params->user_mqtt.host, pcValue[i]);
+			}
+
+			else if (strcmp(pcParam[i], "mqttPort") == 0)  // if the fname string is found
+			{
+				wireless_params->user_mqtt.port = atoi(pcValue[i]);
+			}
+
+			else if (strcmp(pcParam[i], "mqttLogin") == 0)  // if the fname string is found
+			{
+				memset(wireless_params->user_mqtt.login, '\0', 12);
+				strcpy(wireless_params->user_mqtt.login, pcValue[i]);
+			}
+
+			else if (strcmp(pcParam[i], "mqttPassword") == 0)  // if the fname string is found
+			{
+				memset(wireless_params->user_mqtt.password, '\0', 12);
+				strcpy(wireless_params->user_mqtt.password, pcValue[i]);
+			}
+
+			else if (strcmp(pcParam[i], "mqttID") == 0)  // if the fname string is found
+			{
+				memset(wireless_params->user_mqtt.client_id, '\0', 12);
+				strcpy(wireless_params->user_mqtt.client_id, pcValue[i]);
+			}
+
+			else if (strcmp(pcParam[i], "mqttTopic") == 0)  // if the fname string is found
+			{
+				memset(wireless_params->user_mqtt.topic, '\0', 12);
+				strcpy(wireless_params->user_mqtt.topic, pcValue[i]);
+			}
+		}
+	}
+	write_wireless_params();
+	set_mqtt_parameters();
+	return "/cgiform.html";
+}
+
+
+const char *CGILED_Handler(int iIndex, int iNumParams, char *pcParam[], char *pcValue[])
+{
+	if (iIndex == 1)
+	{
+		for (int i=0; i<iNumParams; i++)
+		{
+			if (strcmp(pcParam[i], "fname") == 0)  // if the fname string is found
+			{
+				memset(name, '\0', 30);
+				strcpy(name, pcValue[i]);
+			}
+
+			else if (strcmp(pcParam[i], "lname") == 0)  // if the fname string is found
+			{
+				strcat(name, " ");
+				strcat(name, pcValue[i]);
+			}
+		}
+	}
+
+	return "/cgiled.html";
+}
+
+void http_cgi_init()
+{
+	httpd_init();
+
+	CGI_TAB[0] = FORM_CGI;
+	CGI_TAB[1] = LED_CGI;
+
+//	http_set_cgi_handlers (&FORM_CGI, 1);
+	http_set_cgi_handlers (CGI_TAB, 2);
+}
+/************************ CGI HANDLER ***************************/
+
 extern struct netif gnetif;
 
 char ota_url[300];
@@ -413,10 +513,13 @@ static void http_server(struct netconn *conn)
         cJSON_Delete(mac_js);
         cJSON_free(js_str);
       }
-      else if (strncmp((char const *)buf,"GET /status", 8) == 0)
+      else if (strncmp((char const *)buf,"POST /status", 12) == 0)
       {
         netconn_write(conn, http_html_hdr, sizeof(http_html_hdr) - 1, NETCONN_NOCOPY);
-        netconn_write(conn, "OK", 2, NETCONN_NOCOPY);
+    	if(netif_is_link_up(&gnetif))
+    		netconn_write(conn, HTTPD_200, 6, NETCONN_NOCOPY);
+    	else
+    		netconn_write(conn, HTTPD_304, 16, NETCONN_NOCOPY);
       }
     }
   }
@@ -465,103 +568,8 @@ static void http_thread(void *arg)
 
 void http_server_init()
 {
-	sys_thread_new("http_thread", http_thread, NULL, DEFAULT_THREAD_STACKSIZE, osPriorityNormal);
+	if(HAL_GPIO_ReadPin(SW_DIP1_GPIO_Port, SW_DIP1_Pin) == GPIO_PIN_SET)
+		sys_thread_new("http_thread", http_thread, NULL, DEFAULT_THREAD_STACKSIZE, osPriorityNormal);
+	else
+		http_cgi_init();
 }
-/************************ CGI HANDLER ***************************/
-//const char *CGIForm_Handler(int iIndex, int iNumParams, char *pcParam[], char *pcValue[]);
-//const char *CGILED_Handler(int iIndex, int iNumParams, char *pcParam[], char *pcValue[]);
-//
-//const tCGI FORM_CGI = {"/form.cgi", CGIForm_Handler};
-//const tCGI LED_CGI = {"/led.cgi", CGILED_Handler};
-//
-//char name[30];
-//tCGI CGI_TAB[2];
-//
-//const char *CGIForm_Handler(int iIndex, int iNumParams, char *pcParam[], char *pcValue[])
-//{
-//	if (iIndex == 0)
-//	{
-//		for (int i=0; i<iNumParams; i++)
-//		{
-//			if (strcmp(pcParam[i], "mqttBroker") == 0)  // if the fname string is found
-//			{
-//				memset(name, '\0', 30);
-//				strcpy(name, pcValue[i]);
-//				wireless_params->mqtt_type = USER_MQTT;
-//			}
-//
-//			else if (strcmp(pcParam[i], "mqttIP") == 0)  // if the fname string is found
-//			{
-//				memset(wireless_params->user_mqtt.host, '\0', 16);
-//				strcpy(wireless_params->user_mqtt.host, pcValue[i]);
-//			}
-//
-//			else if (strcmp(pcParam[i], "mqttPort") == 0)  // if the fname string is found
-//			{
-//				wireless_params->user_mqtt.port = atoi(pcValue[i]);
-//			}
-//
-//			else if (strcmp(pcParam[i], "mqttLogin") == 0)  // if the fname string is found
-//			{
-//				memset(wireless_params->user_mqtt.login, '\0', 12);
-//				strcpy(wireless_params->user_mqtt.login, pcValue[i]);
-//			}
-//
-//			else if (strcmp(pcParam[i], "mqttPassword") == 0)  // if the fname string is found
-//			{
-//				memset(wireless_params->user_mqtt.password, '\0', 12);
-//				strcpy(wireless_params->user_mqtt.password, pcValue[i]);
-//			}
-//
-//			else if (strcmp(pcParam[i], "mqttID") == 0)  // if the fname string is found
-//			{
-//				memset(wireless_params->user_mqtt.client_id, '\0', 12);
-//				strcpy(wireless_params->user_mqtt.client_id, pcValue[i]);
-//			}
-//
-//			else if (strcmp(pcParam[i], "mqttTopic") == 0)  // if the fname string is found
-//			{
-//				memset(wireless_params->user_mqtt.topic, '\0', 12);
-//				strcpy(wireless_params->user_mqtt.topic, pcValue[i]);
-//			}
-//		}
-//	}
-//	write_wireless_params();
-//	set_mqtt_parameters();
-//	return "/cgiform.html";
-//}
-//
-//
-//const char *CGILED_Handler(int iIndex, int iNumParams, char *pcParam[], char *pcValue[])
-//{
-//	if (iIndex == 1)
-//	{
-//		for (int i=0; i<iNumParams; i++)
-//		{
-//			if (strcmp(pcParam[i], "fname") == 0)  // if the fname string is found
-//			{
-//				memset(name, '\0', 30);
-//				strcpy(name, pcValue[i]);
-//			}
-//
-//			else if (strcmp(pcParam[i], "lname") == 0)  // if the fname string is found
-//			{
-//				strcat(name, " ");
-//				strcat(name, pcValue[i]);
-//			}
-//		}
-//	}
-//
-//	return "/cgiled.html";
-//}
-//
-//void http_server_init()
-//{
-//	httpd_init();
-//
-//	CGI_TAB[0] = FORM_CGI;
-//	CGI_TAB[1] = LED_CGI;
-//
-////	http_set_cgi_handlers (&FORM_CGI, 1);
-//	http_set_cgi_handlers (CGI_TAB, 2);
-//}
