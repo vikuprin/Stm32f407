@@ -112,7 +112,7 @@ void MX_LWIP_Init(void)
 
 /* USER CODE BEGIN 3 */
   mdns_resp_init();
-  mdns_resp_add_netif(&gnetif, gnetif.hostname, 120);
+  mdns_resp_add_netif(&gnetif, "cityair350", 120);
   mdns_resp_add_service(&gnetif, "lwip.local", "_http", DNSSD_PROTO_TCP, 80, 3600, srv_txt, NULL);
 
 /* USER CODE END 3 */

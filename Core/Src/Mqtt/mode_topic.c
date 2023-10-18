@@ -17,13 +17,13 @@ void capabilities(cJSON *capabilities_js)
     check_char_on_off(capabilities_js, "on_off", &device->state);
     check_char_mode(capabilities_js, "mode", &device->mode);
     check_js_param_u8(capabilities_js, "speed", &device->inflow_speed);
-    check_js_param_u8(capabilities_js, "temp_limit", &device->temp_limit);
+    check_js_param_u8(capabilities_js, "heat", &device->temp_limit);
     device_check = *device;
 }
 
 void set_ten_settings(cJSON *data_json)
 {
-	check_js_param_int(data_json, "temp_limit", &device->temp_limit);
+	check_js_param_int(data_json, "heat", &device->temp_limit);
     DEBUG_MQTT("Set ten temp_limit = %i", device->temp_limit);
     write_device_params();
 }
