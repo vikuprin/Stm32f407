@@ -383,9 +383,23 @@ void set_user_test()
 	strcpy(wireless_params->user_mqtt.topic, "VAKIO");
 }
 
+void set_log_test()
+{
+	wireless_params->mqtt_type = USER_MQTT;
+//	uint8_t test_ip[] = { 195, 140, 146, 112 };
+//	memcpy(wireless_params->user_mqtt.host, test_ip, 4);
+	wireless_params->user_mqtt.port = 1883;
+	strcpy(wireless_params->user_mqtt.host, "192.168.88.176\0");
+	strcpy(wireless_params->user_mqtt.login, "test\0");
+	strcpy(wireless_params->user_mqtt.password, "test\0");
+	strcpy(wireless_params->user_mqtt.client_id, "STM32\0");
+	strcpy(temp_log_pub_topic, "vakio");
+}
+
 void init_mqtt()
 {
 	client = mqtt_client_new();
-	set_user_test();
+//	set_user_test();
+	set_log_test();
 	set_mqtt_parameters();
 }
