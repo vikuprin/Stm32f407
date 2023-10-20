@@ -69,6 +69,7 @@ void MX_FREERTOS_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
+
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 uint32_t falling;
@@ -167,7 +168,6 @@ int main(void)
   MX_USART1_UART_Init();
   MX_I2C1_Init();
   MX_TIM1_Init();
-  MX_TIM8_Init();
   MX_TIM12_Init();
   MX_I2C3_Init();
   MX_UART4_Init();
@@ -175,6 +175,9 @@ int main(void)
   MX_TIM9_Init();
   MX_TIM3_Init();
   MX_TIM4_Init();
+  MX_USART3_UART_Init();
+  MX_USART6_UART_Init();
+  MX_TIM8_Init();
   /* USER CODE BEGIN 2 */
   init_storage();
   init_ds_devices();

@@ -1,404 +1,309 @@
 /**
   ******************************************************************************
-  * @file    ds18b20.c
-  * @brief   This file includes the HAL/LL driver for DS18B20 1-Wire Digital
-  * 		 Thermometer
+  * @file           : ds18b20.c
+  * @brief          : DS18B20 driver
+  * @author         : MicroTechnics (microtechnics.ru)
   ******************************************************************************
   */
+
+
+
+/* Includes ------------------------------------------------------------------*/
+
 #include "ds18b20.h"
+#include "onewire.h"
 
-/**
-  * @brief  The function is used to check valid DS18B20 ROM
-  * @retval Return in OK = 1, Failed = 0
-  * @param  ROM		Pointer to ROM number
-  */
-uint8_t DS18B20_IsValid(uint8_t *ROM)
+
+
+/* Declarations and definitions ----------------------------------------------*/
+
+// ROM commands
+static DS18B20_Command readRom = {.code = 0x33, .rxBytesNum = 8, .txBytesNum = 0};
+static DS18B20_Command skipRom = {.code = 0xCC, .rxBytesNum = 0, .txBytesNum = 0};
+
+// Function commands
+static DS18B20_Command readScratchpad = {.code = 0xBE, .rxBytesNum = 9, .txBytesNum = 0};
+static DS18B20_Command writeScratchpad = {.code = 0x4E, .rxBytesNum = 0, .txBytesNum = 3};
+static DS18B20_Command convertT = {.code = 0x44, .rxBytesNum = 0, .txBytesNum = 0};
+
+
+
+/* Functions -----------------------------------------------------------------*/
+
+/*----------------------------------------------------------------------------*/
+static uint8_t CalculateChecksum(uint8_t *data, uint8_t length)
 {
-	/* Checks if first byte is equal to DS18B20's family code */
-	return (*ROM == DS18B20_FAMILY_CODE) ? 1 : 0;
+  uint8_t checksum = 0;
+
+  while (length--)
+  {
+    uint8_t currentByte = *data++;
+
+    for (uint8_t i = 8; i; i--)
+    {
+      uint8_t temp = (checksum ^ currentByte) & 0x01;
+      checksum >>= 1;
+
+      if (temp)
+      {
+        checksum ^= 0x8C;
+      }
+
+      currentByte >>= 1;
+    }
+  }
+
+  return checksum;
 }
 
-/**
-  * @brief  The function is used to get resolution
-  * @retval Return value in 9 - 12
-  * @param  OW		OneWire HandleTypedef
-  * @param  ROM		Pointer to ROM number
-  */
-uint8_t DS18B20_GetResolution(OneWire_t* OW, uint8_t *ROM) {
-	uint8_t conf;
 
-	/* Check valid ROM */
-	if (!DS18B20_IsValid(ROM)) return 0;
 
-	/* Reset line */
-	OneWire_Reset(OW);
-
-	/* Select ROM number */
-	OneWire_SelectWithPointer(OW, ROM);
-
-	/* Read scratchpad command by onewire protocol */
-	OneWire_WriteByte(OW, DS18B20_CMD_READSCRATCHPAD);
-
-	/* Ignore first 4 bytes */
-	OneWire_ReadByte(OW);
-	OneWire_ReadByte(OW);
-	OneWire_ReadByte(OW);
-	OneWire_ReadByte(OW);
-
-	/* 5th byte of scratchpad is configuration register */
-	conf = OneWire_ReadByte(OW);
-
-	/* Return 9 - 12 value according to number of bits */
-	return ((conf & 0x60) >> 5) + 9;
-}
-
-/**
-  * @brief  The function is used as set resolution
-  * @retval status in OK = 1, Failed = 0
-  * @param  OW			OneWire HandleTypedef
-  * @param  ROM			Pointer to ROM number
-  * @param  Resolution	Resolution in 9 - 12
-  */
-uint8_t DS18B20_SetResolution(OneWire_t* OW, uint8_t *ROM,
-		DS18B20_Res_t Resolution)
+/*----------------------------------------------------------------------------*/
+static DS18B20_Status ExecuteCommand(DS18B20 *sensor, DS18B20_Command command, uint8_t *data)
 {
-	uint8_t th, tl, conf;
+  if (sensor->isConnected == 0)
+  {
+    return DS18B20_ERROR;
+  }
 
-	/* Check valid ROM */
-	if (!DS18B20_IsValid(ROM)) return 0;
+  OneWire_ProcessByte(sensor->uart, command.code);
 
-	/* Reset line */
-	OneWire_Reset(OW);
+  if (command.rxBytesNum != 0)
+  {
+    for (uint8_t i = 0; i < command.rxBytesNum; i++)
+    {
+      data[i] = OneWire_ProcessByte(sensor->uart, 0xFF);
+    }
 
-	/* Select ROM number */
-	OneWire_SelectWithPointer(OW, ROM);
+    uint8_t checkSum = CalculateChecksum(data, command.rxBytesNum - 1);
+    if (checkSum != data[command.rxBytesNum - 1])
+    {
+      return DS18B20_ERROR;
+    }
+  }
+  else
+  {
+    for (uint8_t i = 0; i < command.txBytesNum; i++)
+    {
+      OneWire_ProcessByte(sensor->uart, data[i]);
+    }
+  }
 
-	/* Read scratchpad command by onewire protocol */
-	OneWire_WriteByte(OW, DS18B20_CMD_READSCRATCHPAD);
-
-	/* Ignore first 2 bytes */
-	OneWire_ReadByte(OW);
-	OneWire_ReadByte(OW);
-
-	th = OneWire_ReadByte(OW);
-	tl = OneWire_ReadByte(OW);
-	conf = OneWire_ReadByte(OW);
-
-	if (Resolution == DS18B20_Resolution_9bits) {
-		conf &= ~(1 << DS18B20_RESOLUTION_R1);
-		conf &= ~(1 << DS18B20_RESOLUTION_R0);
-	} else if (Resolution == DS18B20_Resolution_10bits) {
-		conf &= ~(1 << DS18B20_RESOLUTION_R1);
-		conf |= 1 << DS18B20_RESOLUTION_R0;
-	} else if (Resolution == DS18B20_Resolution_11bits) {
-		conf |= 1 << DS18B20_RESOLUTION_R1;
-		conf &= ~(1 << DS18B20_RESOLUTION_R0);
-	} else if (Resolution == DS18B20_Resolution_12bits) {
-		conf |= 1 << DS18B20_RESOLUTION_R1;
-		conf |= 1 << DS18B20_RESOLUTION_R0;
-	}
-
-	/* Reset line */
-	OneWire_Reset(OW);
-
-	/* Select ROM number */
-	OneWire_SelectWithPointer(OW, ROM);
-
-	/* Write scratchpad command by onewire protocol, only th, tl and conf
-	 * register can be written */
-	OneWire_WriteByte(OW, DS18B20_CMD_WRITESCRATCHPAD);
-
-	/* Write bytes */
-	OneWire_WriteByte(OW, th);
-	OneWire_WriteByte(OW, tl);
-	OneWire_WriteByte(OW, conf);
-
-	/* Reset line */
-	OneWire_Reset(OW);
-
-	/* Select ROM number */
-	OneWire_SelectWithPointer(OW, ROM);
-
-	/* Copy scratchpad to EEPROM of DS18B20 */
-	OneWire_WriteByte(OW, DS18B20_CMD_COPYSCRATCHPAD);
-
-	return 1;
+  return DS18B20_OK;
 }
 
-/**
-  * @brief  The function is used as start selected ROM device
-  * @retval status in OK = 1, Failed = 0
-  * @param  OW			OneWire HandleTypedef
-  * @param  ROM			Pointer to ROM number
-  */
-uint8_t DS18B20_Start(OneWire_t* OW, uint8_t *ROM)
+
+
+/*----------------------------------------------------------------------------*/
+static void WaitForConversionFinished(DS18B20 *sensor)
 {
-	/* Check if device is DS18B20 */
-	if(!DS18B20_IsValid(ROM)) return 1;
-
-	/* Reset line */
-	OneWire_Reset(OW);
-
-	/* Select ROM number */
-	OneWire_SelectWithPointer(OW, ROM);
-
-	/* Start temperature conversion */
-	OneWire_WriteByte(OW, DS18B20_CMD_CONVERT);
-
-	return 0;
+  uint8_t data = OneWire_ProcessBit(sensor->uart, 1);
+  while(data != 0xFF)
+  {
+    data = OneWire_ProcessBit(sensor->uart, 1);
+  }
 }
 
-/**
-  * @brief  The function is used as start all ROM device
-  * @param  OW			OneWire HandleTypedef
-  */
-void DS18B20_StartAll(OneWire_t* OW)
+
+
+/*----------------------------------------------------------------------------*/
+DS18B20_Status DS18B20_ConvertT(DS18B20 *sensor, DS18B20_WaitCondition waitCondition)
 {
-	/* Reset pulse */
-	OneWire_Reset(OW);
+  DS18B20_Status result;
+  uint8_t rxDummyData;
 
-	/* Skip rom */
-	OneWire_WriteByte(OW, ONEWIRE_CMD_SKIPROM);
+  result = ExecuteCommand(sensor, convertT, &rxDummyData);
 
-	/* Start conversion on all connected devices */
-	OneWire_WriteByte(OW, DS18B20_CMD_CONVERT);
+  if (waitCondition == DS18B20_DATA)
+  {
+    WaitForConversionFinished(sensor);
+  }
+
+  if (waitCondition == DS18B20_DELAY)
+  {
+    uint32_t delayValueMs = 0;
+
+    switch (sensor->configRegister)
+    {
+      case DS18B20_9_BITS_CONFIG:
+        delayValueMs = DS18B20_9_BITS_DELAY_MS;
+        break;
+
+      case DS18B20_10_BITS_CONFIG:
+        delayValueMs = DS18B20_10_BITS_DELAY_MS;
+        break;
+
+      case DS18B20_11_BITS_CONFIG:
+        delayValueMs = DS18B20_11_BITS_DELAY_MS;
+        break;
+
+      case DS18B20_12_BITS_CONFIG:
+        delayValueMs = DS18B20_12_BITS_DELAY_MS;
+        break;
+
+      default:
+        break;
+    }
+
+    HAL_Delay(delayValueMs);
+  }
+
+  return result;
 }
 
-/**
-  * @brief  The function is used as read bit from device and store in selected
-  * 		destination
-  * @retval status in OK = 1, Failed = 0
-  * @param  OW				OneWire HandleTypedef
-  * @param  ROM				Pointer to ROM number
-  * @param  Destination		Pointer to return value
-  */
-uint8_t DS18B20_Read(OneWire_t* OW, uint8_t *ROM, float *Destination)
+
+
+/*----------------------------------------------------------------------------*/
+DS18B20_Status DS18B20_ReadScratchpad(DS18B20 *sensor)
 {
-	uint16_t temperature;
-	uint8_t resolution;
-	int8_t digit, minus = 0;
-	float decimal;
-	uint8_t i = 0;
-	uint8_t data[9];
-	uint8_t crc;
+  DS18B20_Status result;
+  uint8_t rxData[DS18B20_READ_SCRATCHPAD_RX_BYTES_NUM];
+  result = ExecuteCommand(sensor, readScratchpad, rxData);
 
-	/* Check if device is DS18B20 */
-	if (!DS18B20_IsValid(ROM))
-	{
-		device->error_ds18b20 = true;
-		return 0;
-	}
+  if (result != DS18B20_OK)
+  {
+    return result;
+  }
 
-	/* Wait until line is released, then coversion is completed */
-	while(!OneWire_ReadBit(OW)) {};
+  sensor->temperatureLimitHigh = 125;//rxData[DS18B20_SCRATCHPAD_T_LIMIT_H_BYTE_IDX];
+  sensor->temperatureLimitLow = 55;//rxData[DS18B20_SCRATCHPAD_T_LIMIT_L_BYTE_IDX];
+  sensor->configRegister = rxData[DS18B20_SCRATCHPAD_CONFIG_BYTE_IDX];
 
-	/* Reset line */
-	OneWire_Reset(OW);
+  uint16_t tRegValue = (rxData[DS18B20_SCRATCHPAD_T_MSB_BYTE_IDX] << 8) | rxData[DS18B20_SCRATCHPAD_T_LSB_BYTE_IDX];
+  uint16_t sign = tRegValue & DS18B20_SIGN_MASK;
 
-	/* Select ROM number */
-	OneWire_SelectWithPointer(OW, ROM);
+  if (sign != 0)
+  {
+    tRegValue = (0xFFFF - tRegValue + 1);
+  }
 
-	/* Read scratchpad command by onewire protocol */
-	OneWire_WriteByte(OW, DS18B20_CMD_READSCRATCHPAD);
+  switch (sensor->configRegister)
+  {
+    case DS18B20_9_BITS_CONFIG:
+      tRegValue &= DS18B20_9_BITS_DATA_MASK;
+      break;
 
-	/* Get data */
-	for (i = 0; i < 9; i++) {
-		/* Read byte by byte */
-		data[i] = OneWire_ReadByte(OW);
-	}
+    case DS18B20_10_BITS_CONFIG:
+      tRegValue &= DS18B20_10_BITS_DATA_MASK;
+      break;
 
-	/* Calculate CRC */
-	crc = OneWire_CRC8(data, 8);
+    case DS18B20_11_BITS_CONFIG:
+      tRegValue &= DS18B20_11_BITS_DATA_MASK;
+      break;
 
-	/* Check if CRC is ok */
-	if (crc != data[8]) {
-		/* CRC invalid */
-		return 0;
-	}
+    case DS18B20_12_BITS_CONFIG:
+      tRegValue &= DS18B20_12_BITS_DATA_MASK;
+      break;
 
-	/* First two bytes of scratchpad are temperature values */
-	temperature = data[0] | (data[1] << 8);
+    default:
+      tRegValue &= DS18B20_12_BITS_DATA_MASK;
+      break;
+  }
 
-	/* Reset line */
-	OneWire_Reset(OW);
+  sensor->temperature = (float)tRegValue * DS18B20_T_STEP;
 
-	/* Check if temperature is negative */
-	if (temperature & 0x8000) {
-		/* Two's complement, temperature is negative */
-		temperature = ~temperature + 1;
-		minus = 1;
-	}
+  if (sign != 0)
+  {
+    sensor->temperature *= (-1);
+  }
 
-	/* Get sensor resolution */
-	resolution = ((data[4] & 0x60) >> 5) + 9;
-
-	/* Store temperature integer digits and decimal digits */
-	digit = temperature >> 4;
-	digit |= ((temperature >> 8) & 0x7) << 4;
-
-	/* Store decimal digits */
-	switch (resolution) {
-		case 9: {
-			decimal = (temperature >> 3) & 0x01;
-			decimal *= (float)DS18B20_DECIMAL_STEPS_9BIT;
-		} break;
-		case 10: {
-			decimal = (temperature >> 2) & 0x03;
-			decimal *= (float)DS18B20_DECIMAL_STEPS_10BIT;
-		} break;
-		case 11: {
-			decimal = (temperature >> 1) & 0x07;
-			decimal *= (float)DS18B20_DECIMAL_STEPS_11BIT;
-		} break;
-		case 12: {
-			decimal = temperature & 0x0F;
-			decimal *= (float)DS18B20_DECIMAL_STEPS_12BIT;
-		} break;
-		default: {
-			decimal = 0xFF;
-			digit = 0;
-		}
-	}
-
-	/* Check for negative part */
-	decimal = digit + decimal;
-	if (minus) {
-		decimal = 0 - decimal;
-	}
-
-	/* Set to pointer */
-	*Destination = decimal;
-
-	/* Return 1, temperature valid */
-	return decimal;
+  return DS18B20_OK;
 }
 
-/**
-  * @brief  The function is used as set temperature alarm range on
-  * 		selected device
-  * @retval status in OK = 1, Failed = 0
-  * @param  OW		OneWire HandleTypedef
-  * @param  ROM		Pointer to ROM number
-  * @param  Low		Low temperature alarm, value > -55, 0 = reset
-  * @param  High	High temperature alarm,, value < 125, 0 = reset
-  */
-uint8_t DS18B20_SetTempAlarm(OneWire_t* OW, uint8_t *ROM, int8_t Low,
-		int8_t High)
+
+
+/*----------------------------------------------------------------------------*/
+DS18B20_Status DS18B20_WriteScratchpad(DS18B20 *sensor, uint8_t *data)
 {
-	uint8_t tl, th, conf;
+  DS18B20_Status result;
 
-	/* Check if device is DS18B20 */
-	if (!DS18B20_IsValid(ROM)) return 0;
+  result = ExecuteCommand(sensor, writeScratchpad, data);
 
-	Low = ((Low < -55) || (Low == 0)) ? -55 : Low;
-	High = ((High > 125) || (High == 0)) ? 125 : High;
+  if (result != DS18B20_OK)
+  {
+    return result;
+  }
 
-	/* Reset line */
-	OneWire_Reset(OW);
+  sensor->temperatureLimitHigh = data[0];
+  sensor->temperatureLimitLow = data[1];
+  sensor->configRegister = data[2];
 
-	/* Select ROM number */
-	OneWire_SelectWithPointer(OW, ROM);
-
-	/* Read scratchpad command by onewire protocol */
-	OneWire_WriteByte(OW, DS18B20_CMD_READSCRATCHPAD);
-
-	/* Ignore first 2 bytes */
-	OneWire_ReadByte(OW);
-	OneWire_ReadByte(OW);
-
-	th = OneWire_ReadByte(OW);
-	tl = OneWire_ReadByte(OW);
-	conf = OneWire_ReadByte(OW);
-
-	th = (uint8_t)High;
-	tl = (uint8_t)Low;
-
-	/* Reset line */
-	OneWire_Reset(OW);
-
-	/* Select ROM number */
-	OneWire_SelectWithPointer(OW, ROM);
-
-	/* Write scratchpad command by onewire protocol, only th, tl and conf
-	 * register can be written */
-	OneWire_WriteByte(OW, DS18B20_CMD_WRITESCRATCHPAD);
-
-	/* Write bytes */
-	OneWire_WriteByte(OW, th);
-	OneWire_WriteByte(OW, tl);
-	OneWire_WriteByte(OW, conf);
-
-	/* Reset line */
-	OneWire_Reset(OW);
-
-	/* Select ROM number */
-	OneWire_SelectWithPointer(OW, ROM);
-
-	/* Copy scratchpad to EEPROM of DS18B20 */
-	OneWire_WriteByte(OW, DS18B20_CMD_COPYSCRATCHPAD);
-
-	return 1;
+  return result;
 }
 
-/**
-  * @brief  The function is used as search device that had temperature alarm
-  * 		triggered and store it in DS18B20 alarm data structure
-  * @retval status of search, OK = 1, Failed = 0
-  * @param  DS		DS18B20 HandleTypedef
-  * @param  OW		OneWire HandleTypedef
-  */
-uint8_t DS18B20_AlarmSearch(DS18B20_Drv_t *DS, OneWire_t* OW)
+
+
+/*----------------------------------------------------------------------------*/
+DS18B20_Status DS18B20_InitializationCommand(DS18B20 *sensor)
 {
-	uint8_t t = 0;
+  if (sensor->isInitialized == 0)
+  {
+    return DS18B20_ERROR;
+  }
 
-	/* Reset Alarm in DS */
-	for(uint8_t i = 0; i < DS18B20_MaxCnt; i++)
-	{
-		for(uint8_t j = 0; j < 8; j++)
-		{
-			DS->AlmAddr[i][j] = 0;
-		}
-	}
+  ONEWIRE_Status status = OneWire_Reset(sensor->uart);
 
-	/* Start alarm search */
-	while (OneWire_Search(OW, DS18B20_CMD_ALARM_SEARCH))
-	{
-		/* Store ROM of device which has alarm flag set */
-		OneWire_GetDevRom(OW, DS->AlmAddr[t]);
-		t++;
-	}
-	return (t > 0) ? 1 : 0;
+  if (status == ONEWIRE_OK)
+  {
+    sensor->isConnected = 1;
+    return DS18B20_OK;
+  }
+  else
+  {
+    sensor->isConnected = 0;
+    return DS18B20_ERROR;
+  }
 }
 
-/**
-  * @brief  The function is used to initialize the DS18B20 sensor, and search
-  * 		for all ROM along the line. Store in DS18B20 data structure
-  * @retval Rom detect status, OK = 1, No Rom detected = 0
-  * @param  DS			DS18B20 HandleTypedef
-  * @param  OW			OneWire HandleTypedef
-  */
-uint8_t DS18B20_Init(DS18B20_Drv_t *DS, OneWire_t *OW)
+
+
+/*----------------------------------------------------------------------------*/
+DS18B20_Status DS18B20_ReadRom(DS18B20 *sensor)
 {
-	/* Initialize OneWire and reset all data */
-	OneWire_Init(OW);
+  DS18B20_Status result;
+  uint8_t rxData[DS18B20_READ_ROM_RX_BYTES_NUM];
+  result = ExecuteCommand(sensor, readRom, rxData);
 
-	/* Search all OneWire devices ROM */
-	while(1)
-	{
-		/* Start searching for OneWire devices along the line */
-		if(OneWire_Search(OW, ONEWIRE_CMD_SEARCHROM) != 1) break;
+  if (result != DS18B20_OK)
+  {
+    return result;
+  }
 
-		/* Get device ROM */
-		OneWire_GetDevRom(OW, DS->DevAddr[OW->RomCnt]);
+  for (uint8_t i = 0; i < DS18B20_SERIAL_NUMBER_LEN_BYTES; i++)
+  {
+    sensor->serialNumber[i] = rxData[DS18B20_SERIAL_NUMBER_OFFSET_BYTES + i];
+  }
 
-		/* Set ROM Resolution */
-		DS18B20_SetResolution(OW, &OW->RomCnt, DS->Resolution);
-
-		/* Reset Temperature Alarm */
-		DS18B20_SetTempAlarm(OW, &OW->RomCnt, 0, 0);
-
-		OW->RomCnt++;
-	}
-
-	return (OW->RomCnt != 0) ? 1 : 0;
+  return DS18B20_OK;
 }
+
+
+
+/*----------------------------------------------------------------------------*/
+DS18B20_Status DS18B20_SkipRom(DS18B20 *sensor)
+{
+  DS18B20_Status result;
+  uint8_t rxDummyData;
+  result = ExecuteCommand(sensor, skipRom, &rxDummyData);
+
+  if (result != DS18B20_OK)
+  {
+    return result;
+  }
+
+  return DS18B20_OK;
+}
+
+
+
+/*----------------------------------------------------------------------------*/
+void DS18B20_Init(DS18B20 *sensor, UART_HandleTypeDef *huart)
+{
+  sensor->isConnected = 0;
+  sensor->uart = huart;
+  sensor->isInitialized = 1;
+}
+
+
+
+/*----------------------------------------------------------------------------*/

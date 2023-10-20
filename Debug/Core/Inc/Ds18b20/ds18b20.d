@@ -1,5 +1,5 @@
 Core/Inc/Ds18b20/ds18b20.o: ../Core/Inc/Ds18b20/ds18b20.c \
- ../Core/Inc/Ds18b20/ds18b20.h ../Core/Inc/main.h \
+ ../Core/Inc/Ds18b20/ds18b20.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Core/Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
@@ -32,9 +32,8 @@ Core/Inc/Ds18b20/ds18b20.o: ../Core/Inc/Ds18b20/ds18b20.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
- ../Core/Inc/usart.h ../Core/Inc/main.h ../Core/Inc/Ds18b20/onewire.h
+ ../Core/Inc/Ds18b20/onewire.h
 ../Core/Inc/Ds18b20/ds18b20.h:
-../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h:
@@ -67,6 +66,4 @@ Core/Inc/Ds18b20/ds18b20.o: ../Core/Inc/Ds18b20/ds18b20.c \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
-../Core/Inc/usart.h:
-../Core/Inc/main.h:
 ../Core/Inc/Ds18b20/onewire.h:

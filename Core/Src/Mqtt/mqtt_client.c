@@ -266,7 +266,7 @@ void publish_message_topic()
 
 void start_mqtt()
 {
-	if(netif_is_link_up(&gnetif) && wireless_params->vakio_mqtt.host[0] != 0)
+	if(netif_is_link_up(&gnetif) && wireless_params->vakio_mqtt.host[0] != 0 && wireless_params->user_mqtt.host[0] != 0)
 	{
 		if(!mqtt_status)
 		{
@@ -386,6 +386,6 @@ void set_user_test()
 void init_mqtt()
 {
 	client = mqtt_client_new();
-//	set_user_test();
+	set_user_test();
 	set_mqtt_parameters();
 }

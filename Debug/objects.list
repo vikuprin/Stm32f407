@@ -1,6 +1,5 @@
 "./Core/Inc/Aht20/aht20_i2c_drv.o"
 "./Core/Inc/Ds18b20/ds18b20.o"
-"./Core/Inc/Ds18b20/dwt.o"
 "./Core/Inc/Ds18b20/onewire.o"
 "./Core/Inc/Epm_24c32/epm_24c32.o"
 "./Core/Inc/FLASH_SECTOR_F4/FLASH_SECTOR_F4.o"

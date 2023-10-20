@@ -6,17 +6,14 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../Core/Inc/Ds18b20/ds18b20.c \
-../Core/Inc/Ds18b20/dwt.c \
 ../Core/Inc/Ds18b20/onewire.c 
 
 OBJS += \
 ./Core/Inc/Ds18b20/ds18b20.o \
-./Core/Inc/Ds18b20/dwt.o \
 ./Core/Inc/Ds18b20/onewire.o 
 
 C_DEPS += \
 ./Core/Inc/Ds18b20/ds18b20.d \
-./Core/Inc/Ds18b20/dwt.d \
 ./Core/Inc/Ds18b20/onewire.d 
 
 
@@ -27,7 +24,7 @@ Core/Inc/Ds18b20/%.o Core/Inc/Ds18b20/%.su Core/Inc/Ds18b20/%.cyclo: ../Core/Inc
 clean: clean-Core-2f-Inc-2f-Ds18b20
 
 clean-Core-2f-Inc-2f-Ds18b20:
-	-$(RM) ./Core/Inc/Ds18b20/ds18b20.cyclo ./Core/Inc/Ds18b20/ds18b20.d ./Core/Inc/Ds18b20/ds18b20.o ./Core/Inc/Ds18b20/ds18b20.su ./Core/Inc/Ds18b20/dwt.cyclo ./Core/Inc/Ds18b20/dwt.d ./Core/Inc/Ds18b20/dwt.o ./Core/Inc/Ds18b20/dwt.su ./Core/Inc/Ds18b20/onewire.cyclo ./Core/Inc/Ds18b20/onewire.d ./Core/Inc/Ds18b20/onewire.o ./Core/Inc/Ds18b20/onewire.su
+	-$(RM) ./Core/Inc/Ds18b20/ds18b20.cyclo ./Core/Inc/Ds18b20/ds18b20.d ./Core/Inc/Ds18b20/ds18b20.o ./Core/Inc/Ds18b20/ds18b20.su ./Core/Inc/Ds18b20/onewire.cyclo ./Core/Inc/Ds18b20/onewire.d ./Core/Inc/Ds18b20/onewire.o ./Core/Inc/Ds18b20/onewire.su
 
 .PHONY: clean-Core-2f-Inc-2f-Ds18b20
 

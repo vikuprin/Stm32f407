@@ -3,15 +3,12 @@
 #include <string.h>
 #include "usart.h"
 #include "onewire.h"
-#include "dwt.h"
 #include "cmsis_os.h"
 
-DS18B20_Drv_t DS;
-OneWire_t OW;
-DS18B20_Drv_t DS2;
-OneWire_t OW2;
+DS18B20 temperatureSensor1;
+DS18B20 temperatureSensor2;
 
-uint8_t temp[4];
+uint8_t temp[2];
 uint32_t count;
 uint8_t point[6] = {25, 25, 25, 25, 25, 25};
 uint8_t ave = 25;
@@ -54,32 +51,33 @@ void mass_temp()
 
 void get_ds_data()
 {
-	DS18B20_StartAll(&OW);
-	/* Read temperature from device and store it to DS data structure */
 	ds_count = 0;
-	for(uint8_t i = 0; i < OW.RomCnt; i++)
-	{
-		temp[ds_count] = DS18B20_Read(&OW, DS.DevAddr[i], &DS.Temperature[i]);
-		sensors_data->in = temp[ds_count];
-		DEBUG_DS("Temperature1 = %i\n", temp[ds_count]);
-		ds_count++;
-	}
-	/* Search Alarm triggered and store in DS data structure */
-	DS18B20_AlarmSearch(&DS, &OW);
 
-	DS18B20_StartAll(&OW2);
-	/* Read temperature from device and store it to DS data structure */
-	for(uint8_t i = 0; i < OW2.RomCnt; i++)
-	{
-		temp[ds_count] = DS18B20_Read(&OW2, DS2.DevAddr[i], &DS2.Temperature[i]);
-		sensors_data->out = temp[ds_count];
-		DEBUG_DS("Temperature2 = %i\n", temp[ds_count]);
-		ds_count++;
-	}
+	//DS_Pin1
+    DS18B20_InitializationCommand(&temperatureSensor1);
+    DS18B20_SkipRom(&temperatureSensor1);
+    DS18B20_ConvertT(&temperatureSensor1, DS18B20_DATA);
+    DS18B20_InitializationCommand(&temperatureSensor1);
+    DS18B20_SkipRom(&temperatureSensor1);
+    DS18B20_ReadScratchpad(&temperatureSensor1);
+	temp[ds_count] = temperatureSensor1.temperature;
+	sensors_data->in = temp[ds_count];
+	DEBUG_DS("Temperature1 = %i\n", temp[ds_count]);
+	ds_count++;
+
+	//DS_Pin2
+    DS18B20_InitializationCommand(&temperatureSensor2);
+    DS18B20_SkipRom(&temperatureSensor2);
+    DS18B20_ConvertT(&temperatureSensor2, DS18B20_DATA);
+    DS18B20_InitializationCommand(&temperatureSensor2);
+    DS18B20_SkipRom(&temperatureSensor2);
+    DS18B20_ReadScratchpad(&temperatureSensor2);
+	temp[ds_count] = temperatureSensor2.temperature;
+	sensors_data->out = temp[ds_count];
+	DEBUG_DS("Temperature2 = %i\n", temp[ds_count]);
+	ds_count++;
+
 	DEBUG_DS("ds_count = %i\n", ds_count);
-	/* Search Alarm triggered and store in DS data structure */
-	DS18B20_AlarmSearch(&DS2, &OW2);
-
 	if(ds_count == 2)
 		device->error_ds18b20 = false;
 	else
@@ -94,24 +92,29 @@ void get_ds_data_mass()
 
 void init_ds_devices()
 {
-	DwtInit();
+	uint8_t settings[3];
+	settings[0] = temperatureSensor1.temperatureLimitHigh;
+	settings[1] = temperatureSensor1.temperatureLimitLow;
+	settings[2] = DS18B20_12_BITS_CONFIG;
 
-	OW.DataPin = DS_Pin;
-	OW.DataPort = DS_GPIO_Port;
-	DS.Resolution = DS18B20_Resolution_12bits;
-	DS18B20_Init(&DS, &OW);
-	/* Set high temperature alarm on device number 0, 31 Deg C */
-	DS18B20_SetTempAlarm(&OW, DS.DevAddr[0], 0, 31);
-	if(OW.RomCnt == 1)
+	//DS_Pin1
+	DS18B20_Init(&temperatureSensor1, &huart3);
+	DS18B20_InitializationCommand(&temperatureSensor1);
+	DS18B20_ReadRom(&temperatureSensor1);
+	DS18B20_ReadScratchpad(&temperatureSensor1);
+	DS18B20_InitializationCommand(&temperatureSensor1);
+	DS18B20_SkipRom(&temperatureSensor1);
+	if(DS18B20_WriteScratchpad(&temperatureSensor1, settings) == DS18B20_OK)
 		sensors_data->in_state = true;
 
-	OW2.DataPin = DS_Pin2;
-	OW2.DataPort = DS_GPIO_Port2;
-	DS2.Resolution = DS18B20_Resolution_12bits;
-	/* Set high temperature alarm on device number 0, 31 Deg C */
-	DS18B20_Init(&DS2, &OW2);
-	DS18B20_SetTempAlarm(&OW2, DS2.DevAddr[0], 0, 60);
-	if(OW2.RomCnt == 1)
+	//DS_Pin2
+	DS18B20_Init(&temperatureSensor2, &huart6);
+	DS18B20_InitializationCommand(&temperatureSensor2);
+	DS18B20_ReadRom(&temperatureSensor2);
+	DS18B20_ReadScratchpad(&temperatureSensor2);
+	DS18B20_InitializationCommand(&temperatureSensor2);
+	DS18B20_SkipRom(&temperatureSensor2);
+	if(DS18B20_WriteScratchpad(&temperatureSensor2, settings) == DS18B20_OK)
 		sensors_data->out_state = true;
 
 	if(sensors_data->in_state && sensors_data->out_state)
