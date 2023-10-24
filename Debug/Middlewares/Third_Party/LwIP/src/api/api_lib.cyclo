@@ -28,3 +28,4 @@ api_lib.c:1139:1:netconn_err	2
 api_lib.c:1163:1:netconn_shutdown	3
 api_lib.c:1181:1:netconn_join_leave_group	4
 api_lib.c:1223:1:netconn_join_leave_group_netif	4
+api_lib.c:1274:1:netconn_gethostbyname	5

@@ -105,7 +105,10 @@ Core/Src/freertos.o: ../Core/Src/freertos.c \
  D:/Project/Stm32f407/Core/Src/Peripheral/led_button_control.h \
  D:/Project/Stm32f407/Core/Src/Mqtt/mqtt_message.h \
  D:/Project/Stm32f407/Core/Src/Peripheral/fan.h \
- D:/Project/Stm32f407/Core/Src/Modes/modes.h ../Core/Inc/usart.h
+ D:/Project/Stm32f407/Core/Src/Modes/modes.h ../Core/Inc/usart.h \
+ ../Middlewares/Third_Party/LwIP/src/include/lwip/dns.h \
+ ../Middlewares/Third_Party/LwIP/src/include/lwip/apps/mdns.h \
+ ../Middlewares/Third_Party/LwIP/src/include/lwip/apps/mdns_opts.h
 ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h:
 ../Core/Inc/FreeRTOSConfig.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h:
@@ -216,3 +219,6 @@ D:/Project/Stm32f407/Core/Src/Mqtt/mqtt_message.h:
 D:/Project/Stm32f407/Core/Src/Peripheral/fan.h:
 D:/Project/Stm32f407/Core/Src/Modes/modes.h:
 ../Core/Inc/usart.h:
+../Middlewares/Third_Party/LwIP/src/include/lwip/dns.h:
+../Middlewares/Third_Party/LwIP/src/include/lwip/apps/mdns.h:
+../Middlewares/Third_Party/LwIP/src/include/lwip/apps/mdns_opts.h:

@@ -35,6 +35,8 @@
 #include "modes.h"
 #include "usart.h"
 #include "string.h"
+#include "lwip/dns.h"
+#include "lwip/apps/mdns.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -55,11 +57,51 @@
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN Variables */
 extern struct netif gnetif;
-/////////////////////////////////
+
 osThreadId ledsTaskHandle;
 osThreadId damperTaskHandle;
 osThreadId mainTaskHandle;
-////////////////////////////////
+
+bool mdns_set = false;
+bool mdns_search = false;
+uint8_t mdns_id = 1;
+char *mdns_name;
+static void srv_txt(struct mdns_service *service, void *txt_userdata)
+{
+	err_t res;
+    LWIP_UNUSED_ARG(txt_userdata);
+    DEBUG_MAIN("mdns\n");
+    res = mdns_resp_add_service_txtitem(service, "path=/", 6);
+    LWIP_ERROR("mdns add service txt failed\n", (res == ERR_OK), return);
+}
+
+void dns_callback(const char *name, const ip_addr_t *ipaddr, void *callback_arg)
+{
+	DEBUG_MAIN("dns callback\n");
+    if (ipaddr != NULL)
+    {
+    	DEBUG_MAIN("name = %s\n", name);
+    	DEBUG_MAIN("ip = %s\n", ipaddr_ntoa(ipaddr));
+    	sprintf(mdns_name, "cityair350%d.local", mdns_id);
+    	mdns_id++;
+    	mdns_search = false;
+    }
+    else
+    {
+    	DEBUG_MAIN("Not found dns ip %s\n", mdns_name);
+    	char *step = mdns_name;
+    	while (*step != '.')
+    	{
+    		step++;
+    	}
+		*step = '\0';
+		mdns_resp_add_netif(&gnetif, mdns_name, 120);
+		*step = '.';
+		mdns_resp_add_service(&gnetif, mdns_name, "_http", DNSSD_PROTO_TCP, 80, 3600, srv_txt, NULL);
+		mdns_set = true;
+		mdns_search = false;
+    }
+}
 /* USER CODE END Variables */
 osThreadId defaultTaskHandle;
 
@@ -167,6 +209,18 @@ void StartDefaultTask(void const * argument)
   while (dhcp_supplied_address(&gnetif) == 0)
   {
      osDelay(50);
+  }
+  mdns_name = malloc(80);
+  sprintf(mdns_name, "cityair350.local");
+  ip_addr_t addr;
+  while (mdns_set == false)
+  {
+	  dns_gethostbyname(mdns_name, &addr, dns_callback, NULL);
+      mdns_search = true;
+      while (mdns_search == true)
+      {
+    	  osDelay(100);
+      }
   }
   http_server_init();
   init_mqtt();

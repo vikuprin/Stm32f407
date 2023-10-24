@@ -89,6 +89,7 @@ LWIP/App/lwip.o: ../LWIP/App/lwip.c ../LWIP/App/lwip.h \
  ../LWIP/Target/ethernetif.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/tcpip.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/init.h \
+ ../Middlewares/Third_Party/LwIP/src/include/lwip/dns.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/apps/mdns.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/apps/mdns_opts.h
 ../LWIP/App/lwip.h:
@@ -184,5 +185,6 @@ LWIP/App/lwip.o: ../LWIP/App/lwip.c ../LWIP/App/lwip.h \
 ../LWIP/Target/ethernetif.h:
 ../Middlewares/Third_Party/LwIP/src/include/lwip/tcpip.h:
 ../Middlewares/Third_Party/LwIP/src/include/lwip/init.h:
+../Middlewares/Third_Party/LwIP/src/include/lwip/dns.h:
 ../Middlewares/Third_Party/LwIP/src/include/lwip/apps/mdns.h:
 ../Middlewares/Third_Party/LwIP/src/include/lwip/apps/mdns_opts.h:

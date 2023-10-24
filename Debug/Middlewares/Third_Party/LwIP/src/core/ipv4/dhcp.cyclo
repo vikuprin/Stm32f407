@@ -9,7 +9,7 @@ dhcp.c:468:1:dhcp_fine_tmr	5
 dhcp.c:499:1:dhcp_timeout	9
 dhcp.c:546:1:dhcp_t1_timeout	5
 dhcp.c:573:1:dhcp_t2_timeout	6
-dhcp.c:599:1:dhcp_handle_ack	6
+dhcp.c:599:1:dhcp_handle_ack	8
 dhcp.c:690:1:dhcp_set_struct	4
 dhcp.c:712:6:dhcp_cleanup	3
 dhcp.c:737:1:dhcp_start	10
@@ -31,7 +31,7 @@ dhcp.c:1444:1:dhcp_option_byte	2
 dhcp.c:1452:1:dhcp_option_short	2
 dhcp.c:1461:1:dhcp_option_long	2
 dhcp.c:1473:1:dhcp_option_hostname	6
-dhcp.c:1507:1:dhcp_parse_reply	50
+dhcp.c:1507:1:dhcp_parse_reply	53
 dhcp.c:1754:1:dhcp_recv	24
 dhcp.c:1874:1:dhcp_create_msg	16
 dhcp.c:1960:1:dhcp_option_trailer	4

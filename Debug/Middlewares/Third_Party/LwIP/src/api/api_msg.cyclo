@@ -28,3 +28,5 @@ api_msg.c:1867:1:lwip_netconn_do_getaddr	11
 api_msg.c:1934:1:lwip_netconn_do_close	12
 api_msg.c:2014:1:lwip_netconn_do_join_leave_group	4
 api_msg.c:2060:1:lwip_netconn_do_join_leave_group_netif	5
+api_msg.c:2117:1:lwip_netconn_do_dns_found	2
+api_msg.c:2143:1:lwip_netconn_do_gethostbyname	3

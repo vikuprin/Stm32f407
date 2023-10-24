@@ -28,6 +28,7 @@
 #include "ethernetif.h"
 
 /* USER CODE BEGIN 0 */
+#include "lwip/dns.h"
 #include "lwip/apps/mdns.h"
 /* USER CODE END 0 */
 /* Private function prototypes -----------------------------------------------*/
@@ -49,17 +50,7 @@ ip4_addr_t netmask;
 ip4_addr_t gw;
 
 /* USER CODE BEGIN 2 */
-static void
-srv_txt(struct mdns_service *service, void *txt_userdata)
-{
-  err_t res;
-  LWIP_UNUSED_ARG(txt_userdata);
 
-  printf("mdns\n");
-
-  res = mdns_resp_add_service_txtitem(service, "path=/", 6);
-  LWIP_ERROR("mdns add service txt failed\n", (res == ERR_OK), return);
-}
 /* USER CODE END 2 */
 
 /**
@@ -111,10 +102,8 @@ void MX_LWIP_Init(void)
   dhcp_start(&gnetif);
 
 /* USER CODE BEGIN 3 */
+  dns_init();
   mdns_resp_init();
-  mdns_resp_add_netif(&gnetif, "cityair350", 120);
-  mdns_resp_add_service(&gnetif, "lwip.local", "_http", DNSSD_PROTO_TCP, 80, 3600, srv_txt, NULL);
-
 /* USER CODE END 3 */
 }
 
