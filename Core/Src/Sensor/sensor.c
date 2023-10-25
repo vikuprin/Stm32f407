@@ -86,8 +86,11 @@ void get_ds_data()
 
 void get_ds_data_mass()
 {
-	get_ds_data();
-	mass_temp();
+	if(sensors_data->in_state && sensors_data->out_state)
+	{
+		get_ds_data();
+		mass_temp();
+	}
 }
 
 void init_ds_devices()
@@ -123,3 +126,14 @@ void init_ds_devices()
 		device->error_ds18b20 = true;
 }
 
+xSemaphoreHandle xBinarySamaphore;
+void DSTask(void const * argument)
+{
+	vSemaphoreCreateBinary(xBinarySamaphore);
+    init_ds_devices();
+    for(;;)
+    {
+    	get_ds_data_mass();
+        osDelay(3000);
+    }
+}

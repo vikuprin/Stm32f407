@@ -41,6 +41,8 @@
 #include "ten.h"
 #include "led_button_control.h"
 #include "modes.h"
+#include "modbus_config.h"
+#include "onewire.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -85,14 +87,37 @@ int _write(int file, char *ptr, int len)
   return len;
 }
 
+void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
+{
+    if(huart == &huart5)
+    	modbus_rx_handler();
+}
+
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+    if(huart == &huart3)
+    	ds_rx_handler();
+    if(huart == &huart6)
+    	ds_rx_handler();
+}
+
+void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
+{
+    if(huart == &huart5)
+    	modbus_tx_handler();
+    if(huart == &huart3)
+    	ds_tx_handler();
+    if(huart == &huart6)
+    	ds_tx_handler();
+}
+
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
   if (htim->Instance == TIM1) // check if the interrupt comes from TIM1
   {
-      get_ds_data_mass();
-//    get_sht_data();
-//    get_xgz_data();
-//    get_aht_data();
+//      get_sht_data();
+//      get_xgz_data();
+//      get_aht_data();
   }
   if (htim->Instance == TIM2) // check if the interrupt comes from TIM2
   {
@@ -180,7 +205,6 @@ int main(void)
   MX_TIM8_Init();
   /* USER CODE BEGIN 2 */
   init_storage();
-  init_ds_devices();
 //  init_sht_devices();
   HAL_TIM_Base_Start_IT(&htim1);
   HAL_TIM_Base_Start_IT(&htim2);

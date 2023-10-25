@@ -19,5 +19,6 @@
 uint8_t ds_count;
 void get_ds_data_mass();
 void init_ds_devices();
+void DSTask(void const * argument);
 
 #endif // __SENSOR_H__

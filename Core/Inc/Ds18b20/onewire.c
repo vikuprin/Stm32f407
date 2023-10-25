@@ -1,26 +1,14 @@
-/**
-  ******************************************************************************
-  * @file           : onewire.c
-  * @brief          : 1-Wire driver
-  * @author         : MicroTechnics (microtechnics.ru)
-  ******************************************************************************
-  */
-
-
-
-/* Includes ------------------------------------------------------------------*/
-
 #include "onewire.h"
+#include <stdbool.h>
+#include "cmsis_os.h"
 
+#define LONG_TIME 0xffff
 
+extern xSemaphoreHandle xBinarySamaphore;
+static portBASE_TYPE xHigherPriorityTaskWoken;
+uint8_t txData = 0xFF;
+uint8_t rxData = 0x00;
 
-/* Declarations and definitions ----------------------------------------------*/
-
-
-
-/* Functions -----------------------------------------------------------------*/
-
-/*----------------------------------------------------------------------------*/
 static void SetBaudrate(UART_HandleTypeDef *huart, uint32_t baudrate)
 {
   uint32_t pclk = 0;
@@ -58,28 +46,19 @@ static void SetBaudrate(UART_HandleTypeDef *huart, uint32_t baudrate)
   }
 }
 
-
-
-/*----------------------------------------------------------------------------*/
 uint8_t OneWire_ProcessBit(UART_HandleTypeDef *huart, uint8_t bit)
 {
-  uint8_t txData = 0xFF;
-  uint8_t rxData = 0x00;
-
-  if (bit == 0)
-  {
-    txData = 0x00;
-  }
-
-  HAL_UART_Transmit(huart, &txData, 1, ONEWIRE_UART_TIMEOUT);
-  HAL_UART_Receive(huart, &rxData, 1, ONEWIRE_UART_TIMEOUT);
-
-  return rxData;
+	txData = 0xFF;
+    rxData = 0x00;
+    if(bit == 0)
+    	txData = 0x00;
+    HAL_UART_Transmit_IT(huart, &txData, 1);
+    xSemaphoreTake(xBinarySamaphore, LONG_TIME);
+    HAL_UART_Receive_IT(huart, &rxData, 1);
+    xSemaphoreTake(xBinarySamaphore, LONG_TIME);
+    return rxData;
 }
 
-
-
-/*----------------------------------------------------------------------------*/
 uint8_t OneWire_ProcessByte(UART_HandleTypeDef *huart, uint8_t byte)
 {
   uint8_t rxByte = 0x00;
@@ -102,30 +81,27 @@ uint8_t OneWire_ProcessByte(UART_HandleTypeDef *huart, uint8_t byte)
   return rxByte;
 }
 
-
-
-/*----------------------------------------------------------------------------*/
 ONEWIRE_Status OneWire_Reset(UART_HandleTypeDef *huart)
 {
-  ONEWIRE_Status status = ONEWIRE_OK;
-  uint8_t txByte = ONEWIRE_RESET_BYTE;
-  uint8_t rxByte = 0x00;
-
-  SetBaudrate(huart, ONEWIRE_RESET_BAUDRATE);
-
-  HAL_UART_Transmit(huart, &txByte, 1, ONEWIRE_UART_TIMEOUT);
-  HAL_UART_Receive(huart, &rxByte, 1, ONEWIRE_UART_TIMEOUT);
-
-  SetBaudrate(huart, ONEWIRE_BAUDRATE);
-
-  if (rxByte == txByte)
-  {
-    status = ONEWIRE_ERROR;
-  }
-
-  return status;
+	ONEWIRE_Status status = ONEWIRE_OK;
+    uint8_t txByte = ONEWIRE_RESET_BYTE;
+    uint8_t rxByte = 0x00;
+    SetBaudrate(huart, ONEWIRE_RESET_BAUDRATE);
+    HAL_UART_Transmit_IT(huart, &txByte, 1);
+    xSemaphoreTake(xBinarySamaphore, LONG_TIME);
+    HAL_UART_Receive_IT(huart, &rxByte, 1);
+    xSemaphoreTake(xBinarySamaphore, LONG_TIME);
+	SetBaudrate(huart, ONEWIRE_BAUDRATE);
+	if (rxByte == txByte)
+		status = ONEWIRE_ERROR;
+	return status;
 }
 
-
-
-/*----------------------------------------------------------------------------*/
+void ds_tx_handler()
+{
+	xSemaphoreGiveFromISR(xBinarySamaphore, &xHigherPriorityTaskWoken);
+}
+void ds_rx_handler()
+{
+	xSemaphoreGiveFromISR(xBinarySamaphore, &xHigherPriorityTaskWoken);
+}

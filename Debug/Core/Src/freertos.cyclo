@@ -1,6 +1,6 @@
-freertos.c:69:13:srv_txt	2
-freertos.c:78:6:dns_callback	3
-freertos.c:130:6:vApplicationGetIdleTaskMemory	1
-freertos.c:143:6:vApplicationGetTimerTaskMemory	1
-freertos.c:157:6:MX_FREERTOS_Init	1
-freertos.c:204:6:StartDefaultTask	6
+freertos.c:70:13:srv_txt	2
+freertos.c:79:6:dns_callback	3
+freertos.c:132:6:vApplicationGetIdleTaskMemory	1
+freertos.c:145:6:vApplicationGetTimerTaskMemory	1
+freertos.c:159:6:MX_FREERTOS_Init	1
+freertos.c:210:6:StartDefaultTask	6

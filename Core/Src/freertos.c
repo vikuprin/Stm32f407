@@ -61,6 +61,7 @@ extern struct netif gnetif;
 osThreadId ledsTaskHandle;
 osThreadId damperTaskHandle;
 osThreadId mainTaskHandle;
+osThreadId dsTaskHandle;
 
 bool mdns_set = false;
 bool mdns_search = false;
@@ -110,6 +111,7 @@ osThreadId defaultTaskHandle;
 extern void LedsTask(void const * argument);
 extern void DamperTask(void const * argument);
 extern void MainTask(void const * argument);
+extern void DSTask(void const * argument);
 /* USER CODE END FunctionPrototypes */
 
 void StartDefaultTask(void const * argument);
@@ -177,6 +179,7 @@ void MX_FREERTOS_Init(void) {
 
   /* Create the thread(s) */
   /* definition and creation of defaultTask */
+
   osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 1024);
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
@@ -185,11 +188,14 @@ void MX_FREERTOS_Init(void) {
   osThreadDef(mainTask, MainTask, osPriorityNormal, 0, 1024);
   mainTaskHandle = osThreadCreate(osThread(mainTask), NULL);
 
-  osThreadDef(ledsTask, LedsTask, osPriorityNormal, 0, 1024);
+  osThreadDef(ledsTask, LedsTask, osPriorityNormal, 0, 256);
   ledsTaskHandle = osThreadCreate(osThread(ledsTask), NULL);
 
-  osThreadDef(damperTask, DamperTask, osPriorityNormal, 0, 1024);
+  osThreadDef(damperTask, DamperTask, osPriorityNormal, 0, 256);
   damperTaskHandle = osThreadCreate(osThread(damperTask), NULL);
+
+  osThreadDef(dsTask, DSTask, osPriorityNormal, 0, 256);
+  dsTaskHandle = osThreadCreate(osThread(dsTask), NULL);
   /* USER CODE END RTOS_THREADS */
 
 }

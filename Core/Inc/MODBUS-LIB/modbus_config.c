@@ -8,13 +8,13 @@ uint8_t TxData[8];
 
 uint16_t Data[10];
 
-void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
+void modbus_tx_handler()
 {
 	HAL_GPIO_WritePin(UART5_DIR_GPIO_Port, UART5_DIR_Pin , GPIO_PIN_RESET);
-	HAL_UARTEx_ReceiveToIdle_IT(&huart5, RxData, 8);
+	HAL_UARTEx_ReceiveToIdle_DMA(&huart5, RxData, 8);
 }
 
-void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
+void modbus_rx_handler()
 {
 	if(RxData[0] == Holding_register.slave_addr && RxData[1] == Holding_register.function)
 	{
@@ -23,7 +23,7 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 //		Data[1] = RxData[5]<<8 | RxData[6];
 //		Data[2] = RxData[7]<<8 | RxData[8];
 //		Data[3] = RxData[9]<<8 | RxData[10];
-	//	Data[4] = RxData[11]<<8 | RxData[12];
+//		Data[4] = RxData[11]<<8 | RxData[12];
 	}
 }
 

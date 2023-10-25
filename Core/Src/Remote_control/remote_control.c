@@ -304,7 +304,7 @@ void RemoteControlTask(void const * argument)
 
 void create_remote_control_task()
 {
-	osThreadDef(remoteControlTask, RemoteControlTask, osPriorityNormal, 0, 2*1024);
+	osThreadDef(remoteControlTask, RemoteControlTask, osPriorityNormal, 0, 1024);
 	modbusMasterTaskHandle = osThreadCreate(osThread(remoteControlTask), NULL);
 }
 

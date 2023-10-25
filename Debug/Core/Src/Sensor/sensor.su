@@ -2,4 +2,5 @@
 ../Core/Src/Sensor/sensor.c:28:6:mass_temp	16	static
 ../Core/Src/Sensor/sensor.c:52:6:get_ds_data	16	static
 ../Core/Src/Sensor/sensor.c:87:6:get_ds_data_mass	8	static
-../Core/Src/Sensor/sensor.c:93:6:init_ds_devices	16	static
+../Core/Src/Sensor/sensor.c:96:6:init_ds_devices	16	static
+../Core/Src/Sensor/sensor.c:130:6:DSTask	16	static

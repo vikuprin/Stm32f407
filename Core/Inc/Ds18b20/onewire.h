@@ -42,6 +42,7 @@ extern ONEWIRE_Status OneWire_Reset(UART_HandleTypeDef *huart);
 extern uint8_t OneWire_ProcessByte(UART_HandleTypeDef *huart, uint8_t byte);
 extern uint8_t OneWire_ProcessBit(UART_HandleTypeDef *huart, uint8_t bit);
 
-
+void ds_rx_handler();
+void ds_tx_handler();
 
 #endif // #ifndef ONEWIRE_H
