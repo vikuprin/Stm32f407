@@ -12,4 +12,4 @@
 ../Core/Src/Mqtt/mqtt_client.c:328:6:set_mqtt_parameters	24	static
 ../Core/Src/Mqtt/mqtt_client.c:373:6:set_user_test	12	static
 ../Core/Src/Mqtt/mqtt_client.c:386:6:set_log_test	8	static
-../Core/Src/Mqtt/mqtt_client.c:399:6:init_mqtt	8	static
+../Core/Src/Mqtt/mqtt_client.c:397:6:init_mqtt	8	static
