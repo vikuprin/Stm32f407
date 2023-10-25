@@ -38,15 +38,18 @@ void publish_capabilities()
 
 void publish_temp_log()
 {
-    char *temp_log = malloc(300);
-    while (temp_log == NULL)
-    {
-        vTaskDelay(10);
-        temp_log = malloc(300);
-    }
-    get_str_temp_log(temp_log);
-    publish_message(temp_log_pub_topic, temp_log);
-    free(temp_log);
+	if(mqtt_status)
+	{
+		char *temp_log = malloc(300);
+		while (temp_log == NULL)
+		{
+			vTaskDelay(10);
+			temp_log = malloc(300);
+		}
+		get_str_temp_log(temp_log);
+		publish_message(temp_log_pub_topic, temp_log);
+		free(temp_log);
+	}
 }
 
 void publish_system()
