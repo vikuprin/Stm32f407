@@ -208,6 +208,7 @@ void MainTask(void const * argument)
     DEBUG_MODES("DEVICE MODE %i\n", device->mode);
     DEBUG_MODES("DEVICE inflow_speed %i\n", device->inflow_speed);
     DEBUG_MODES("speed {%i,%i,%i,%i,%i,%i,%i,%i}\n", device->speed_arr[0], device->speed_arr[1], device->speed_arr[2], device->speed_arr[3], device->speed_arr[4], device->speed_arr[5], device->speed_arr[6], device->speed_arr[7]);
+    osDelay(3000);
     check_remote_control();
     for(;;)
     {

@@ -4,6 +4,7 @@
 #include "usart.h"
 #include "onewire.h"
 #include "cmsis_os.h"
+#include "mqtt_message.h"
 
 DS18B20 temperatureSensor1;
 DS18B20 temperatureSensor2;
@@ -134,6 +135,7 @@ void DSTask(void const * argument)
     for(;;)
     {
     	get_ds_data_mass();
+    	publish_temp_log();
         osDelay(3000);
     }
 }

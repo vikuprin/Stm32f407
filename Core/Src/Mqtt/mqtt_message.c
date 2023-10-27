@@ -36,9 +36,10 @@ void publish_capabilities()
     free(capabilities);
 }
 
+extern bool sub_request_cb;
 void publish_temp_log()
 {
-	if(mqtt_status)
+	if(sub_request_cb)
 	{
 		char *temp_log = malloc(300);
 		while (temp_log == NULL)

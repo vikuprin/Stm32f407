@@ -51,7 +51,8 @@ Core/Src/Sensor/sensor.o: ../Core/Src/Sensor/sensor.c \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h \
- ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h \
+ D:/Project/Stm32f407/Core/Src/Mqtt/mqtt_message.h
 ../Core/Src/Sensor/sensor.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
@@ -108,3 +109,4 @@ D:/Project/Stm32f407/Core/Inc/Ds18b20/onewire.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h:
+D:/Project/Stm32f407/Core/Src/Mqtt/mqtt_message.h:

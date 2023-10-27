@@ -69,5 +69,4 @@ void ten_handler()
 		DEBUG_TEN("ten off\n");
 	}
 	set_ten_power(device->ten_power);
-	publish_temp_log();
 }

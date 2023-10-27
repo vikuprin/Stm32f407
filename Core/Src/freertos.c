@@ -194,7 +194,7 @@ void MX_FREERTOS_Init(void) {
   osThreadDef(damperTask, DamperTask, osPriorityNormal, 0, 256);
   damperTaskHandle = osThreadCreate(osThread(damperTask), NULL);
 
-  osThreadDef(dsTask, DSTask, osPriorityNormal, 0, 256);
+  osThreadDef(dsTask, DSTask, osPriorityNormal, 0, 1024);
   dsTaskHandle = osThreadCreate(osThread(dsTask), NULL);
   /* USER CODE END RTOS_THREADS */
 

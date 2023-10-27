@@ -156,6 +156,7 @@ static void mqtt_incoming_data_cb(void *arg, const u8_t *data, u16_t len, u8_t f
 
 uint8_t count_sub_request_cb = 0;
 bool sub_request_cb = false;
+bool publish_flag = false;
 static void mqtt_sub_request_cb(void *arg, err_t result)
 {
 	DEBUG_MQTT("Subscribe result: %d\n", result);
@@ -224,9 +225,11 @@ static void mqtt_connection_cb(mqtt_client_t *client, void *arg, mqtt_connection
 	else
 	{
 		DEBUG_MQTT("mqtt_connection_cb: Disconnected, reason: %d\n", status);
+//		mqtt_disconnect(client);
+//		init_mqtt();
 		mqtt_status = false;
-		mqtt_disconnect(client);
-		init_mqtt();
+		sub_request_cb = false;
+		publish_flag = false;
 	}
 }
 
@@ -248,20 +251,24 @@ void connect_mqtt(mqtt_client_t *client)
 
 void publish_message_topic()
 {
-	/* Publish message to a topic*/
-    if (wireless_params->mqtt_type != VAKIO_MQTT)
-    {
-        	publish_message(workmode_topic, modes_str_s[device->mode]);
-        	publish_message(state_topic, on_off_str_s[device->state]);
-            sprintf(speeds_str, "%i", device->inflow_speed);
-            publish_message(speed_topic, speeds_str);
-            sprintf(temp_str, "%i", device->temp_limit);
-            publish_message(temp_limit_topic, temp_str);
-    }
-        sprintf(gnetif_str, "%x:%x:%x:%x:%x:%x", gnetif.hwaddr[0], gnetif.hwaddr[1], gnetif.hwaddr[2], gnetif.hwaddr[3], gnetif.hwaddr[4], gnetif.hwaddr[5]);
-        publish_auth(VERSION, gnetif_str, SERIES, SUBTYPE, XTAL_FREQ);
-        publish_capabilities();
-        publish_errors();
+	if (!publish_flag)
+	{
+		if (wireless_params->mqtt_type != VAKIO_MQTT)
+		{
+				publish_message(workmode_topic, modes_str_s[device->mode]);
+				publish_message(state_topic, on_off_str_s[device->state]);
+				sprintf(speeds_str, "%i", device->inflow_speed);
+				publish_message(speed_topic, speeds_str);
+				sprintf(temp_str, "%i", device->temp_limit);
+				publish_message(temp_limit_topic, temp_str);
+		}
+		sprintf(gnetif_str, "%x:%x:%x:%x:%x:%x", gnetif.hwaddr[0], gnetif.hwaddr[1], gnetif.hwaddr[2], gnetif.hwaddr[3], gnetif.hwaddr[4], gnetif.hwaddr[5]);
+		publish_auth(VERSION, gnetif_str, SERIES, SUBTYPE, XTAL_FREQ);
+		publish_capabilities();
+		publish_errors();
+
+		publish_flag = true;
+	}
 }
 
 void start_mqtt()
@@ -269,18 +276,14 @@ void start_mqtt()
 	if(netif_is_link_up(&gnetif) && (wireless_params->vakio_mqtt.host[0] != 0 || wireless_params->user_mqtt.host[0] != 0))
 	{
 		if(!mqtt_status)
-		{
 			connect_mqtt(client);
-			osDelay(5000);
-		}
 		else
 		{
 			if(sub_request_cb)
 			{
-				sub_request_cb = false;
 				publish_message_topic();
+				send_server();
 			}
-			send_server();
 		}
 	}
 }
@@ -373,8 +376,6 @@ void set_mqtt_parameters()
 void set_user_test()
 {
 	wireless_params->mqtt_type = USER_MQTT;
-//	uint8_t test_ip[] = { 195, 140, 146, 112 };
-//	memcpy(wireless_params->user_mqtt.host, test_ip, 4);
 	wireless_params->user_mqtt.port = 12212;
 	strcpy(wireless_params->user_mqtt.host, "195.140.146.112\0");
 	strcpy(wireless_params->user_mqtt.login, "u_Ioo5RJ\0");
