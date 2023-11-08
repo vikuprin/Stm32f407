@@ -136,6 +136,6 @@ void DSTask(void const * argument)
     {
     	get_ds_data_mass();
     	publish_temp_log();
-        osDelay(3000);
+        osDelay(1000);
     }
 }

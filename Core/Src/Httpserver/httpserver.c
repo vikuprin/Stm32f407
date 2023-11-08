@@ -471,6 +471,7 @@ static void http_server(struct netconn *conn)
           memcpy(temp_str, buf, buflen);
 
           flash_data(temp_str, buflen);
+          printf("buflen = %d\n", buflen);
           if (buflen < 536)
           {
             break;

@@ -60,7 +60,7 @@ void ten_handler()
 		device->error_temp_hot == false && device->error_stop_hot == false && device->error_stop_cold == false)
 	{
 //		device->ten_power = computePID_true(sensors_data->out, device->temp_limit, 75, 3.0, 13, 3, 0, 1023);
-		device->ten_power = computePID_true(sensors_data->out, device->temp_limit, (float)device->extra_options.Kp / 10, (float)device->extra_options.Ki / 10, (float)device->extra_options.Ki / 10, 3, 0, 1023);
+		device->ten_power = computePID_true(sensors_data->out, device->temp_limit, (float)device->extra_options.Kp / 10, (float)device->extra_options.Ki / 10, (float)device->extra_options.Kd / 10, 3, 0, 1023);
 		DEBUG_TEN("work mode\n");
 	}
 	else

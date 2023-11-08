@@ -53,9 +53,9 @@ void first_init_device()
 	device->extra_options.deviation = 3;           // отклонение должно быть 3
 	device->extra_options.check_time = 1;          // время проверки должно быть 1-5 минут
 	device->extra_options.step_pwm = 5;            // шаг шим должно быть 5
-	device->extra_options.Kp = 750;
-	device->extra_options.Ki = 30;
-	device->extra_options.Kd = 130;
+	device->extra_options.Kp = 250;   //750
+	device->extra_options.Ki = 10;    //30
+	device->extra_options.Kd = 10;   //130
 
 	write_device_params();
 }

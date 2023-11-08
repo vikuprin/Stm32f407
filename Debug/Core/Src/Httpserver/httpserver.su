@@ -10,5 +10,5 @@
 ../Core/Src/Httpserver/httpserver.c:317:5:registration_data_handler_post	296	static
 ../Core/Src/Httpserver/httpserver.c:379:14:http_get_recv_str	56	static
 ../Core/Src/Httpserver/httpserver.c:413:13:http_server	136	static
-../Core/Src/Httpserver/httpserver.c:534:13:http_thread	32	static
-../Core/Src/Httpserver/httpserver.c:569:6:http_server_init	16	static
+../Core/Src/Httpserver/httpserver.c:535:13:http_thread	32	static
+../Core/Src/Httpserver/httpserver.c:570:6:http_server_init	16	static

@@ -86,6 +86,7 @@ void get_str_temp_log(char *temp_log_str)
     cJSON_AddNumberToObject(root, "temp_limit", device->temp_limit);
     cJSON_AddNumberToObject(root, "ten_power", device->ten_power);
     cJSON_AddNumberToObject(root, "ten_state", device->ten_state);
+    cJSON_AddNumberToObject(root, "inflow_speed", device->inflow_speed);
 
     char *js_str = cJSON_Print(root);
     strcpy(temp_log_str, js_str);

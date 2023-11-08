@@ -6,10 +6,10 @@
 ../Core/Src/Mqtt/mqtt_client.c:160:13:mqtt_sub_request_cb	16	static
 ../Core/Src/Mqtt/mqtt_client.c:176:13:mqtt_connection_cb	40	static
 ../Core/Src/Mqtt/mqtt_client.c:236:6:connect_mqtt	32	static
-../Core/Src/Mqtt/mqtt_client.c:252:6:publish_message_topic	32	static
-../Core/Src/Mqtt/mqtt_client.c:274:6:start_mqtt	8	static
-../Core/Src/Mqtt/mqtt_client.c:291:6:update_mqtt_parameters	72	static
-../Core/Src/Mqtt/mqtt_client.c:331:6:set_mqtt_parameters	24	static
-../Core/Src/Mqtt/mqtt_client.c:376:6:set_user_test	12	static
-../Core/Src/Mqtt/mqtt_client.c:387:6:set_log_test	8	static
-../Core/Src/Mqtt/mqtt_client.c:398:6:init_mqtt	8	static
+../Core/Src/Mqtt/mqtt_client.c:253:6:publish_message_topic	32	static
+../Core/Src/Mqtt/mqtt_client.c:275:6:start_mqtt	8	static
+../Core/Src/Mqtt/mqtt_client.c:289:6:update_mqtt_parameters	72	static
+../Core/Src/Mqtt/mqtt_client.c:329:6:set_mqtt_parameters	24	static
+../Core/Src/Mqtt/mqtt_client.c:374:6:set_user_test	12	static
+../Core/Src/Mqtt/mqtt_client.c:385:6:set_log_test	8	static
+../Core/Src/Mqtt/mqtt_client.c:396:6:init_mqtt	8	static

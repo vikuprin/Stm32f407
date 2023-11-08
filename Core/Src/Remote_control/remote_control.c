@@ -5,6 +5,9 @@
 #include <cmsis_os.h>
 #include "modbus_crc.h"
 #include "modbus_config.h"
+#include "netif.h"
+
+extern struct netif gnetif;
 
 osThreadId modbusMasterTaskHandle;
 
@@ -19,8 +22,8 @@ uint8_t reg_fan;        // данные с регистра адреса fan
 int16_t new_reg_fan;    // сохраненные данные с регистра адреса fan
 uint8_t reg_temp;       // данные с регистра адреса temp
 int16_t new_reg_temp;   // сохраненные данные с регистра адреса temp
-bool reg_heater = false;
-bool reg_warning = false;
+bool trigger_heater = true;
+uint8_t trigger_warning = 0;
 
 bool limit_temp;         // переменная превышения значения тена
 bool limit_fan;          // переменная превышения значения скорости
@@ -246,17 +249,36 @@ void check_changes()
             DEBUG_RC("sent a message ten");
         }
         // проверяем изменения в установке значка включения тена
-        if (device->ten_power > 0 && !reg_heater)
+        if (device->ten_power > 0 && !trigger_heater)
         {
-            reg_heater = true;
+        	trigger_heater = true;
             modbus_set_holding(DEFAUL_PULT_ID, REG_HEATER, ON);
             DEBUG_RC("sent a message ten.power > 0\n");
         }
-        if (device->ten_power == 0 && reg_heater)
+        else if (device->ten_power == 0 && trigger_heater)
         {
-            reg_heater = false;
+        	trigger_heater = false;
             modbus_set_holding(DEFAUL_PULT_ID, REG_HEATER, OFF);
             DEBUG_RC("sent a message ten.power = 0\n");
+        }
+
+        if (trigger_warning == 0)
+        {
+        	trigger_warning = 1;
+            modbus_set_holding(DEFAUL_PULT_ID, REG_WARNING, OFF);
+            DEBUG_RC("sent a message mqtt = false\n");
+        }
+        else if (mqtt_status == true && netif_is_link_up(&gnetif) && trigger_warning == 1)
+        {
+        	trigger_warning = 2;
+            modbus_set_holding(DEFAUL_PULT_ID, REG_WARNING, ON);
+            DEBUG_RC("sent a message mqtt = true\n");
+        }
+        else if (!(netif_is_link_up(&gnetif)) && trigger_warning == 2)
+        {
+        	trigger_warning = 1;
+            modbus_set_holding(DEFAUL_PULT_ID, REG_WARNING, OFF);
+            DEBUG_RC("sent a message mqtt = true\n");
         }
     }
 }

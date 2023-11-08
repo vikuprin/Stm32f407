@@ -241,6 +241,7 @@ void connect_mqtt(mqtt_client_t *client)
 	{
 		mqtt_status = false;
 		DEBUG_MQTT("mqtt_connect return %d\n", err);
+		osDelay(3000);
 	}
 	else
 	{
@@ -277,13 +278,10 @@ void start_mqtt()
 	{
 		if(!mqtt_status)
 			connect_mqtt(client);
-		else
+		else if(sub_request_cb)
 		{
-			if(sub_request_cb)
-			{
-				publish_message_topic();
-				send_server();
-			}
+			publish_message_topic();
+			send_server();
 		}
 	}
 }
@@ -397,6 +395,7 @@ void set_log_test()
 
 void init_mqtt()
 {
+	mqtt_status = false;
 	client = mqtt_client_new();
 //	set_user_test();
 	set_log_test();
