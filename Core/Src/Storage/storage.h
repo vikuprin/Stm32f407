@@ -21,5 +21,6 @@ void read_wireless_params();
 
 void init_storage();
 void reset_nvs_parameteres();
+void bootloader();
 
 #endif

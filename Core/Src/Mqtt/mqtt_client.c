@@ -397,7 +397,7 @@ void init_mqtt()
 {
 	mqtt_status = false;
 	client = mqtt_client_new();
-//	set_user_test();
-	set_log_test();
+	set_user_test();
+//	set_log_test();
 	set_mqtt_parameters();
 }
