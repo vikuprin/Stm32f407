@@ -5,8 +5,8 @@
 #include <string.h>
 #include <stdlib.h>
 
-#define LOCATION_DEVICE 	0x080C0000 //FLASH_SECTOR_10
-#define LOCATION_WIRELESS  	0x080E0000 //FLASH_SECTOR_11
+#define LOCATION_WIRELESS  	0x08010000   //FLASH_SECTOR_4
+#define LOCATION_DEVICE 	0x08020000   //FLASH_SECTOR_5
 
 void write_wireless_params()
 {

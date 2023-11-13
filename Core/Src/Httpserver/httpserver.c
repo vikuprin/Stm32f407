@@ -204,7 +204,8 @@ static int flash_data(char* buf, int len)
 void erase_sectors()
 {
 	Flash_Delete_Data(OTA_ADDR_FLASH);
-	Flash_Delete_Data(OTA_NEXTADDR_FLASH);
+	Flash_Delete_Data(OTA_ADDR1_FLASH);
+	Flash_Delete_Data(OTA_ADDR2_FLASH);
 	printf("Erase sectors!\n");
 }
 

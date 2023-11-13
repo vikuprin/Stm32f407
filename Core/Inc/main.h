@@ -83,8 +83,9 @@ uint8_t msg[80];
         0, 20, 27, 41, 55, 70, 85, 100 \
     }
 
-#define OTA_ADDR_FLASH 0x08040000          // 5 сектор
-#define OTA_NEXTADDR_FLASH 0x08060000      // 6 сектор
+#define OTA_ADDR_FLASH     0x08040000      // 6 сектор
+#define OTA_ADDR1_FLASH    0x08060000      // 7 сектор
+#define OTA_ADDR2_FLASH    0x08080000      // 8 сектор
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -170,7 +171,7 @@ typedef struct
     char password[12];
     char client_id[12];
     char host[16];
-    int port;
+    uint16_t port;
     char topic[12];
 } mqtt_client_s;
 
@@ -180,7 +181,6 @@ typedef struct
     mqtt_client_s user_mqtt;    // Данные для подключения к пользовательскому брокеру
     mqtt_client_s vakio_mqtt;   // Данные для подключения к брокеру VAKIO
     vakio_user_s vakio;         // данные о пользователе
-    uint8_t soft_ap_off_time; // Через сколько выключиться точка доступа 0-2 (есть массив)
     bool mqtt_type;             // тип подключения к брокеру
     bool vakio_mqtt_connect_ip;
     char server_ip[8];         // для перепрошивки
