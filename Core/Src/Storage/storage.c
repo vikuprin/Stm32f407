@@ -5,8 +5,8 @@
 #include <string.h>
 #include <stdlib.h>
 
-#define LOCATION_DEVICE 	0x080C0000 //0x081C0000
-#define LOCATION_WIRELESS  	0x080E0000 //0x081E0000
+#define LOCATION_DEVICE 	0x080C0000 //FLASH_SECTOR_10
+#define LOCATION_WIRELESS  	0x080E0000 //FLASH_SECTOR_11
 
 void write_wireless_params()
 {
@@ -74,48 +74,4 @@ void init_storage()
 	else
 		second_start_init();
 	set_default_data();
-}
-
-uint32_t CRC_CalcBlockCRC(uint32_t pBuffer[], uint32_t BufferLength)
-{
-	uint32_t index = 0;
-	for(index = 0; index < BufferLength; index++)
-	{
-		CRC->DR = pBuffer[index];
-    }
-    return (CRC->DR);
-}
-
-//////////////////////////////////////
-extern int address_flash;
-#define APP_START 0x08060000
-typedef void(*pFunction)(void);
-static pFunction Jump_To_Application;
-
-static void jumpToApp(uint32_t start_program_addr)
-{
-	HAL_DeInit();
-	SCB->VTOR = start_program_addr; // set intrerrupt vector table
-    uint32_t JumpAddress = *(__IO uint32_t*) (start_program_addr + 4);
-    Jump_To_Application = (pFunction) JumpAddress;
-    __set_MSP(*(__IO uint32_t*)start_program_addr);
-    Jump_To_Application();
-}
-
-void bootloader()
-{
-    /// проверяем наличие новой прошивки во втором банке памяти МК
-    uint32_t *data = (uint32_t*)address_flash; // сектор 6
-    uint32_t hasSW = data[0];    // 0 - есть новая прошивка
-    uint32_t   len =  data[1]>>2; // размер прошивки в 32-битных словах
-    if (hasSW != 0xFFFFFFFF)
-    {
-        Flash_Delete_Data(0x08080000); // сектор 8
-        Flash_Delete_Data(0x080A0000);  // сектор 9
-       	Flash_Write_Data(0x08080000, data, len);
-//        HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, address_flash + 4, 0);
-//        HAL_FLASH_Lock();
-       	HAL_Delay(2000);
-        jumpToApp(0x08080000);
-    }
 }

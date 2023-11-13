@@ -12,6 +12,7 @@
 #include "mqtt_client.h"
 #include "storage.h"
 #include "cJSON.h"
+#include "FLASH_SECTOR_F4.h"
 
 /************************ CGI HANDLER ***************************/
 const char *CGIForm_Handler(int iIndex, int iNumParams, char *pcParam[], char *pcValue[]);
@@ -134,11 +135,9 @@ extern FLASH_ProcessTypeDef pFlash;
 
 static char temp_str[544];
 static char http_html_hdr[] = "HTTP/1.1 200 OK\r\nContent-type: application/json\r\n\r\n";
-//static char http_created[] = "HTTP/1.1 201 Created\r\n";
 static char http_redirect[] = "HTTP/1.1 303 See Other\r\nLocation: /index.html";
 
-int address_flash = 0x8040000;
-
+int address_flash = OTA_ADDR_FLASH;
 static int flash_data(char* buf, int len)
 {
   __HAL_FLASH_PREFETCH_BUFFER_DISABLE();
@@ -168,7 +167,7 @@ static int flash_data(char* buf, int len)
       return pFlash.ErrorCode;
   }
 
-  int start_addr = address_flash;
+  uint32_t start_addr = address_flash;
   for (int i = 0; i < len; i++)
   {
     FLASH_WaitForLastOperation(HAL_MAX_DELAY);
@@ -202,59 +201,14 @@ static int flash_data(char* buf, int len)
   return ret;
 }
 
-static int erase_sectors()
+void erase_sectors()
 {
-  __HAL_FLASH_PREFETCH_BUFFER_DISABLE();
-  __HAL_FLASH_SET_LATENCY(FLASH_LATENCY_5);
-
-  HAL_StatusTypeDef ret;
-  uint32_t SectorError;
-
-  ret = HAL_FLASH_Lock();
-  if (ret != HAL_OK)
-  {
-    return ret;
-  }
-
-  __HAL_FLASH_CLEAR_FLAG(FLASH_FLAG_EOP
-                         | FLASH_FLAG_OPERR
-                         | FLASH_FLAG_WRPERR
-                         | FLASH_FLAG_PGAERR
-                         | FLASH_FLAG_PGSERR);
-
-  ret = HAL_FLASH_Unlock();
-  if (ret != HAL_OK)
-  {
-    return ret;
-  }
-
-  FLASH_WaitForLastOperation(500);
-
-  FLASH_EraseInitTypeDef EraseStruct;
-  EraseStruct.TypeErase = FLASH_TYPEERASE_SECTORS;
-  EraseStruct.Sector = FLASH_SECTOR_6;
-  EraseStruct.NbSectors = 1;
-  EraseStruct.VoltageRange = FLASH_VOLTAGE_RANGE_3;
-  ret = HAL_FLASHEx_Erase(&EraseStruct, &SectorError);
-  if (ret != HAL_OK)
-  {
-    printf("Flash erase Error\r\n");
-    return ret;
-  }
-
-  FLASH_WaitForLastOperation(500);
-
-  ret = HAL_FLASH_Lock();
-  if (ret != HAL_OK)
-  {
-    return ret;
-  }
-
-  printf("Erase sectors!\n");
-  return ret;
+	Flash_Delete_Data(OTA_ADDR_FLASH);
+	Flash_Delete_Data(OTA_NEXTADDR_FLASH);
+	printf("Erase sectors!\n");
 }
 
-static int read_sectors()
+static int compare_sectors()
 {
   HAL_StatusTypeDef ret;
 
@@ -264,7 +218,7 @@ static int read_sectors()
     return ret;
   }
 
-  for (int i = 0x8040000; i < 0x8040000 + 0x10000; i++)
+  for (int i = OTA_ADDR_FLASH; i < OTA_ADDR_FLASH + 0x10000; i++)
   {
     if (*(uint8_t*)i != 0xff)
     {
@@ -282,22 +236,7 @@ static int read_sectors()
   return ret;
 }
 
-static void go_to_app()
-{
-  printf("Jump to Application\n");
-
-  HAL_RCC_DeInit();
-  HAL_DeInit();
-
-  void (*app_reset_handler) (void) = (void*) (*(volatile uint32_t *) (0x8040000 + 4));
-
-  //__set_MSP((*(volatile uint32_t *) (0x8040000)));
-
-  __disable_irq();
-  __set_MSP(*(volatile uint32_t *)address_flash);
-  app_reset_handler();
-}
-
+int content_length;
 static int http_get_content_length(char* buf)
 {
   int length = -1;
@@ -311,6 +250,7 @@ static int http_get_content_length(char* buf)
     strncpy(tmp_str, str_size, i);
     length = atoi(tmp_str);
   }
+  content_length = length;
   return length;
 }
 
@@ -437,8 +377,9 @@ static void http_server(struct netconn *conn)
       }
       else if (strncmp((char const *)buf,"POST /send",10)==0)
       {
+    	http_get_content_length(buf);
         erase_sectors();
-        read_sectors();
+        compare_sectors();
 
         char* temp_buf = NULL;
 
@@ -471,18 +412,16 @@ static void http_server(struct netconn *conn)
           memcpy(temp_str, buf, buflen);
 
           flash_data(temp_str, buflen);
-          printf("buflen = %d\n", buflen);
           if (buflen < 536)
-          {
-            break;
-          }
+             break;
           i++;
         }
 
         netconn_write(conn, http_redirect, sizeof(http_redirect)-1, NETCONN_NOCOPY);
 
-        address_flash = 0x8040000;
-        go_to_app();
+        device->ota_len = content_length;
+		write_device_params();
+        HAL_NVIC_SystemReset();
       }
       else if (strncmp((char const *)buf,"POST /dataserver", 16) == 0)
       {

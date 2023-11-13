@@ -29,10 +29,6 @@ void Flash_Write_NUM (uint32_t StartSectorAddress, float Num);
 
 float Flash_Read_NUM (uint32_t StartSectorAddress);
 
-uint32_t Flash_Write_Data_ (uint32_t StartSectorAddress, uint32_t *Data, uint16_t numberofwords);
-
 uint32_t Flash_Delete_Data (uint32_t StartSectorAddress);
-
-void Flash_Write_NUM_ (uint32_t StartSectorAddress, float Num);
 
 #endif /* INC_FLASH_SECTOR_F4_H_ */

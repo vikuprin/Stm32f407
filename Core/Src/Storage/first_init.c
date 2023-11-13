@@ -35,6 +35,7 @@ void first_init_wireless()
 
 void first_init_device()
 {
+	device->ota_len = 0;
 	device->check_1_0_0 = CHECK_VALUE_1_0_0;
 	device->state = OFF;
 	device->firmware_flag = false;

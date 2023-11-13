@@ -7,5 +7,3 @@ FLASH_SECTOR_F4.c:242:6:Convert_To_Str	3
 FLASH_SECTOR_F4.c:253:6:Flash_Write_NUM	1
 FLASH_SECTOR_F4.c:262:7:Flash_Read_NUM	1
 FLASH_SECTOR_F4.c:272:10:Flash_Delete_Data	2
-FLASH_SECTOR_F4.c:292:10:Flash_Write_Data_	3
-FLASH_SECTOR_F4.c:316:6:Flash_Write_NUM_	1

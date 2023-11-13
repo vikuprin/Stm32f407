@@ -93,7 +93,8 @@ Core/Src/Httpserver/httpserver.o: ../Core/Src/Httpserver/httpserver.c \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/icmp.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/icmp.h \
  D:/Project/Stm32f407/Core/Src/Storage/storage.h ../Core/Inc/usart.h \
- D:/Project/Stm32f407/Core/Inc/cJSON/cJSON.h
+ D:/Project/Stm32f407/Core/Inc/cJSON/cJSON.h \
+ D:/Project/Stm32f407/Core/Inc/FLASH_SECTOR_F4/FLASH_SECTOR_F4.h
 ../Middlewares/Third_Party/LwIP/src/include/lwip/opt.h:
 ../LWIP/Target/lwipopts.h:
 ../Core/Inc/main.h:
@@ -192,3 +193,4 @@ D:/Project/Stm32f407/Core/Src/Mqtt/mqtt_client.h:
 D:/Project/Stm32f407/Core/Src/Storage/storage.h:
 ../Core/Inc/usart.h:
 D:/Project/Stm32f407/Core/Inc/cJSON/cJSON.h:
+D:/Project/Stm32f407/Core/Inc/FLASH_SECTOR_F4/FLASH_SECTOR_F4.h:

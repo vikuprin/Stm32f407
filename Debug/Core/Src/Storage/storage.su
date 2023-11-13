@@ -8,6 +8,3 @@
 ../Core/Src/Storage/storage.c:50:6:reset_nvs_parameteres	8	static
 ../Core/Src/Storage/storage.c:56:6:set_default_data	4	static
 ../Core/Src/Storage/storage.c:67:6:init_storage	8	static
-../Core/Src/Storage/storage.c:79:10:CRC_CalcBlockCRC	24	static
-../Core/Src/Storage/storage.c:95:13:jumpToApp	24	static,ignoring_inline_asm
-../Core/Src/Storage/storage.c:105:6:bootloader	24	static

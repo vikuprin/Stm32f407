@@ -288,35 +288,3 @@ uint32_t Flash_Delete_Data (uint32_t StartSectorAddress)
 	HAL_FLASH_Lock();
 	return 0;
 }
-
-uint32_t Flash_Write_Data_ (uint32_t StartSectorAddress, uint32_t *Data, uint16_t numberofwords)
-{
-	uint32_t SECTORError;
-	int sofar=0;
-	HAL_FLASH_Unlock();
-	uint32_t StartSector = GetSector(StartSectorAddress);
-	uint32_t EndSectorAddress = StartSectorAddress + numberofwords*4;
-	uint32_t EndSector = GetSector(EndSectorAddress);
-	while (sofar<numberofwords)
-	{
-		if (HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, StartSectorAddress, Data[sofar]) == HAL_OK)
-	    {
-			StartSectorAddress += 4;  // use StartPageAddress += 2 for half word and 8 for double word
-	    	sofar++;
-	    }
-	    else
-	    {
-	    	return HAL_FLASH_GetError ();
-	    }
-	}
-	HAL_FLASH_Lock();
-	return 0;
-}
-
-void Flash_Write_NUM_ (uint32_t StartSectorAddress, float Num)
-{
-
-	float2Bytes(bytes_temp, Num);
-	Flash_Write_Data_ (StartSectorAddress, (uint32_t *)bytes_temp, 1);
-}
-

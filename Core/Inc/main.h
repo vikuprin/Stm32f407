@@ -74,23 +74,7 @@ uint8_t msg[80];
 #define XTAL_FREQ "168"
 #define SERIES "STM32"
 
-#define EXT_TEN_OFF_TEMP 45
-#define EXT_TEN_OFF_UNDER 5
-#define EXT_TEN_TEMP_LIMIT 22
-#define EXT_TEN_TEMP_OVER 1
-#define EXT_TEN_TEMP_UNDER 2
-
-#define HEATER_OFF_TEMP 45
-#define HEATER_OFF_UNDER 5
-#define HEATER_TEMP_LIMIT 2
-#define HEATER_TEMP_OVER 3
-#define HEATER_TEMP_UNDER 3
-
-#define TEN_OFF_TEMP 45
-#define TEN_OFF_UNDER 5
 #define TEN_TEMP_LIMIT 25
-#define TEN_STARTED_VALUE 3
-#define TEN_POWER_KOEF 3
 
 #define INFLOW_MAX_MODE_TIME (5 * MINUTE)
 
@@ -98,17 +82,9 @@ uint8_t msg[80];
     {                                  \
         0, 20, 27, 41, 55, 70, 85, 100 \
     }
-#define RECUPERATOR_POWER_ARR          \
-    {                                  \
-        0, 0, 0, 60, 86, 115, 149, 180 \
-    }
-#define INFLOW_POWER_ARR                  \
-    {                                     \
-        0, 35, 55, 77, 109, 139, 170, 205 \
-    }
 
-#define DEFAULT_FILTER_ERROR_TIME 120000
-
+#define OTA_ADDR_FLASH 0x08040000          // 5 сектор
+#define OTA_NEXTADDR_FLASH 0x08060000      // 6 сектор
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -157,6 +133,7 @@ typedef struct
 
 typedef struct
 {
+	uint32_t ota_len;
 	bool firmware_flag;
     bool damper;
     bool state;

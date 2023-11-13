@@ -8,6 +8,3 @@ storage.c:43:6:malloc_memory_parameters	1
 storage.c:50:6:reset_nvs_parameteres	1
 storage.c:56:6:set_default_data	1
 storage.c:67:6:init_storage	2
-storage.c:79:10:CRC_CalcBlockCRC	2
-storage.c:95:13:jumpToApp	1
-storage.c:105:6:bootloader	2

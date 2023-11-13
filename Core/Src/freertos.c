@@ -212,10 +212,10 @@ void StartDefaultTask(void const * argument)
   /* init code for LWIP */
   MX_LWIP_Init();
   /* USER CODE BEGIN StartDefaultTask */
-//  while (dhcp_supplied_address(&gnetif) == 0)
-//  {
-//     osDelay(50);
-//  }
+  while (dhcp_supplied_address(&gnetif) == 0)
+  {
+     osDelay(50);
+  }
   mdns_name = malloc(80);
   sprintf(mdns_name, "cityair350.local");
   ip_addr_t addr;
