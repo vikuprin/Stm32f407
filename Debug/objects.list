@@ -12,6 +12,7 @@
 "./Core/Inc/cJSON/utils.o"
 "./Core/Src/Httpserver/httpserver.o"
 "./Core/Src/Modes/modes.o"
+"./Core/Src/Modes/smart_mode_external.o"
 "./Core/Src/Mqtt/mode_topic.o"
 "./Core/Src/Mqtt/mqtt_client.o"
 "./Core/Src/Mqtt/mqtt_message.o"

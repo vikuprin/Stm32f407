@@ -164,8 +164,8 @@ void mode_handler()
         break;
     case SMART_MODE:
         inflow_max_flag = false;
-//        if (device->smart.set == true)
-//            smart_mode_external();
+        if (device->smart.set == true)
+            smart_mode_external();
 //        else
 //            smart_mode_internal();
         break;

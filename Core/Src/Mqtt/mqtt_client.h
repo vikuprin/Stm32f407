@@ -31,5 +31,7 @@ void publish_message_qos0(char topic[], char message[]);
 void set_mqtt_parameters();
 void start_mqtt();
 void init_mqtt();
+void mqtt_sub_request_cb(void *arg, err_t result);
+void mqtt_unsub_request_cb(void *arg, err_t result);
 
 #endif

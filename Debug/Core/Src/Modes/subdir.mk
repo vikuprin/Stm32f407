@@ -5,13 +5,16 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../Core/Src/Modes/modes.c 
+../Core/Src/Modes/modes.c \
+../Core/Src/Modes/smart_mode_external.c 
 
 OBJS += \
-./Core/Src/Modes/modes.o 
+./Core/Src/Modes/modes.o \
+./Core/Src/Modes/smart_mode_external.o 
 
 C_DEPS += \
-./Core/Src/Modes/modes.d 
+./Core/Src/Modes/modes.d \
+./Core/Src/Modes/smart_mode_external.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
@@ -21,7 +24,7 @@ Core/Src/Modes/%.o Core/Src/Modes/%.su Core/Src/Modes/%.cyclo: ../Core/Src/Modes
 clean: clean-Core-2f-Src-2f-Modes
 
 clean-Core-2f-Src-2f-Modes:
-	-$(RM) ./Core/Src/Modes/modes.cyclo ./Core/Src/Modes/modes.d ./Core/Src/Modes/modes.o ./Core/Src/Modes/modes.su
+	-$(RM) ./Core/Src/Modes/modes.cyclo ./Core/Src/Modes/modes.d ./Core/Src/Modes/modes.o ./Core/Src/Modes/modes.su ./Core/Src/Modes/smart_mode_external.cyclo ./Core/Src/Modes/smart_mode_external.d ./Core/Src/Modes/smart_mode_external.o ./Core/Src/Modes/smart_mode_external.su
 
 .PHONY: clean-Core-2f-Src-2f-Modes
 

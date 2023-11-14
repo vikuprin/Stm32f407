@@ -144,6 +144,19 @@ typedef struct
 
 typedef struct
 {
+    char master_topic_data[50];
+    bool status;
+    bool set;
+    char master_topic_system[52];
+    char parameter[32];
+    uint16_t master_id;
+    uint16_t limit;
+    uint8_t max_speed;
+    int16_t value;
+} smart_mode_s;
+
+typedef struct
+{
 	uint32_t ota_len;
 	bool firmware_flag;
     bool damper;
@@ -160,6 +173,7 @@ typedef struct
     uint8_t last_mode;
     uint8_t inflow_speed;
     uint8_t smart_speed_pwm;
+    smart_mode_s smart;
     uint8_t speed_arr[8];
     bool ten_state;
     uint8_t temp_limit;

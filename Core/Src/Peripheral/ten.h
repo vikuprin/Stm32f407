@@ -10,6 +10,7 @@
 #define DEBUG_TEN(...)
 #endif
 
+int constrain(int X, int min, int max);
 void ten_handler();
 void set_ten_power(uint16_t value);
 

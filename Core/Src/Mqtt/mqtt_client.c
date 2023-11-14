@@ -157,7 +157,7 @@ static void mqtt_incoming_data_cb(void *arg, const u8_t *data, u16_t len, u8_t f
 uint8_t count_sub_request_cb = 0;
 bool sub_request_cb = false;
 bool publish_flag = false;
-static void mqtt_sub_request_cb(void *arg, err_t result)
+void mqtt_sub_request_cb(void *arg, err_t result)
 {
 	DEBUG_MQTT("Subscribe result: %d\n", result);
 	count_sub_request_cb--;
@@ -165,6 +165,10 @@ static void mqtt_sub_request_cb(void *arg, err_t result)
 	{
 		sub_request_cb = true;
 	}
+}
+void mqtt_unsub_request_cb(void *arg, err_t result)
+{
+	DEBUG_MQTT("Unsubscribe result: %d\n", result);
 }
 
 char *on_off_str_s[2] = {"off", "on"};

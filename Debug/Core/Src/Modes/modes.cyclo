@@ -2,7 +2,7 @@ modes.c:22:6:temp_cold	18
 modes.c:91:6:temp_hot	5
 modes.c:109:6:inflow_mode	11
 modes.c:134:6:inflow_max_mode	4
-modes.c:156:6:mode_handler	5
+modes.c:156:6:mode_handler	6
 modes.c:180:6:pcnt_error	3
 modes.c:194:6:inflow_handler	4
 modes.c:205:6:MainTask	1
