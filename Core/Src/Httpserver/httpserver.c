@@ -422,7 +422,17 @@ static void http_server(struct netconn *conn)
 
         device->ota_len = content_length;
 		write_device_params();
-        HAL_NVIC_SystemReset();
+
+		HAL_RCC_DeInit();
+		HAL_DeInit();
+		__disable_irq();
+		__set_MSP(*((volatile uint32_t *) (BOOT_ADDR_FLASH)));
+		__DMB();
+		SCB->VTOR = BOOT_ADDR_FLASH;
+		__DSB();
+	    uint32_t JumpAddress = *((volatile uint32_t*) (BOOT_ADDR_FLASH + 4));
+	    void (*reset_handler) (void) = (void*) JumpAddress;
+	    reset_handler();
       }
       else if (strncmp((char const *)buf,"POST /dataserver", 16) == 0)
       {

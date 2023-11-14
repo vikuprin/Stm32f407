@@ -67,8 +67,7 @@ Core/Src/Mqtt/system_topic.o: ../Core/Src/Mqtt/system_topic.c \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/ip.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/icmp.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/icmp.h \
- ../Core/Src/Mqtt/mqtt_message.h ../Core/Src/Mqtt/../Storage/first_init.h \
- ../Core/Src/Mqtt/../../Inc/cJSON/cJSON.h \
+ ../Core/Src/Mqtt/mqtt_message.h ../Core/Src/Mqtt/../../Inc/cJSON/cJSON.h \
  ../Core/Src/Mqtt/../Storage/storage.h ../Core/Inc/usart.h \
  ../Core/Src/Mqtt/../../Inc/cJSON/utils.h \
  ../Core/Src/Mqtt/../../Inc/cJSON/cJSON.h
@@ -143,7 +142,6 @@ Core/Src/Mqtt/system_topic.o: ../Core/Src/Mqtt/system_topic.c \
 ../Middlewares/Third_Party/LwIP/src/include/lwip/icmp.h:
 ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/icmp.h:
 ../Core/Src/Mqtt/mqtt_message.h:
-../Core/Src/Mqtt/../Storage/first_init.h:
 ../Core/Src/Mqtt/../../Inc/cJSON/cJSON.h:
 ../Core/Src/Mqtt/../Storage/storage.h:
 ../Core/Inc/usart.h:

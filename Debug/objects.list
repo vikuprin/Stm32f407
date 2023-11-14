@@ -25,7 +25,6 @@
 "./Core/Src/Remote_control/remote_control.o"
 "./Core/Src/Sensor/sensor.o"
 "./Core/Src/Sensor/sht.o"
-"./Core/Src/Storage/first_init.o"
 "./Core/Src/Storage/storage.o"
 "./Core/Src/dma.o"
 "./Core/Src/freertos.o"

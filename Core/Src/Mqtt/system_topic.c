@@ -1,7 +1,6 @@
 #include "string.h"
 #include "mqtt_client.h"
 #include "mqtt_message.h"
-#include "../Storage/first_init.h"
 #include "../../Inc/cJSON/cJSON.h"
 #include "../Storage/storage.h"
 #include "../../Inc/cJSON/utils.h"

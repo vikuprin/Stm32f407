@@ -46,6 +46,20 @@ uint8_t msg[80];
 #define DEBUG_MAIN(...)
 #endif
 
+#define BOOTLOADER 1
+
+#if BOOTLOADER == 1 // FLASH(rx): ORIGIN = 0x080A0000   //FLASH_SECTOR_9
+#define WIRELESS_ADDR_FLASH  0x08010000                 //FLASH_SECTOR_4
+#define DEVICE_ADDR_FLASH 	 0x08020000                 //FLASH_SECTOR_5
+#else               // FLASH(rx): ORIGIN = 0x08000000   //FLASH_SECTOR_0
+#define WIRELESS_ADDR_FLASH	 0x080C0000                 //FLASH_SECTOR_10
+#define DEVICE_ADDR_FLASH 	 0x080E0000                 //FLASH_SECTOR_11
+#endif
+
+#define BOOT_ADDR_FLASH      0x08000000                 //FLASH_SECTOR_0
+#define OTA_ADDR_FLASH       0x08040000                 //FLASH_SECTOR_6
+#define OTA_ADDR1_FLASH      0x08060000                 //FLASH_SECTOR_7
+#define OTA_ADDR2_FLASH      0x08080000                 //FLASH_SECTOR_8
 
 #define USER_MQTT 0
 #define VAKIO_MQTT 1
@@ -82,10 +96,6 @@ uint8_t msg[80];
     {                                  \
         0, 20, 27, 41, 55, 70, 85, 100 \
     }
-
-#define OTA_ADDR_FLASH     0x08040000      // 6 сектор
-#define OTA_ADDR1_FLASH    0x08060000      // 7 сектор
-#define OTA_ADDR2_FLASH    0x08080000      // 8 сектор
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/

@@ -5,15 +5,12 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../Core/Src/Storage/first_init.c \
 ../Core/Src/Storage/storage.c 
 
 OBJS += \
-./Core/Src/Storage/first_init.o \
 ./Core/Src/Storage/storage.o 
 
 C_DEPS += \
-./Core/Src/Storage/first_init.d \
 ./Core/Src/Storage/storage.d 
 
 
@@ -24,7 +21,7 @@ Core/Src/Storage/%.o Core/Src/Storage/%.su Core/Src/Storage/%.cyclo: ../Core/Src
 clean: clean-Core-2f-Src-2f-Storage
 
 clean-Core-2f-Src-2f-Storage:
-	-$(RM) ./Core/Src/Storage/first_init.cyclo ./Core/Src/Storage/first_init.d ./Core/Src/Storage/first_init.o ./Core/Src/Storage/first_init.su ./Core/Src/Storage/storage.cyclo ./Core/Src/Storage/storage.d ./Core/Src/Storage/storage.o ./Core/Src/Storage/storage.su
+	-$(RM) ./Core/Src/Storage/storage.cyclo ./Core/Src/Storage/storage.d ./Core/Src/Storage/storage.o ./Core/Src/Storage/storage.su
 
 .PHONY: clean-Core-2f-Src-2f-Storage
 

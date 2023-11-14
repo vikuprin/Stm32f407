@@ -8,6 +8,6 @@
 ../Core/Src/Httpserver/httpserver.c:241:12:http_get_content_length	40	static
 ../Core/Src/Httpserver/httpserver.c:258:5:registration_data_handler_post	296	static
 ../Core/Src/Httpserver/httpserver.c:320:14:http_get_recv_str	56	static
-../Core/Src/Httpserver/httpserver.c:354:13:http_server	136	static
-../Core/Src/Httpserver/httpserver.c:475:13:http_thread	32	static
-../Core/Src/Httpserver/httpserver.c:510:6:http_server_init	16	static
+../Core/Src/Httpserver/httpserver.c:354:13:http_server	152	static,ignoring_inline_asm
+../Core/Src/Httpserver/httpserver.c:485:13:http_thread	32	static
+../Core/Src/Httpserver/httpserver.c:520:6:http_server_init	16	static
