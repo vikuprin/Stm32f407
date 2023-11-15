@@ -255,6 +255,7 @@ static int http_get_content_length(char* buf)
   return length;
 }
 
+extern mqtt_client_t *client;
 int registration_data_handler_post(char *str)
 {
     cJSON *root = cJSON_Parse(str);
@@ -310,7 +311,8 @@ int registration_data_handler_post(char *str)
         set_ota_url(wireless_params->domain);
     }
     wireless_params->mqtt_type = VAKIO_MQTT;
-    set_mqtt_parameters();
+    mqtt_disconnect(client);
+    init_mqtt();
     write_wireless_params();
 
     cJSON_Delete(root);
