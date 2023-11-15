@@ -5,6 +5,7 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
+../Core/Src/Mqtt/master_topic.c \
 ../Core/Src/Mqtt/mode_topic.c \
 ../Core/Src/Mqtt/mqtt_client.c \
 ../Core/Src/Mqtt/mqtt_message.c \
@@ -13,6 +14,7 @@ C_SRCS += \
 ../Core/Src/Mqtt/system_topic.c 
 
 OBJS += \
+./Core/Src/Mqtt/master_topic.o \
 ./Core/Src/Mqtt/mode_topic.o \
 ./Core/Src/Mqtt/mqtt_client.o \
 ./Core/Src/Mqtt/mqtt_message.o \
@@ -21,6 +23,7 @@ OBJS += \
 ./Core/Src/Mqtt/system_topic.o 
 
 C_DEPS += \
+./Core/Src/Mqtt/master_topic.d \
 ./Core/Src/Mqtt/mode_topic.d \
 ./Core/Src/Mqtt/mqtt_client.d \
 ./Core/Src/Mqtt/mqtt_message.d \
@@ -36,7 +39,7 @@ Core/Src/Mqtt/%.o Core/Src/Mqtt/%.su Core/Src/Mqtt/%.cyclo: ../Core/Src/Mqtt/%.c
 clean: clean-Core-2f-Src-2f-Mqtt
 
 clean-Core-2f-Src-2f-Mqtt:
-	-$(RM) ./Core/Src/Mqtt/mode_topic.cyclo ./Core/Src/Mqtt/mode_topic.d ./Core/Src/Mqtt/mode_topic.o ./Core/Src/Mqtt/mode_topic.su ./Core/Src/Mqtt/mqtt_client.cyclo ./Core/Src/Mqtt/mqtt_client.d ./Core/Src/Mqtt/mqtt_client.o ./Core/Src/Mqtt/mqtt_client.su ./Core/Src/Mqtt/mqtt_message.cyclo ./Core/Src/Mqtt/mqtt_message.d ./Core/Src/Mqtt/mqtt_message.o ./Core/Src/Mqtt/mqtt_message.su ./Core/Src/Mqtt/mqtt_objects.cyclo ./Core/Src/Mqtt/mqtt_objects.d ./Core/Src/Mqtt/mqtt_objects.o ./Core/Src/Mqtt/mqtt_objects.su ./Core/Src/Mqtt/send_server_handler.cyclo ./Core/Src/Mqtt/send_server_handler.d ./Core/Src/Mqtt/send_server_handler.o ./Core/Src/Mqtt/send_server_handler.su ./Core/Src/Mqtt/system_topic.cyclo ./Core/Src/Mqtt/system_topic.d ./Core/Src/Mqtt/system_topic.o ./Core/Src/Mqtt/system_topic.su
+	-$(RM) ./Core/Src/Mqtt/master_topic.cyclo ./Core/Src/Mqtt/master_topic.d ./Core/Src/Mqtt/master_topic.o ./Core/Src/Mqtt/master_topic.su ./Core/Src/Mqtt/mode_topic.cyclo ./Core/Src/Mqtt/mode_topic.d ./Core/Src/Mqtt/mode_topic.o ./Core/Src/Mqtt/mode_topic.su ./Core/Src/Mqtt/mqtt_client.cyclo ./Core/Src/Mqtt/mqtt_client.d ./Core/Src/Mqtt/mqtt_client.o ./Core/Src/Mqtt/mqtt_client.su ./Core/Src/Mqtt/mqtt_message.cyclo ./Core/Src/Mqtt/mqtt_message.d ./Core/Src/Mqtt/mqtt_message.o ./Core/Src/Mqtt/mqtt_message.su ./Core/Src/Mqtt/mqtt_objects.cyclo ./Core/Src/Mqtt/mqtt_objects.d ./Core/Src/Mqtt/mqtt_objects.o ./Core/Src/Mqtt/mqtt_objects.su ./Core/Src/Mqtt/send_server_handler.cyclo ./Core/Src/Mqtt/send_server_handler.d ./Core/Src/Mqtt/send_server_handler.o ./Core/Src/Mqtt/send_server_handler.su ./Core/Src/Mqtt/system_topic.cyclo ./Core/Src/Mqtt/system_topic.d ./Core/Src/Mqtt/system_topic.o ./Core/Src/Mqtt/system_topic.su
 
 .PHONY: clean-Core-2f-Src-2f-Mqtt
 

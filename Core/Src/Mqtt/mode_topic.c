@@ -52,7 +52,7 @@ void relation(cJSON *relation_js)
 {
 	err_t err;
     cJSON *dependence_js = cJSON_GetObjectItem(relation_js, "dependence");
-    uint8_t on_off_dependence;
+    uint8_t on_off_dependence = 1;
     check_char_on_off(relation_js, "on_off_dependence", &on_off_dependence);
     if (dependence_js != NULL)
     {

@@ -216,18 +216,20 @@ void StartDefaultTask(void const * argument)
   {
      osDelay(50);
   }
+  #if DNS == 1
   mdns_name = malloc(80);
   sprintf(mdns_name, "cityair350.local");
   ip_addr_t addr;
   while (mdns_set == false)
   {
 	  dns_gethostbyname(mdns_name, &addr, dns_callback, NULL);
-      mdns_search = true;
-      while (mdns_search == true)
-      {
-    	  osDelay(100);
-      }
+	  mdns_search = true;
+	  while (mdns_search == true)
+	  {
+		  osDelay(100);
+	  }
   }
+  #endif
   http_server_init();
   init_mqtt();
   device_send = *device;

@@ -61,6 +61,8 @@ uint8_t msg[80];
 #define OTA_ADDR1_FLASH      0x08060000                 //FLASH_SECTOR_7
 #define OTA_ADDR2_FLASH      0x08080000                 //FLASH_SECTOR_8
 
+#define DNS 0
+
 #define USER_MQTT 0
 #define VAKIO_MQTT 1
 

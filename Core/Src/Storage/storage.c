@@ -67,6 +67,14 @@ void first_init_device()
 	device->error_fan = false;
 	device->mode = INFLOW_MODE;
 	device->last_mode = INFLOW_MODE;
+	//smart
+    device->smart.set = OFF;
+    device->smart.master_id = 0;
+    device->smart.max_speed = 10;
+    device->smart.master_topic_data[0] = 0;
+    device->smart.master_topic_system[0] = 0;
+    device->smart.parameter[0] = 0;
+    //smart
 	device->inflow_speed = 1;
 	uint8_t speed_arr[8] = SPEED_ARR_DEFAUL;
 	memcpy(device->speed_arr, speed_arr, 8);

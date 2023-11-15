@@ -141,6 +141,24 @@ void set_extra_options_handler(cJSON *data_json)
     write_device_params();
 }
 
+void set_master_data_js(cJSON *data_json)
+{
+    char *master_topic = malloc(100);
+    while (master_topic == NULL)
+    {
+        vTaskDelay(10);
+        master_topic = malloc(100);
+    }
+    check_js_param_char(data_json, "master_topic", &master_topic);
+
+    if (strcmp(device->smart.master_topic_system, master_topic) == 0)
+    {
+    	DEBUG_MQTT("SET ONLINE STATE\n");
+        check_js_param_int(data_json, device->smart.parameter, &device->smart.value);
+    }
+    free(master_topic);
+}
+
 void system_topic_handler(char *data)
 {
     if (data == NULL)
@@ -169,6 +187,9 @@ void system_topic_handler(char *data)
     cJSON *test_sensor_js = cJSON_GetObjectItem(data_json, "test_sensor");
     cJSON *loggin_js = cJSON_GetObjectItem(data_json, "logging");
     cJSON *extra_options_js = cJSON_GetObjectItem(data_json, "extra_options");
+    cJSON *master_data_js = cJSON_GetObjectItem(data_json, "master_data");
+    if (master_data_js != NULL)
+        set_master_data_js(master_data_js);
     if (loggin_js != NULL)
         logging_handler(loggin_js);
     if (test_sensor_js != NULL)

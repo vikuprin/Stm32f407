@@ -4,9 +4,9 @@
 ../Core/Src/Storage/storage.c:21:6:read_device_params	8	static
 ../Core/Src/Storage/storage.c:26:6:first_init_wireless	8	static
 ../Core/Src/Storage/storage.c:56:6:first_init_device	16	static
-../Core/Src/Storage/storage.c:84:6:first_start_init	8	static
-../Core/Src/Storage/storage.c:90:6:second_start_init	8	static
-../Core/Src/Storage/storage.c:96:6:malloc_memory_parameters	8	static
-../Core/Src/Storage/storage.c:103:6:reset_nvs_parameteres	8	static
-../Core/Src/Storage/storage.c:109:6:set_default_data	4	static
-../Core/Src/Storage/storage.c:120:6:init_storage	8	static
+../Core/Src/Storage/storage.c:92:6:first_start_init	8	static
+../Core/Src/Storage/storage.c:98:6:second_start_init	8	static
+../Core/Src/Storage/storage.c:104:6:malloc_memory_parameters	8	static
+../Core/Src/Storage/storage.c:111:6:reset_nvs_parameteres	8	static
+../Core/Src/Storage/storage.c:117:6:set_default_data	4	static
+../Core/Src/Storage/storage.c:128:6:init_storage	8	static

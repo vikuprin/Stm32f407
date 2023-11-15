@@ -17,7 +17,7 @@ void reset_smart_mode()
 {
     if (smart_mode_state == ON)
     {
-    	DEBUG_MODES("RESET SMART MODE!!!");
+    	DEBUG_MODES("RESET SMART MODE!!!\n");
         smart_mode_state = OFF;
     }
 }
@@ -42,12 +42,12 @@ int compute_speed_pwm(float Xn, float X0n, float Kp, float Ki, float Kd, float d
 void calc_smart_speed()
 {
     device->smart_speed_pwm = compute_speed_pwm(device->smart.value / 10, device->smart.limit / 10, 0.1, 0.1, 7, 180, device->speed_arr[1], 100);
-    DEBUG_MODES("Calc delta_from_delta %i", device->smart_speed_pwm);
+    DEBUG_MODES("Calc delta_from_delta %i\n", device->smart_speed_pwm);
 }
 
 void start_smart_mode()
 {
-	DEBUG_MODES("Smart mode active");
+	DEBUG_MODES("Smart mode active\n");
     smart_mode_state = ON;
     device->smart_speed_pwm = compute_speed_pwm(device->smart.value / 10, device->smart.limit / 10, 0.1, 0.1, 7, 10, device->speed_arr[1], 100);
     HAL_TIM_Base_Start_IT(&htim4);
@@ -58,7 +58,7 @@ void off_smart_mode()
     device->smart_speed_pwm = 0;
     if (smart_mode_state == ON)
     {
-    	DEBUG_MODES("Smart mode disable");
+    	DEBUG_MODES("Smart mode disable\n");
     	HAL_TIM_Base_Stop(&htim4);
         smart_mode_state = OFF;
     }
@@ -82,21 +82,21 @@ void smart_mode_external()
     if (device->error_temp_hot == true && device->error_stop_hot == false)
     {
     	set_inflow_fan1(MAXIMUM);
-    	DEBUG_MODES("EXT SMART speed = MAXIMUM");
+    	DEBUG_MODES("EXT SMART speed = MAXIMUM\n");
     }
     else if (device->error_temp_cold == true && device->error_stop_cold == false)
     {
     	set_inflow_fan1(cold_speed);
-    	DEBUG_MODES("EXT SMART speed = cold speed");
+    	DEBUG_MODES("EXT SMART speed = cold speed\n");
     }
     else if (device->error_stop_hot || device->error_stop_cold)
     {
     	set_inflow_fan1(0);
-    	DEBUG_MODES("EXT SMART finish");
+    	DEBUG_MODES("EXT SMART finish\n");
     }
     else
     {
     	set_inflow_fan1(device->smart_speed_pwm);
     }
-    DEBUG_MODES("EXTERNAL SMART SPEED = %i", device->smart_speed_pwm);
+    DEBUG_MODES("EXTERNAL SMART SPEED = %i\n", device->smart_speed_pwm);
 }

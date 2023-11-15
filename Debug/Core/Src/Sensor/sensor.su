@@ -3,4 +3,4 @@
 ../Core/Src/Sensor/sensor.c:53:6:get_ds_data	16	static
 ../Core/Src/Sensor/sensor.c:88:6:get_ds_data_mass	8	static
 ../Core/Src/Sensor/sensor.c:97:6:init_ds_devices	16	static
-../Core/Src/Sensor/sensor.c:131:6:DSTask	16	static
+../Core/Src/Sensor/sensor.c:133:6:DSTask	16	static

@@ -3,4 +3,4 @@ freertos.c:79:6:dns_callback	3
 freertos.c:132:6:vApplicationGetIdleTaskMemory	1
 freertos.c:145:6:vApplicationGetTimerTaskMemory	1
 freertos.c:159:6:MX_FREERTOS_Init	1
-freertos.c:210:6:StartDefaultTask	4
+freertos.c:210:6:StartDefaultTask	2

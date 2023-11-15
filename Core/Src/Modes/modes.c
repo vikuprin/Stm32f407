@@ -160,7 +160,7 @@ void mode_handler()
     case INFLOW_MODE:
         inflow_max_flag = false;
         inflow_mode();
-//        reset_smart_mode();
+        reset_smart_mode();
         break;
     case SMART_MODE:
         inflow_max_flag = false;

@@ -64,16 +64,18 @@ static void mqtt_incoming_publish_cb(void *arg, const char *topic, u32_t tot_len
 		inpub_id = 0;
 	else if (strcmp(topic, system_topic) == 0)
 		inpub_id = 1;
+	else if (strcmp(topic, device->smart.master_topic_data) == 0)
+		inpub_id = 2;
     if (wireless_params->mqtt_type != VAKIO_MQTT)
     {
         if (strcmp(topic, workmode_topic) == 0)
-        	inpub_id = 2;
-        else if (strcmp(topic, state_topic) == 0)
         	inpub_id = 3;
-        else if (strcmp(topic, speed_topic) == 0)
+        else if (strcmp(topic, state_topic) == 0)
         	inpub_id = 4;
-        else if (strcmp(topic, temp_limit_topic) == 0)
+        else if (strcmp(topic, speed_topic) == 0)
         	inpub_id = 5;
+        else if (strcmp(topic, temp_limit_topic) == 0)
+        	inpub_id = 6;
     }
 }
 
@@ -81,15 +83,18 @@ static void mqtt_incoming_data_cb(void *arg, const u8_t *data, u16_t len, u8_t f
 {
 	DEBUG_MQTT("Incoming publish payload with length %d, flags %u\n", len, (unsigned int) flags);
 	if (flags & MQTT_DATA_FLAG_LAST)
-	{
+    {
 		DEBUG_MQTT("mqtt_incoming_data_cb: %s\n", (char*) data);
 		if (inpub_id == 0)            //mode_topic
 			mode_topic_handler(data);
 		else if (inpub_id == 1)       //system topic
 			system_topic_handler(data);
+		else if (inpub_id == 2)       //master topic
+			master_topic_handler(data);
+
 	    if (wireless_params->mqtt_type != VAKIO_MQTT)
 	    {
-            if (inpub_id == 2)        //workmode topic)
+            if (inpub_id == 3)        //workmode topic)
             {
                 if (!iSendMode)
                 {
@@ -102,7 +107,7 @@ static void mqtt_incoming_data_cb(void *arg, const u8_t *data, u16_t len, u8_t f
                 }
                 iSendMode = false;
             }
-            else if (inpub_id == 3)   //state topic
+            else if (inpub_id == 4)   //state topic
             {
                 if (!iSendState)
                 {
@@ -116,7 +121,7 @@ static void mqtt_incoming_data_cb(void *arg, const u8_t *data, u16_t len, u8_t f
                 }
                 iSendState = false;
             }
-            else if (inpub_id == 4)   //speed topic
+            else if (inpub_id == 5)   //speed topic
             {
                 if (!iSendSpeed)
                  {
@@ -129,7 +134,7 @@ static void mqtt_incoming_data_cb(void *arg, const u8_t *data, u16_t len, u8_t f
                  }
                  iSendSpeed = false;
             }
-            else if (inpub_id == 5)   //temp_limit topic
+            else if (inpub_id == 6)   //temp_limit topic
             {
                 if (!iSendTemp)
                 {
@@ -145,7 +150,7 @@ static void mqtt_incoming_data_cb(void *arg, const u8_t *data, u16_t len, u8_t f
                 }
                 iSendTemp = false;
             }
-	    }
+    }
 	memset((char*)data, 0, len);
 	}
 	else
@@ -225,6 +230,15 @@ static void mqtt_connection_cb(mqtt_client_t *client, void *arg, mqtt_connection
 				DEBUG_MQTT("subscribe to state_topic\n");
 			}
 		}
+        if (device->smart.set)
+        {
+        	err = mqtt_subscribe(client, device->smart.master_topic_data, 2, mqtt_sub_request_cb, arg);
+			if (err == ERR_OK)
+			{
+				count_sub_request_cb++;
+				DEBUG_MQTT("subscribe to smart.master_topic_data\n");
+			}
+        }
 	}
 	else
 	{

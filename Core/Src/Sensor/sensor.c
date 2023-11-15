@@ -102,6 +102,7 @@ void init_ds_devices()
 	settings[2] = DS18B20_12_BITS_CONFIG;
 
 	//DS_Pin1
+	sensors_data->in_state = false;
 	DS18B20_Init(&temperatureSensor1, &huart3);
 	DS18B20_InitializationCommand(&temperatureSensor1);
 	DS18B20_ReadRom(&temperatureSensor1);
@@ -112,6 +113,7 @@ void init_ds_devices()
 		sensors_data->in_state = true;
 
 	//DS_Pin2
+	sensors_data->out_state = false;
 	DS18B20_Init(&temperatureSensor2, &huart6);
 	DS18B20_InitializationCommand(&temperatureSensor2);
 	DS18B20_ReadRom(&temperatureSensor2);
