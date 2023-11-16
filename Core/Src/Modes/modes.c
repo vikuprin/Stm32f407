@@ -6,6 +6,7 @@
 #include "cmsis_os.h"
 #include "mqtt_client.h"
 #include "remote_control.h"
+#include "smart_mode_external.h"
 
 #define HOT_TEMP 60
 #define MAX_FAN_COUNT 10
@@ -193,7 +194,7 @@ void pcnt_error()
 
 void inflow_handler()
 {
-    if (device->state == ON && damper_state == 2 && device->error_ds18b20 == false)
+    if (device->state == ON && damper_state == 2)
     {
         mode_handler();
         pcnt_error();

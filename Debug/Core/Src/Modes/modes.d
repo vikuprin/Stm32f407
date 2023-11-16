@@ -89,7 +89,8 @@ Core/Src/Modes/modes.o: ../Core/Src/Modes/modes.c \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/ip.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/icmp.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/icmp.h \
- D:/Project/Stm32f407/Core/Src/Remote_control/remote_control.h
+ D:/Project/Stm32f407/Core/Src/Remote_control/remote_control.h \
+ ../Core/Src/Modes/smart_mode_external.h
 ../Core/Src/Modes/modes.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
@@ -183,3 +184,4 @@ D:/Project/Stm32f407/Core/Src/Mqtt/mqtt_client.h:
 ../Middlewares/Third_Party/LwIP/src/include/lwip/icmp.h:
 ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/icmp.h:
 D:/Project/Stm32f407/Core/Src/Remote_control/remote_control.h:
+../Core/Src/Modes/smart_mode_external.h:
