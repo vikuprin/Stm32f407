@@ -98,7 +98,7 @@ void dns_callback(const char *name, const ip_addr_t *ipaddr, void *callback_arg)
 		*step = '\0';
 		mdns_resp_add_netif(&gnetif, mdns_name, 120);
 		*step = '.';
-		mdns_resp_add_service(&gnetif, mdns_name, "_http", DNSSD_PROTO_TCP, 80, 3600, srv_txt, NULL);
+		mdns_resp_add_service(&gnetif, "lwip.local", "_http", DNSSD_PROTO_TCP, 80, 3600, srv_txt, NULL); //mdns_name
 		mdns_set = true;
 		mdns_search = false;
     }
