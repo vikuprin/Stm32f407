@@ -1,6 +1,6 @@
 onewire.c:12:13:SetBaudrate	4
-onewire.c:49:9:OneWire_ProcessBit	2
-onewire.c:62:9:OneWire_ProcessByte	3
-onewire.c:84:16:OneWire_Reset	2
-onewire.c:100:6:ds_tx_handler	1
-onewire.c:104:6:ds_rx_handler	1
+onewire.c:49:9:OneWire_ProcessBit	3
+onewire.c:63:9:OneWire_ProcessByte	3
+onewire.c:85:16:OneWire_Reset	2
+onewire.c:101:6:ds_tx_handler	1
+onewire.c:105:6:ds_rx_handler	1

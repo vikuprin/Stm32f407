@@ -79,15 +79,11 @@ void get_ds_data()
 	ds_count++;
 
 	DEBUG_DS("ds_count = %i\n", ds_count);
-	if(ds_count == 2)
-		device->error_ds18b20 = false;
-	else
-		device->error_ds18b20 = true;
 }
 
 void get_ds_data_mass()
 {
-	if(sensors_data->in_state && sensors_data->out_state)
+	if(device->error_ds18b20 == false)
 	{
 		get_ds_data();
 		mass_temp();
@@ -96,6 +92,7 @@ void get_ds_data_mass()
 
 void init_ds_devices()
 {
+	device->error_ds18b20 = true;
 	uint8_t settings[3];
 	settings[0] = temperatureSensor1.temperatureLimitHigh;
 	settings[1] = temperatureSensor1.temperatureLimitLow;

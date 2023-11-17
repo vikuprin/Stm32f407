@@ -2,7 +2,7 @@
 #include <stdbool.h>
 #include "cmsis_os.h"
 
-#define LONG_TIME 0xffff
+#define LONG_TIME (5000 / portTICK_RATE_MS)
 
 extern xSemaphoreHandle xBinarySamaphore;
 static portBASE_TYPE xHigherPriorityTaskWoken;
@@ -55,7 +55,8 @@ uint8_t OneWire_ProcessBit(UART_HandleTypeDef *huart, uint8_t bit)
     HAL_UART_Transmit_IT(huart, &txData, 1);
     xSemaphoreTake(xBinarySamaphore, LONG_TIME);
     HAL_UART_Receive_IT(huart, &rxData, 1);
-    xSemaphoreTake(xBinarySamaphore, LONG_TIME);
+    if (pdTRUE != xSemaphoreTake(xBinarySamaphore, LONG_TIME))
+    	device->error_ds18b20 = true;
     return rxData;
 }
 
