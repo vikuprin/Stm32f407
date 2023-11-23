@@ -1,0 +1,9 @@
+ota.c:17:6:start_update_firmware	1
+ota.c:21:6:start_update_firmware_isr	1
+ota.c:72:14:tcp_send_packet	3
+ota.c:94:13:tcp_client_connection_close	2
+ota.c:114:14:tcp_client_poll	4
+ota.c:145:14:tcp_client_recv	9
+ota.c:239:14:tcp_client_connected	2
+ota.c:280:6:tcp_setup	2
+ota.c:305:6:OtaTask	4

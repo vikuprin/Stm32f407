@@ -61,7 +61,7 @@ uint8_t msg[80];
 #define OTA_ADDR1_FLASH      0x08060000                 //FLASH_SECTOR_7
 #define OTA_ADDR2_FLASH      0x08080000                 //FLASH_SECTOR_8
 
-#define DNS 1
+#define DNS 0
 
 #define USER_MQTT 0
 #define VAKIO_MQTT 1
@@ -193,12 +193,12 @@ typedef struct
 
 typedef struct
 {
-    char login[12];
-    char password[12];
-    char client_id[12];
-    char host[16];
+    char login[20];
+    char password[20];
+    char client_id[20];
+    char host[20];
     uint16_t port;
-    char topic[12];
+    char topic[20];
 } mqtt_client_s;
 
 // Параметры для работы сети
@@ -209,8 +209,8 @@ typedef struct
     vakio_user_s vakio;         // данные о пользователе
     bool mqtt_type;             // тип подключения к брокеру
     bool vakio_mqtt_connect_ip;
-    char server_ip[8];         // для перепрошивки
-    char domain[12];
+    char server_ip[20];         // для перепрошивки
+    char domain[20];
 } wireless_parameters_s;
 //////////////////////////////////
 

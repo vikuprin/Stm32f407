@@ -131,6 +131,20 @@ void set_ota_url(char *url)
     free(full_url);
 }
 
+void boot_jump()
+{
+	HAL_RCC_DeInit();
+	HAL_DeInit();
+	__disable_irq();
+	__set_MSP(*((volatile uint32_t *) (BOOT_ADDR_FLASH)));
+	__DMB();
+	SCB->VTOR = BOOT_ADDR_FLASH;
+	__DSB();
+	uint32_t JumpAddress = *((volatile uint32_t*) (BOOT_ADDR_FLASH + 4));
+	void (*reset_handler) (void) = (void*) JumpAddress;
+	reset_handler();
+}
+
 extern FLASH_ProcessTypeDef pFlash;
 
 static char temp_str[544];
@@ -138,18 +152,13 @@ static char http_html_hdr[] = "HTTP/1.1 200 OK\r\nContent-type: application/json
 static char http_redirect[] = "HTTP/1.1 303 See Other\r\nLocation: /index.html";
 
 int address_flash = OTA_ADDR_FLASH;
-static int flash_data(char* buf, int len)
+int flash_data(char* buf, int len)
 {
   __HAL_FLASH_PREFETCH_BUFFER_DISABLE();
   __HAL_FLASH_SET_LATENCY(FLASH_LATENCY_5);
 
   HAL_StatusTypeDef ret;
 
-  ret = HAL_FLASH_Lock();
-  if(ret != HAL_OK)
-  {
-    return ret;
-  }
   ret = HAL_FLASH_Unlock();
   if (ret != HAL_OK)
   {
@@ -182,15 +191,15 @@ static int flash_data(char* buf, int len)
     address_flash++;
   }
 
-  FLASH_WaitForLastOperation(500);
-
-  for (int i = 0; i < len; i++)
-  {
-    if (buf[i] != *(uint8_t*)(start_addr + i))
-    {
-      printf("Error check\n");
-    }
-  }
+//  FLASH_WaitForLastOperation(500);
+//
+//  for (int i = 0; i < len; i++)
+//  {
+//    if (buf[i] != *(uint8_t*)(start_addr + i))
+//    {
+//      printf("Error check\n");
+//    }
+//  }
 
   ret = HAL_FLASH_Lock();
   if(ret != HAL_OK)
@@ -209,7 +218,7 @@ void erase_sectors()
 	printf("Erase sectors!\n");
 }
 
-static int compare_sectors()
+int compare_sectors()
 {
   HAL_StatusTypeDef ret;
 
@@ -237,8 +246,8 @@ static int compare_sectors()
   return ret;
 }
 
-int content_length;
-static int http_get_content_length(char* buf)
+int content_length = 0;
+int http_get_content_length(char* buf)
 {
   int length = -1;
   char* str_size = strstr(buf, "Content-Length: ");
@@ -391,12 +400,6 @@ static void http_server(struct netconn *conn)
           netbuf_delete(inbuf);
           recv_err = netconn_recv(conn, &inbuf);
           netbuf_data(inbuf, (void**) &buf, &buflen);
-        }
-        if (recv_err == ERR_OK)
-        {
-          netbuf_delete(inbuf);
-          recv_err = netconn_recv(conn, &inbuf);
-          netbuf_data(inbuf, (void**) &buf, &buflen);
           memcpy(temp_str, buf, buflen);
 
           temp_buf = strstr(temp_str, "Content-Type: ");
@@ -425,16 +428,7 @@ static void http_server(struct netconn *conn)
         device->ota_len = content_length;
 		write_device_params();
 
-		HAL_RCC_DeInit();
-		HAL_DeInit();
-		__disable_irq();
-		__set_MSP(*((volatile uint32_t *) (BOOT_ADDR_FLASH)));
-		__DMB();
-		SCB->VTOR = BOOT_ADDR_FLASH;
-		__DSB();
-	    uint32_t JumpAddress = *((volatile uint32_t*) (BOOT_ADDR_FLASH + 4));
-	    void (*reset_handler) (void) = (void*) JumpAddress;
-	    reset_handler();
+		boot_jump();
       }
       else if (strncmp((char const *)buf,"POST /dataserver", 16) == 0)
       {

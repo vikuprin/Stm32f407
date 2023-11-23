@@ -307,8 +307,8 @@ void start_mqtt()
 void update_mqtt_parameters(char *host, int port, char *username, char *password, char *client_id)
 {
 	memset(&ci, 0, sizeof(ci));
-	char _host[16];
-	memcpy(_host, host, 16);
+	char _host[20];
+	memcpy(_host, host, 20);
 	char str[4];
 	char sep[4]=".";
 	char *istr;
@@ -415,7 +415,7 @@ void init_mqtt()
 {
 	mqtt_status = false;
 	client = mqtt_client_new();
-//	set_user_test();
+	set_user_test();
 //	set_log_test();
 	set_mqtt_parameters();
 }

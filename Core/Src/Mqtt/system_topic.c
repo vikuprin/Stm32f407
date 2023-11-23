@@ -4,6 +4,7 @@
 #include "../../Inc/cJSON/cJSON.h"
 #include "../Storage/storage.h"
 #include "../../Inc/cJSON/utils.h"
+#include "httpserver.h"
 
 void set_device_speed_arr(cJSON *data_json)
 {
@@ -33,32 +34,48 @@ void set_error(cJSON *data_json)
 
 void firmware_handler(cJSON *firmware_js)
 {
-//    if (check_js_param_char(firmware_js, "domain", &wireless_params->domain))
-//    {
-//        set_ota_url(wireless_params->domain);
-//        write_wireless_params();
-//    }
-//    bool start_firmware = false;
-//    if (check_js_param_u8(firmware_js, "start", &start_firmware))
-//    {
-//        if (start_firmware)
-//            start_update_firmware_isr();
-//    }
-//    cJSON *firmware_option_js = cJSON_GetObjectItem(firmware_js, "firmware_option");
-//    if (firmware_option_js != NULL)
-//    {
-//        char domain[100];
-//        char version[15];
-//        check_js_param_char(firmware_option_js, "domain", &domain);
-//        set_ota_url(domain);
-//        if (check_js_param_char(firmware_option_js, "version", &version))
-//        {
-//            if (strcmp(VERSION, version) != 0)
-//                start_update_firmware_isr();
-//        }
-//        else
-//            start_update_firmware_isr();
-//    }
+    if (check_js_param_char(firmware_js, "domain", &wireless_params->domain))
+    {
+        set_ota_url(wireless_params->domain);
+        write_wireless_params(wireless_params);
+    }
+    bool start_firmware = false;
+    if (check_js_param_u8(firmware_js, "start", &start_firmware))
+    {
+        if (start_firmware)
+            start_update_firmware_isr();
+    }
+    cJSON *firmware_option_js = cJSON_GetObjectItem(firmware_js, "firmware_option");
+    if (firmware_option_js != NULL)
+    {
+        char *domain = malloc(100);
+        while (domain == NULL)
+        {
+            vTaskDelay(10);
+            domain = malloc(100);
+        }
+        char *version = malloc(16);
+        while (version == NULL)
+        {
+            vTaskDelay(10);
+            version = malloc(16);
+        }
+        check_js_param_char(firmware_option_js, "domain", &domain);
+        set_ota_url(domain);
+        if (check_js_param_char(firmware_option_js, "version", &version))
+        {
+            if (strcmp(VERSION, version) != 0)
+            {
+                start_update_firmware_isr();
+            }
+        }
+        else
+        {
+            start_update_firmware_isr();
+        }
+        free(domain);
+        free(version);
+    }
 }
 
 void error_handler(cJSON *error_js)

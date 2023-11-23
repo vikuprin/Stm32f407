@@ -20,6 +20,7 @@
 "./Core/Src/Mqtt/mqtt_objects.o"
 "./Core/Src/Mqtt/send_server_handler.o"
 "./Core/Src/Mqtt/system_topic.o"
+"./Core/Src/Ota/ota.o"
 "./Core/Src/Peripheral/damper.o"
 "./Core/Src/Peripheral/fan.o"
 "./Core/Src/Peripheral/led_button_control.o"

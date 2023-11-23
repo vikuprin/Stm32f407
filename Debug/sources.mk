@@ -35,6 +35,7 @@ Core/Inc/cJSON \
 Core/Src/Httpserver \
 Core/Src/Modes \
 Core/Src/Mqtt \
+Core/Src/Ota \
 Core/Src/Peripheral \
 Core/Src/Remote_control \
 Core/Src/Sensor \

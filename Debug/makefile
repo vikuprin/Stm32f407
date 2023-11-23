@@ -31,6 +31,7 @@ RM := rm -rf
 -include Core/Src/Sensor/subdir.mk
 -include Core/Src/Remote_control/subdir.mk
 -include Core/Src/Peripheral/subdir.mk
+-include Core/Src/Ota/subdir.mk
 -include Core/Src/Mqtt/subdir.mk
 -include Core/Src/Modes/subdir.mk
 -include Core/Src/Httpserver/subdir.mk
