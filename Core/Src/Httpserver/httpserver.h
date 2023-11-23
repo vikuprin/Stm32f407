@@ -15,7 +15,6 @@
 
 void http_server_init(void);
 void erase_sectors();
-int compare_sectors();
 void boot_jump();
 int http_get_content_length(char* buf);
 int flash_data(char* buf, int len);

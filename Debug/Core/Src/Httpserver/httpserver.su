@@ -5,10 +5,9 @@
 ../Core/Src/Httpserver/httpserver.c:134:6:boot_jump	24	static,ignoring_inline_asm
 ../Core/Src/Httpserver/httpserver.c:155:5:flash_data	40	static
 ../Core/Src/Httpserver/httpserver.c:213:6:erase_sectors	8	static
-../Core/Src/Httpserver/httpserver.c:221:5:compare_sectors	16	static
-../Core/Src/Httpserver/httpserver.c:250:5:http_get_content_length	40	static
-../Core/Src/Httpserver/httpserver.c:268:5:registration_data_handler_post	296	static
-../Core/Src/Httpserver/httpserver.c:331:14:http_get_recv_str	56	static
-../Core/Src/Httpserver/httpserver.c:365:13:http_server	136	static
-../Core/Src/Httpserver/httpserver.c:481:13:http_thread	32	static
-../Core/Src/Httpserver/httpserver.c:516:6:http_server_init	16	static
+../Core/Src/Httpserver/httpserver.c:222:5:http_get_content_length	40	static
+../Core/Src/Httpserver/httpserver.c:240:5:registration_data_handler_post	296	static
+../Core/Src/Httpserver/httpserver.c:303:14:http_get_recv_str	56	static
+../Core/Src/Httpserver/httpserver.c:337:13:http_server	136	static
+../Core/Src/Httpserver/httpserver.c:451:13:http_thread	32	static
+../Core/Src/Httpserver/httpserver.c:486:6:http_server_init	16	static

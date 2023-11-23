@@ -191,8 +191,8 @@ int flash_data(char* buf, int len)
     address_flash++;
   }
 
-//  FLASH_WaitForLastOperation(500);
-//
+  FLASH_WaitForLastOperation(500);
+
 //  for (int i = 0; i < len; i++)
 //  {
 //    if (buf[i] != *(uint8_t*)(start_addr + i))
@@ -216,34 +216,6 @@ void erase_sectors()
 	Flash_Delete_Data(OTA_ADDR1_FLASH);
 	Flash_Delete_Data(OTA_ADDR2_FLASH);
 	printf("Erase sectors!\n");
-}
-
-int compare_sectors()
-{
-  HAL_StatusTypeDef ret;
-
-  ret = HAL_FLASH_Unlock();
-  if (ret != HAL_OK)
-  {
-    return ret;
-  }
-
-  for (int i = OTA_ADDR_FLASH; i < OTA_ADDR_FLASH + 0x10000; i++)
-  {
-    if (*(uint8_t*)i != 0xff)
-    {
-      printf("error\n");
-    }
-  }
-
-  ret = HAL_FLASH_Lock();
-  if (ret != HAL_OK)
-  {
-    return ret;
-  }
-
-  printf("Read sectors!\n");
-  return ret;
 }
 
 int content_length = 0;
@@ -391,10 +363,8 @@ static void http_server(struct netconn *conn)
       {
     	http_get_content_length(buf);
         erase_sectors();
-        compare_sectors();
 
         char* temp_buf = NULL;
-
         if (recv_err == ERR_OK)
         {
           netbuf_delete(inbuf);

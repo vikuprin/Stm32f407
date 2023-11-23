@@ -6,6 +6,7 @@
 #include <tcp.h>
 #include "storage.h"
 #include "tim.h"
+#include "damper.h"
 
 extern struct netif gnetif;
 extern bool sub_request_cb;
@@ -215,9 +216,6 @@ static err_t tcp_client_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, er
 	  http_get_content_length((char *)p->payload);
 	  printf("content_length = %i\n", content_length);
 
-//	  erase_sectors();
-//	  compare_sectors();
-
 	  char* temp_buf = NULL;
 	  temp_buf = strstr((char *)p->payload, "Vary: Origin");
 	  temp_buf = strstr(temp_buf, "\r\n\r\n");
@@ -301,7 +299,12 @@ void tcp_setup(void)
 	tcp_connect(tpcb, &destIPADDR, 5000, tcp_client_connected);
 }
 
-bool ota_flag;
+void test_wireless_params()
+{
+	strcpy(wireless_params->server_ip, "51.250.111.175\0");
+	strcpy(wireless_params->domain, "service.vakio.ru\0");
+}
+
 void OtaTask(void const * argument)
 {
 	vSemaphoreCreateBinary(ota_mutex);
@@ -311,21 +314,20 @@ void OtaTask(void const * argument)
     {
     	if(netif_is_link_up(&gnetif) && sub_request_cb)
     	{
-    		ota_flag = true;
+    		device->firmware_flag = true;
     		xSemaphoreTake(ota_mutex, portMAX_DELAY);
-    		strcpy(wireless_params->server_ip, "51.250.111.175\0");
-    		strcpy(wireless_params->domain, "service.vakio.ru\0");
+    		test_wireless_params();
+    		close_damper();
 
-    		  HAL_TIM_Base_Stop(&htim1);                 //таймер для вычисления показаний датчиков
-    		  HAL_TIM_Base_Stop(&htim2);                 //таймер для работы ПИД регулятора тена
-    		  HAL_TIM_PWM_Stop(&htim8, TIM_CHANNEL_2);      //шим вентилятора
-    		  HAL_TIM_PWM_Stop(&htim9, TIM_CHANNEL_2);      //шим тена
-    		  HAL_TIM_IC_Stop(&htim3, TIM_CHANNEL_3);    //захват/сравнение счетчика скорости вентилятора 3 канала
-    		  HAL_TIM_IC_Stop(&htim3, TIM_CHANNEL_4);    //захват/сравнение счетчика скорости вентилятора 4 канала
-    		  HAL_TIM_Base_Stop(&htim12);
+    		HAL_TIM_Base_Stop(&htim1);                    //таймер для вычисления показаний датчиков
+    		HAL_TIM_Base_Stop(&htim2);                    //таймер для работы ПИД регулятора тена
+    		HAL_TIM_PWM_Stop(&htim8, TIM_CHANNEL_2);      //шим вентилятора
+    		HAL_TIM_PWM_Stop(&htim9, TIM_CHANNEL_2);      //шим тена
+    		HAL_TIM_IC_Stop(&htim3, TIM_CHANNEL_3);       //захват/сравнение счетчика скорости вентилятора 3 канала
+    		HAL_TIM_IC_Stop(&htim3, TIM_CHANNEL_4);       //захват/сравнение счетчика скорости вентилятора 4 канала
+    		HAL_TIM_Base_Stop(&htim12);
 
-    		  erase_sectors();
-    		  compare_sectors();
+    		erase_sectors();
     		tcp_setup();
     	}
     	osDelay(1000);

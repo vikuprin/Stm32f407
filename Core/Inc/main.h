@@ -46,7 +46,7 @@ uint8_t msg[80];
 #define DEBUG_MAIN(...)
 #endif
 
-#define BOOTLOADER 0
+#define BOOTLOADER 1
 
 #if BOOTLOADER == 1 // FLASH(rx): ORIGIN = 0x080A0000   //FLASH_SECTOR_9
 #define WIRELESS_ADDR_FLASH  0x08010000                 //FLASH_SECTOR_4
