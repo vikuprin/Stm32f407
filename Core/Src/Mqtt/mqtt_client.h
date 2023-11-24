@@ -26,6 +26,7 @@ char state_topic[80];
 
 void system_topic_handler(char *data);
 void mode_topic_handler(char *data);
+void master_topic_handler(char *data);
 void publish_message(char topic[], char message[]);
 void publish_message_qos0(char topic[], char message[]);
 void set_mqtt_parameters();

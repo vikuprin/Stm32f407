@@ -14,6 +14,8 @@
 
 #define CHECK_VALUE_1_0_0  1
 
+void first_init_device();
+void first_init_wireless();
 void write_device_params();
 void read_device_params();
 void write_wireless_params();

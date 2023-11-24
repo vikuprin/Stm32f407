@@ -13,6 +13,7 @@
 #include "storage.h"
 #include "cJSON.h"
 #include "FLASH_SECTOR_F4.h"
+#include "ota.h"
 
 /************************ CGI HANDLER ***************************/
 const char *CGIForm_Handler(int iIndex, int iNumParams, char *pcParam[], char *pcValue[]);
@@ -116,109 +117,10 @@ void http_cgi_init()
 
 extern struct netif gnetif;
 
-char ota_url[300];
-void set_ota_url(char *url)
-{
-    char *full_url = malloc(300);
-    while (full_url == NULL)
-    {
-        vTaskDelay(10);
-        full_url = malloc(300);
-    }
-    sprintf(full_url, "http://%s/updatefirmware/cityair/esp32/%s/%s/%s", url, SUBTYPE, XTAL_FREQ, wireless_params->vakio.device_id);
-    DEBUG_SERVER("set ota url %s", full_url);
-    strcpy(ota_url, full_url);
-    free(full_url);
-}
-
-void boot_jump()
-{
-	HAL_RCC_DeInit();
-	HAL_DeInit();
-	__disable_irq();
-	__set_MSP(*((volatile uint32_t *) (BOOT_ADDR_FLASH)));
-	__DMB();
-	SCB->VTOR = BOOT_ADDR_FLASH;
-	__DSB();
-	uint32_t JumpAddress = *((volatile uint32_t*) (BOOT_ADDR_FLASH + 4));
-	void (*reset_handler) (void) = (void*) JumpAddress;
-	reset_handler();
-}
-
-extern FLASH_ProcessTypeDef pFlash;
-
 static char temp_str[544];
 static char http_html_hdr[] = "HTTP/1.1 200 OK\r\nContent-type: application/json\r\n\r\n";
 static char http_redirect[] = "HTTP/1.1 303 See Other\r\nLocation: /index.html";
 
-int address_flash = OTA_ADDR_FLASH;
-int flash_data(char* buf, int len)
-{
-  __HAL_FLASH_PREFETCH_BUFFER_DISABLE();
-  __HAL_FLASH_SET_LATENCY(FLASH_LATENCY_5);
-
-  HAL_StatusTypeDef ret;
-
-  ret = HAL_FLASH_Unlock();
-  if (ret != HAL_OK)
-  {
-    return ret;
-  }
-
-  __HAL_FLASH_CLEAR_FLAG(FLASH_FLAG_EOP
-                         | FLASH_FLAG_OPERR
-                         | FLASH_FLAG_WRPERR
-                         | FLASH_FLAG_PGAERR
-                         | FLASH_FLAG_PGSERR);
-
-  if (pFlash.ErrorCode != 0)
-  {
-      return pFlash.ErrorCode;
-  }
-
-  uint32_t start_addr = address_flash;
-  for (int i = 0; i < len; i++)
-  {
-    FLASH_WaitForLastOperation(HAL_MAX_DELAY);
-    ret = HAL_FLASH_Program(FLASH_TYPEPROGRAM_BYTE,
-                            address_flash,
-                            buf[i]);
-    if (ret != HAL_OK)
-    {
-      printf("App Flash Write Error\n");
-      break;
-    }
-    address_flash++;
-  }
-
-  FLASH_WaitForLastOperation(500);
-
-//  for (int i = 0; i < len; i++)
-//  {
-//    if (buf[i] != *(uint8_t*)(start_addr + i))
-//    {
-//      printf("Error check\n");
-//    }
-//  }
-
-  ret = HAL_FLASH_Lock();
-  if(ret != HAL_OK)
-  {
-    return ret;
-  }
-
-  return ret;
-}
-
-void erase_sectors()
-{
-	Flash_Delete_Data(OTA_ADDR_FLASH);
-	Flash_Delete_Data(OTA_ADDR1_FLASH);
-	Flash_Delete_Data(OTA_ADDR2_FLASH);
-	printf("Erase sectors!\n");
-}
-
-int content_length = 0;
 int http_get_content_length(char* buf)
 {
   int length = -1;
@@ -232,7 +134,6 @@ int http_get_content_length(char* buf)
     strncpy(tmp_str, str_size, i);
     length = atoi(tmp_str);
   }
-  content_length = length;
   return length;
 }
 
@@ -278,10 +179,10 @@ int registration_data_handler_post(char *str)
     }
     if (cJSON_GetObjectItem(root, "server_ip") != NULL)
     {
-    	DEBUG_SERVER("server_ip = %s\n", cJSON_GetObjectItem(root, "server_ip")->valuestring);
-        char param[80];
-        sprintf(param, "%s", cJSON_GetObjectItem(root, "server_ip")->valuestring);
-        strcpy(wireless_params->server_ip, param);
+		char param[80];
+		sprintf(param, "%s", cJSON_GetObjectItem(root, "server_ip")->valuestring);
+		strcpy(wireless_params->server_ip, param);
+		set_ota_url(wireless_params->server_ip);
     }
     if (cJSON_GetObjectItem(root, "domain") != NULL)
     {
@@ -289,7 +190,6 @@ int registration_data_handler_post(char *str)
         char param[150];
         sprintf(param, "%s", cJSON_GetObjectItem(root, "domain")->valuestring);
         strcpy(wireless_params->domain, param);
-        set_ota_url(wireless_params->domain);
     }
     wireless_params->mqtt_type = VAKIO_MQTT;
     mqtt_disconnect(client);
@@ -326,7 +226,7 @@ static char* http_get_recv_str(char* first_chunk, int size_first_chunk, struct n
     cont_len -= buflen;
   }
   res_str[content_length] = '\0';
-  printf("FINAL STR = %s\n", res_str);
+  DEBUG_SERVER("FINAL STR = %s\n", res_str);
 
   registration_data_handler_post(res_str);
 
@@ -361,7 +261,8 @@ static void http_server(struct netconn *conn)
       }
       else if (strncmp((char const *)buf,"POST /send",10)==0)
       {
-    	http_get_content_length(buf);
+    	ota_length = http_get_content_length(buf);
+    	DEBUG_SERVER("content_length = %lu\n", ota_length);
         erase_sectors();
 
         char* temp_buf = NULL;
@@ -379,7 +280,6 @@ static void http_server(struct netconn *conn)
           flash_data(temp_buf, buflen);
         }
 
-        int i = 0;
         while(recv_err == ERR_OK)
         {
           netbuf_delete(inbuf);
@@ -390,19 +290,18 @@ static void http_server(struct netconn *conn)
           flash_data(temp_str, buflen);
           if (buflen < 536)
              break;
-          i++;
         }
 
         netconn_write(conn, http_redirect, sizeof(http_redirect)-1, NETCONN_NOCOPY);
 
-        device->ota_len = content_length;
+        device->ota_len = ota_length;
 		write_device_params();
 
 		boot_jump();
       }
       else if (strncmp((char const *)buf,"POST /dataserver", 16) == 0)
       {
-        printf("len = %d, str = %s\n", buflen, buf);
+    	DEBUG_SERVER("len = %d, str = %s\n", buflen, buf);
         char* tmp = http_get_recv_str(buf, buflen, conn, inbuf, http_get_content_length(buf));
         free(tmp);
         netconn_write(conn, http_html_hdr, sizeof(http_html_hdr) - 1, NETCONN_NOCOPY);

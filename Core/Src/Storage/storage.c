@@ -58,7 +58,6 @@ void first_init_device()
 	device->ota_len = 0;
 	device->check_1_0_0 = CHECK_VALUE_1_0_0;
 	device->state = OFF;
-	device->firmware_flag = false;
 	device->error_temp_hot = false;
 	device->error_temp_cold = false;
 	device->error_stop_hot = false;

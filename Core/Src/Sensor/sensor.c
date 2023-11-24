@@ -129,7 +129,7 @@ void init_ds_devices()
 xSemaphoreHandle xBinarySamaphore;
 void DSTask(void const * argument)
 {
-	vSemaphoreCreateBinary(xBinarySamaphore);
+	xBinarySamaphore = xSemaphoreCreateBinary();
     init_ds_devices();
     for(;;)
     {

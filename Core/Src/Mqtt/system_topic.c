@@ -4,7 +4,9 @@
 #include "../../Inc/cJSON/cJSON.h"
 #include "../Storage/storage.h"
 #include "../../Inc/cJSON/utils.h"
-#include "httpserver.h"
+#include "ota.h"
+#include "storage.h"
+#include "cmsis_os.h"
 
 void set_device_speed_arr(cJSON *data_json)
 {
@@ -36,7 +38,7 @@ void firmware_handler(cJSON *firmware_js)
 {
     if (check_js_param_char(firmware_js, "domain", &wireless_params->domain))
     {
-        set_ota_url(wireless_params->domain);
+        set_ota_url(wireless_params->server_ip);
         write_wireless_params(wireless_params);
     }
     bool start_firmware = false;

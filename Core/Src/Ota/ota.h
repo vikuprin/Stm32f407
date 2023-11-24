@@ -5,9 +5,9 @@
 #include <arch.h>
 
 #if DEBUG_PRINT == 1
-#define DEBUG_OTA(...) printf("MQTT: "__VA_ARGS__);
+#define DEBUG_OTA(...) printf("OTA: "__VA_ARGS__);
 #elif DEBUG_PRINT == 2
-#define DEBUG_OTA(...) sprintf(msg, "MQTT: "__VA_ARGS__);HAL_UART_Transmit_IT(&huart4, (uint8_t*)msg, strlen(msg));
+#define DEBUG_OTA(...) sprintf(msg, "OTA: "__VA_ARGS__);HAL_UART_Transmit_IT(&huart4, (uint8_t*)msg, strlen(msg));
 #else
 #define DEBUG_OTA(...)
 #endif
@@ -27,5 +27,14 @@ struct tcp_client_struct
   struct tcp_pcb *pcb;
   struct pbuf *p;
 };
+
+char ota_url[300];
+uint32_t ota_length;
+
+void set_ota_url(char *url);
+void boot_jump();
+void erase_sectors();
+int flash_data(char* buf, int len);
+void start_update_firmware_isr();
 
 #endif

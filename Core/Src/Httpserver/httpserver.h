@@ -14,9 +14,6 @@
 #define HTTPD_304      "304 Not Modified"
 
 void http_server_init(void);
-void erase_sectors();
-void boot_jump();
 int http_get_content_length(char* buf);
-int flash_data(char* buf, int len);
 
 #endif /* __HTTPSERVER_NETCONN_H__ */

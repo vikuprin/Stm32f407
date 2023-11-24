@@ -7,11 +7,11 @@
 #include "storage.h"
 #include "tim.h"
 #include "damper.h"
+#include "FLASH_SECTOR_F4.h"
 
 extern struct netif gnetif;
-extern bool sub_request_cb;
 extern int content_length;
-
+extern FLASH_ProcessTypeDef pFlash;
 
 xSemaphoreHandle ota_mutex;
 
@@ -24,69 +24,100 @@ void start_update_firmware_isr()
     xSemaphoreGiveFromISR(ota_mutex, NULL);
 }
 
+void set_ota_url(char *url)
+{
+    char *full_url = malloc(300);
+    while (full_url == NULL)
+    {
+        vTaskDelay(10);
+        full_url = malloc(300);
+    }
+    sprintf(full_url, "http://%s:5000/updatefirmware/cityair350/stm32/%s/%s/%s", url, SUBTYPE, XTAL_FREQ, wireless_params->vakio.device_id);
+    DEBUG_OTA("set ota url %s\n", full_url);
+    strcpy(ota_url, full_url);
+    free(full_url);
+}
+void erase_sectors()
+{
+	Flash_Delete_Data(OTA_ADDR_FLASH);
+	Flash_Delete_Data(OTA_ADDR1_FLASH);
+	Flash_Delete_Data(OTA_ADDR2_FLASH);
+	DEBUG_OTA("Erase sectors!\n");
+}
 
+void boot_jump()
+{
+	HAL_RCC_DeInit();
+	HAL_DeInit();
+	__disable_irq();
+	__set_MSP(*((volatile uint32_t *) (BOOT_ADDR_FLASH)));
+	__DMB();
+	SCB->VTOR = BOOT_ADDR_FLASH;
+	__DSB();
+	uint32_t JumpAddress = *((volatile uint32_t*) (BOOT_ADDR_FLASH + 4));
+	void (*reset_handler) (void) = (void*) JumpAddress;
+	reset_handler();
+}
 
-//void OtaTask(void const * argument)
-//{
-//	vSemaphoreCreateBinary(ota_mutex);
-//    for(;;)
-//    {
-//        xSemaphoreTake(ota_mutex, portMAX_DELAY);
-//        DEBUG_OTA("Take mute OTA\n");
-//        if (strlen(ota_url) > 3)
-//        {
-//            DEBUG_OTA("Start ota %s", ota_url);
-//            // Начинаем прошвку
-//            publish_firmware_state("start"); // изменения
-//            tcp_setup();
-////            if (ret == ERR_OK)
-////            {
-////                publish_firmware_state("done");
-//                // Прошивка прошла успешно, записываем в память ФЛАГ ОБ УСПЕШНОЙ ПРОШИВКЕ
-////                write_firmware_flag(10);
-//                // Перезагружаемся
-////                esp_restart();
-////            }
-////            else
-////            {
-////                DEBUG_OTA("Error");
-////                publish_firmware_state("error"); // изменения
-////                osDelay(5000);
-////                xSemaphoreGive(ota_mutex);
-////            }
-//        }
-//
-//    }
-//}
+int address_flash = OTA_ADDR_FLASH;
+int flash_data(char* buf, int len)
+{
+  __HAL_FLASH_PREFETCH_BUFFER_DISABLE();
+  __HAL_FLASH_SET_LATENCY(FLASH_LATENCY_5);
 
+  HAL_StatusTypeDef ret;
 
+  ret = HAL_FLASH_Unlock();
+  if (ret != HAL_OK)
+	  return ret;
 
+  __HAL_FLASH_CLEAR_FLAG(FLASH_FLAG_EOP
+                         | FLASH_FLAG_OPERR
+                         | FLASH_FLAG_WRPERR
+                         | FLASH_FLAG_PGAERR
+                         | FLASH_FLAG_PGSERR);
 
+  if (pFlash.ErrorCode != 0)
+      return pFlash.ErrorCode;
 
+  for (int i = 0; i < len; i++)
+  {
+    FLASH_WaitForLastOperation(HAL_MAX_DELAY);
+    ret = HAL_FLASH_Program(FLASH_TYPEPROGRAM_BYTE, address_flash, buf[i]);
+    if (ret != HAL_OK)
+    {
+    	printf("App Flash Write Error\n");
+        break;
+    }
+    address_flash++;
+  }
 
+  FLASH_WaitForLastOperation(500);
 
+  ret = HAL_FLASH_Lock();
+  if(ret != HAL_OK)
+	  return ret;
 
-
-
-
-
+  return ret;
+}
+//http://51.250.111.175:5000/updatefirmware/cityair350/stm32/default/168/28108
 static err_t tcp_send_packet(struct tcp_pcb *tpcb)
 {
 	err_t ret_err;
     char *string = malloc(256);
-    sprintf(string, "GET /updatefirmware/airflow/esp32/default/40/26376 HTTP/1.1\r\nHost: %s\r\n\r\n ", wireless_params->domain);
+    sprintf(string, "GET /updatefirmware/cityair350/stm32/%s/%s/%s HTTP/1.1\r\nHost: %s\r\n\r\n ", SUBTYPE, XTAL_FREQ, wireless_params->vakio.device_id, wireless_params->domain);
     /* push to buffer */
     ret_err = tcp_write(tpcb, string, strlen(string), TCP_WRITE_FLAG_COPY);
     if (ret_err != ERR_OK)
     {
-        printf("ERROR: Code: %d (tcp_send_packet :: tcp_write)\n", ret_err);
+    	DEBUG_OTA("ERROR: Code: %d (tcp_send_packet :: tcp_write)\n", ret_err);
         return 1;
     }
     /* now send */
     ret_err = tcp_output(tpcb);
     if (ret_err != ERR_OK)
     {
-        printf("ERROR: Code: %d (tcp_send_packet :: tcp_output)\n", ret_err);
+    	DEBUG_OTA("ERROR: Code: %d (tcp_send_packet :: tcp_output)\n", ret_err);
         return 1;
     }
     return ERR_OK;
@@ -157,8 +188,9 @@ static err_t tcp_client_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, er
   {
     /* remote host closed connection */
     es->state = ES_CLOSING;
-    device->ota_len = content_length;
+    device->ota_len = ota_length;
     write_device_params();
+    publish_firmware_state("done");
     boot_jump();
     if(es->p == NULL)
     {
@@ -210,11 +242,11 @@ static err_t tcp_client_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, er
     ret_err = ERR_OK;
   }
 //  printf("Number of pbufs %d\n", pbuf_clen(p));
-  printf("Contents of pbuf %s\n", (char *)p->payload);
-  if (content_length == 0)
+  DEBUG_OTA("Contents of pbuf %s\n", (char *)p->payload);
+  if (ota_length == 0)
   {
-	  http_get_content_length((char *)p->payload);
-	  printf("content_length = %i\n", content_length);
+	  ota_length = http_get_content_length((char *)p->payload);
+	  DEBUG_OTA("content_length = %lu\n", ota_length);
 
 	  char* temp_buf = NULL;
 	  temp_buf = strstr((char *)p->payload, "Vary: Origin");
@@ -297,6 +329,7 @@ void tcp_setup(void)
 	ip_addr_t destIPADDR;
 	IP_ADDR4(&destIPADDR, str[0], str[1], str[2], str[3]);
 	tcp_connect(tpcb, &destIPADDR, 5000, tcp_client_connected);
+	ota_length = 0;
 }
 
 void test_wireless_params()
@@ -307,16 +340,16 @@ void test_wireless_params()
 
 void OtaTask(void const * argument)
 {
-	vSemaphoreCreateBinary(ota_mutex);
-	start_update_firmware();
-	osDelay(5000);
+	ota_mutex = xSemaphoreCreateBinary();
     for(;;)
     {
-    	if(netif_is_link_up(&gnetif) && sub_request_cb)
+        xSemaphoreTake(ota_mutex, portMAX_DELAY);
+        DEBUG_OTA("Take mute OTA\n");
+    	if(netif_is_link_up(&gnetif) && strlen(ota_url) > 3)
     	{
-    		device->firmware_flag = true;
-    		xSemaphoreTake(ota_mutex, portMAX_DELAY);
-    		test_wireless_params();
+    		DEBUG_OTA("Start ota %s\n", ota_url);
+    		publish_firmware_state("start");
+//    		test_wireless_params();
     		close_damper();
 
     		HAL_TIM_Base_Stop(&htim1);                    //таймер для вычисления показаний датчиков
@@ -330,6 +363,11 @@ void OtaTask(void const * argument)
     		erase_sectors();
     		tcp_setup();
     	}
-    	osDelay(1000);
+        else
+        {
+            DEBUG_OTA("LWIP isnt connected\n");
+            vTaskDelay(5000);
+            xSemaphoreGive(ota_mutex);
+        }
     }
 }

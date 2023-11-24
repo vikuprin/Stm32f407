@@ -71,11 +71,9 @@ Core/Src/Mqtt/system_topic.o: ../Core/Src/Mqtt/system_topic.c \
  ../Core/Src/Mqtt/../Storage/storage.h ../Core/Inc/usart.h \
  ../Core/Src/Mqtt/../../Inc/cJSON/utils.h \
  ../Core/Src/Mqtt/../../Inc/cJSON/cJSON.h \
- D:/Project/Stm32f407/Core/Src/Httpserver/httpserver.h \
- ../Middlewares/Third_Party/LwIP/src/include/lwip/api.h \
- ../Middlewares/Third_Party/LwIP/src/include/lwip/netbuf.h \
- ../Middlewares/Third_Party/LwIP/src/include/lwip/sys.h \
- ../Middlewares/Third_Party/LwIP/system/arch/sys_arch.h \
+ D:/Project/Stm32f407/Core/Src/Ota/ota.h \
+ ../Middlewares/Third_Party/LwIP/src/include/lwip/arch.h \
+ D:/Project/Stm32f407/Core/Src/Storage/storage.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h \
  ../Core/Inc/FreeRTOSConfig.h \
@@ -169,11 +167,9 @@ Core/Src/Mqtt/system_topic.o: ../Core/Src/Mqtt/system_topic.c \
 ../Core/Inc/usart.h:
 ../Core/Src/Mqtt/../../Inc/cJSON/utils.h:
 ../Core/Src/Mqtt/../../Inc/cJSON/cJSON.h:
-D:/Project/Stm32f407/Core/Src/Httpserver/httpserver.h:
-../Middlewares/Third_Party/LwIP/src/include/lwip/api.h:
-../Middlewares/Third_Party/LwIP/src/include/lwip/netbuf.h:
-../Middlewares/Third_Party/LwIP/src/include/lwip/sys.h:
-../Middlewares/Third_Party/LwIP/system/arch/sys_arch.h:
+D:/Project/Stm32f407/Core/Src/Ota/ota.h:
+../Middlewares/Third_Party/LwIP/src/include/lwip/arch.h:
+D:/Project/Stm32f407/Core/Src/Storage/storage.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h:
 ../Core/Inc/FreeRTOSConfig.h:

@@ -205,7 +205,6 @@ void MX_FREERTOS_Init(void) {
   * @retval None
   */
 /* USER CODE END Header_StartDefaultTask */
-extern bool ota_flag;
 void StartDefaultTask(void const * argument)
 {
   /* init code for LWIP */
@@ -236,8 +235,7 @@ void StartDefaultTask(void const * argument)
   /* Infinite loop */
   for(;;)
   {
-	  if (!device->firmware_flag)
-		  start_mqtt();
+	  start_mqtt();
 	  osDelay(1000);
   }
   /* USER CODE END StartDefaultTask */

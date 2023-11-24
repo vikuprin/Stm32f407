@@ -3,4 +3,4 @@ sensor.c:29:6:mass_temp	3
 sensor.c:53:6:get_ds_data	1
 sensor.c:84:6:get_ds_data_mass	2
 sensor.c:93:6:init_ds_devices	5
-sensor.c:130:6:DSTask	2
+sensor.c:130:6:DSTask	1
