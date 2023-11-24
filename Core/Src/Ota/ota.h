@@ -28,7 +28,6 @@ struct tcp_client_struct
   struct pbuf *p;
 };
 
-char ota_url[300];
 uint32_t ota_length;
 
 void set_ota_url(char *url);

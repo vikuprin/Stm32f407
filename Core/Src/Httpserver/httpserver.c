@@ -182,7 +182,7 @@ int registration_data_handler_post(char *str)
 		char param[80];
 		sprintf(param, "%s", cJSON_GetObjectItem(root, "server_ip")->valuestring);
 		strcpy(wireless_params->server_ip, param);
-		set_ota_url(wireless_params->server_ip);
+//		set_ota_url(wireless_params->server_ip);
     }
     if (cJSON_GetObjectItem(root, "domain") != NULL)
     {

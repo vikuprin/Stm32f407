@@ -38,7 +38,6 @@ void firmware_handler(cJSON *firmware_js)
 {
     if (check_js_param_char(firmware_js, "domain", &wireless_params->domain))
     {
-        set_ota_url(wireless_params->server_ip);
         write_wireless_params(wireless_params);
     }
     bool start_firmware = false;
@@ -46,37 +45,6 @@ void firmware_handler(cJSON *firmware_js)
     {
         if (start_firmware)
             start_update_firmware_isr();
-    }
-    cJSON *firmware_option_js = cJSON_GetObjectItem(firmware_js, "firmware_option");
-    if (firmware_option_js != NULL)
-    {
-        char *domain = malloc(100);
-        while (domain == NULL)
-        {
-            vTaskDelay(10);
-            domain = malloc(100);
-        }
-        char *version = malloc(16);
-        while (version == NULL)
-        {
-            vTaskDelay(10);
-            version = malloc(16);
-        }
-        check_js_param_char(firmware_option_js, "domain", &domain);
-        set_ota_url(domain);
-        if (check_js_param_char(firmware_option_js, "version", &version))
-        {
-            if (strcmp(VERSION, version) != 0)
-            {
-                start_update_firmware_isr();
-            }
-        }
-        else
-        {
-            start_update_firmware_isr();
-        }
-        free(domain);
-        free(version);
     }
 }
 

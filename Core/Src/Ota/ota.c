@@ -24,19 +24,6 @@ void start_update_firmware_isr()
     xSemaphoreGiveFromISR(ota_mutex, NULL);
 }
 
-void set_ota_url(char *url)
-{
-    char *full_url = malloc(300);
-    while (full_url == NULL)
-    {
-        vTaskDelay(10);
-        full_url = malloc(300);
-    }
-    sprintf(full_url, "http://%s:5000/updatefirmware/cityair350/stm32/%s/%s/%s", url, SUBTYPE, XTAL_FREQ, wireless_params->vakio.device_id);
-    DEBUG_OTA("set ota url %s\n", full_url);
-    strcpy(ota_url, full_url);
-    free(full_url);
-}
 void erase_sectors()
 {
 	Flash_Delete_Data(OTA_ADDR_FLASH);
@@ -100,7 +87,7 @@ int flash_data(char* buf, int len)
 
   return ret;
 }
-//http://51.250.111.175:5000/updatefirmware/cityair350/stm32/default/168/28108
+
 static err_t tcp_send_packet(struct tcp_pcb *tpcb)
 {
 	err_t ret_err;
@@ -345,9 +332,8 @@ void OtaTask(void const * argument)
     {
         xSemaphoreTake(ota_mutex, portMAX_DELAY);
         DEBUG_OTA("Take mute OTA\n");
-    	if(netif_is_link_up(&gnetif) && strlen(ota_url) > 3)
+    	if(netif_is_link_up(&gnetif))
     	{
-    		DEBUG_OTA("Start ota %s\n", ota_url);
     		publish_firmware_state("start");
 //    		test_wireless_params();
     		close_damper();
