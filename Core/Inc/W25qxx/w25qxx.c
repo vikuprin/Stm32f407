@@ -3,13 +3,6 @@
 #include "w25qxx.h"
 #include <stdio.h>
 
-#if DEBUG_PRINT == 1
-#define DEBUG_W25QXX(...) printf("W25QXX: "__VA_ARGS__);
-#else
-#define DEBUG_W25QXX(...)
-#endif
-
-
 #define W25QXX_DUMMY_BYTE 0xA5
 
 w25qxx_t w25qxx;
@@ -877,10 +870,3 @@ void W25qxx_ReadBlock(uint8_t *pBuffer, uint32_t Block_Address, uint32_t OffsetI
 	W25qxx_Delay(100);
 }
 //###################################################################################################################
-//	I2C_Scan(&hi2c1); // НОМЕР I2C
-//	char wstr[] ="istarik.ru - stD";
-//	Write_mem(0, wstr, strlen(wstr)); // запись начинается с нулевого адреса (24c32 = 4кБ)
-//	DEBUG_STORAGE("%с", wstr);
-//	char rstr[200] = {0,};
-//	Read_mem(0, rstr, sizeof(rstr)); // читаем с нулевого адреса
-//	DEBUG_STORAGE("%с", rstr);

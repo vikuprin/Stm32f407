@@ -175,7 +175,7 @@ static err_t tcp_client_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, er
   {
     /* remote host closed connection */
     es->state = ES_CLOSING;
-    device->ota_len = ota_length;
+    device_ota_len = ota_length;
     write_device_params();
     publish_firmware_state("done");
     boot_jump();

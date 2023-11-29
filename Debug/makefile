@@ -42,7 +42,6 @@ RM := rm -rf
 -include Core/Inc/Sht30/subdir.mk
 -include Core/Inc/MODBUS-LIB/subdir.mk
 -include Core/Inc/FLASH_SECTOR_F4/subdir.mk
--include Core/Inc/Epm_24c32/subdir.mk
 -include Core/Inc/Ds18b20/subdir.mk
 -include Core/Inc/Aht20/subdir.mk
 -include objects.mk

@@ -1,4 +1,0 @@
-../Core/Inc/Epm_24c32/epm_24c32.c:4:6:Write_mem	80	static
-../Core/Inc/Epm_24c32/epm_24c32.c:46:6:Read_mem	72	static
-../Core/Inc/Epm_24c32/epm_24c32.c:58:6:I2C_Scan	88	static
-../Core/Inc/Epm_24c32/epm_24c32.c:77:6:I2C_Error	88	static

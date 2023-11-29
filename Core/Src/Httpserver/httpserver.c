@@ -294,7 +294,7 @@ static void http_server(struct netconn *conn)
 
         netconn_write(conn, http_redirect, sizeof(http_redirect)-1, NETCONN_NOCOPY);
 
-        device->ota_len = ota_length;
+        device_ota_len = ota_length;
 		write_device_params();
 
 		boot_jump();

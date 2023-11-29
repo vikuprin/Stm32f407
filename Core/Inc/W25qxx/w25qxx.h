@@ -39,6 +39,12 @@ extern "C"
 #include <stdbool.h>
 #include "main.h"
 
+#if DEBUG_PRINT == 1
+#define DEBUG_W25QXX(...) printf("W25QXX: "__VA_ARGS__);
+#else
+#define DEBUG_W25QXX(...)
+#endif
+
 	typedef enum
 	{
 		W25Q10 = 1,
@@ -92,7 +98,7 @@ extern "C"
 	bool W25qxx_IsEmptySector(uint32_t Sector_Address, uint32_t OffsetInByte, uint32_t NumByteToCheck_up_to_SectorSize);
 	bool W25qxx_IsEmptyBlock(uint32_t Block_Address, uint32_t OffsetInByte, uint32_t NumByteToCheck_up_to_BlockSize);
 
-	void W25qxx_WriteByte(uint8_t pBuffer, uint32_t Bytes_Address);
+	void W25qxx_WriteByte(uint8_t byte, uint32_t addr);
 	void W25qxx_WritePage(uint8_t *pBuffer, uint32_t Page_Address, uint32_t OffsetInByte, uint32_t NumByteToWrite_up_to_PageSize);
 	void W25qxx_WriteSector(uint8_t *pBuffer, uint32_t Sector_Address, uint32_t OffsetInByte, uint32_t NumByteToWrite_up_to_SectorSize);
 	void W25qxx_WriteBlock(uint8_t *pBuffer, uint32_t Block_Address, uint32_t OffsetInByte, uint32_t NumByteToWrite_up_to_BlockSize);
