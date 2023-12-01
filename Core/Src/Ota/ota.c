@@ -37,7 +37,7 @@ void erase_sectors()
 	}
 	DEBUG_OTA("Erase sectors!\n");
 }
-//
+
 //uint32_t address_byte = OTA_EXT_BYTE;
 //void ext_flash_ota(char* buf, int len)
 //{
@@ -48,48 +48,67 @@ void erase_sectors()
 //	}
 //}
 
+// uint16_t address_sector = OTA_EXT_SECTOR;
+// uint16_t offset = 0;
+// uint16_t new_len[4];
+// void ext_flash_ota(char* buf, uint16_t len)
+// {
+// 	new_len[0] = 256 - offset;
+// 	W25qxx_WritePage(buf, address_sector, offset, new_len[0]);
+// 	offset = 0;
+// 	address_sector++;
+
+// 	new_len[1] = len - new_len[0];
+// 	if(new_len[1] > 256)
+// 	{
+// 		new_len[1] = 256;
+// 		W25qxx_WritePage(buf[new_len[0]], address_sector, offset, new_len[1]);
+// 		offset = 0;
+// 		address_sector++;
+
+// 		new_len[2] = len - new_len[0] - new_len[1];
+// 		if(new_len[2] > 256)
+// 		{
+// 			new_len[2] = 256;
+// 			W25qxx_WritePage(buf[new_len[0] + new_len[1]], address_sector, offset, new_len[2]);
+// 			offset = 0;
+// 			address_sector++;
+
+// 			new_len[3] = len - new_len[0] - new_len[1] - new_len[2];
+// 			W25qxx_WritePage(buf[new_len[0] + new_len[1] + new_len[2]], address_sector, offset, new_len[3]);
+// 			offset = new_len[3];
+// 		}
+// 		else
+// 		{
+// 			W25qxx_WritePage(buf[new_len[0] + new_len[1]], address_sector, offset, new_len[2]);
+// 			offset = new_len[2];
+// 		}
+// 	}
+// 	else
+// 	{
+// 		W25qxx_WritePage(buf[new_len[0]], address_sector, offset, new_len[1]);
+// 		offset = new_len[1];
+// 	}
+// }
+
 uint16_t address_sector = OTA_EXT_SECTOR;
 uint16_t offset = 0;
-uint16_t new_len[4];
-
 void ext_flash_ota(char* buf, uint16_t len)
 {
-	new_len[0] = 256 - offset;
-	W25qxx_WritePage(buf, address_sector, offset, new_len[0]);
-	offset = 0;
-	address_sector++;
+  uint16_t count_len = 4096 - offset;
+  if(count_len >= len)
+  {
+    W25qxx_WriteSector(buf, address_sector, offset, len);
+    offset = offset + len;
+  }
+  else
+  {
+    W25qxx_WriteSector(buf, address_sector, offset, count_len);
+    address_sector++;
 
-	new_len[1] = len - new_len[0];
-	if(new_len[1] > 256)
-	{
-		new_len[1] = 256;
-		W25qxx_WritePage(buf[new_len[0]], address_sector, offset, new_len[1]);
-		offset = 0;
-		address_sector++;
-
-		new_len[2] = len - new_len[0] - new_len[1];
-		if(new_len[2] > 256)
-		{
-			new_len[2] = 256;
-			W25qxx_WritePage(buf[new_len[0] + new_len[1]], address_sector, offset, new_len[2]);
-			offset = 0;
-			address_sector++;
-
-			new_len[3] = len - new_len[0] - new_len[1] - new_len[2];
-			W25qxx_WritePage(buf[new_len[0] + new_len[1] + new_len[2]], address_sector, offset, new_len[3]);
-			offset = new_len[3];
-		}
-		else
-		{
-			W25qxx_WritePage(buf[new_len[0] + new_len[1]], address_sector, offset, new_len[2]);
-			offset = new_len[2];
-		}
-	}
-	else
-	{
-		W25qxx_WritePage(buf[new_len[0]], address_sector, offset, new_len[1]);
-		offset = new_len[1];
-	}
+    W25qxx_WriteSector(buf[count_len], address_sector, 0, len - count_len);
+    offset = len - count_len;
+  }
 }
 
 static err_t tcp_send_packet(struct tcp_pcb *tpcb)
