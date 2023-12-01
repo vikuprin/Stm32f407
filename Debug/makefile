@@ -35,6 +35,7 @@ RM := rm -rf
 -include Core/Src/Mqtt/subdir.mk
 -include Core/Src/Modes/subdir.mk
 -include Core/Src/Httpserver/subdir.mk
+-include Core/Src/Bootloader/subdir.mk
 -include Core/Src/subdir.mk
 -include Core/Inc/cJSON/subdir.mk
 -include Core/Inc/XGZP6897D/subdir.mk

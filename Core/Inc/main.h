@@ -46,22 +46,21 @@ uint8_t msg[80];
 #define DEBUG_MAIN(...)
 #endif
 
-// FLASH(rx): ORIGIN = 0x080A0000                   //FLASH_SECTOR_9 FOR BOOTLOADER
-// FLASH(rx): ORIGIN = 0x08000000                   //FLASH_SECTOR_0 FOR NOT BOOTLOADER
-#define BOOT_ADDR_FLASH      0x08000000             //FLASH_SECTOR_0
-#define OTA_ADDR_FLASH       0x08040000             //FLASH_SECTOR_6
-#define OTA_ADDR1_FLASH      0x08060000             //FLASH_SECTOR_7
-#define OTA_ADDR2_FLASH      0x08080000             //FLASH_SECTOR_8
+#define BOOTLOADER 1
+
+#define OTA_ADDR_FLASH_1     0x08080000  //FLASH_SECTOR_8
+#define OTA_ADDR_FLASH_2     0x080A0000  //FLASH_SECTOR_9
+#define OTA_ADDR_FLASH_3     0x080C0000  //FLASH_SECTOR_10
+#define OTA_ADDR_FLASH_4     0x080E0000  //FLASH_SECTOR_11
 
 #define CHECK_EXT_BYTE       0
-#define OTA_EXT_BYTE_1       1
-#define OTA_EXT_BYTE_2       2
-#define OTA_EXT_BYTE_3       3
-#define OTA_EXT_BYTE_4       4
+#define OTA_LEN_EXT_BYTE     1           //1-4
+#define OTA_EXT_BYTE         40960
 
-#define CHECK_OTA_SECTOR 	 0
+#define VAR_EXT_SECTOR 	     0
 #define DEVICE_EXT_SECTOR 	 1
 #define WIRELESS_EXT_SECTOR	 2
+#define OTA_EXT_SECTOR	     10
 
 #define DNS 0
 

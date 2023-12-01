@@ -20,6 +20,8 @@ void write_device_params();
 void read_device_params();
 void write_wireless_params();
 void read_wireless_params();
+void write_ota_byte();
+void read_ota_byte();
 
 void init_storage();
 void reset_nvs_parameteres();

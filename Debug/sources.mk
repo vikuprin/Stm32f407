@@ -31,6 +31,7 @@ Core/Inc/Sht30 \
 Core/Inc/W25qxx \
 Core/Inc/XGZP6897D \
 Core/Inc/cJSON \
+Core/Src/Bootloader \
 Core/Src/Httpserver \
 Core/Src/Modes \
 Core/Src/Mqtt \

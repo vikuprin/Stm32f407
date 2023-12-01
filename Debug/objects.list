@@ -9,6 +9,7 @@
 "./Core/Inc/XGZP6897D/XGZP6897D.o"
 "./Core/Inc/cJSON/cJSON.o"
 "./Core/Inc/cJSON/utils.o"
+"./Core/Src/Bootloader/bootloader.o"
 "./Core/Src/Httpserver/httpserver.o"
 "./Core/Src/Modes/modes.o"
 "./Core/Src/Modes/smart_mode_external.o"

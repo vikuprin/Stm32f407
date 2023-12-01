@@ -277,7 +277,15 @@ static void http_server(struct netconn *conn)
           temp_buf = strstr(temp_buf, "\r\n\r\n");
           temp_buf += 4;
           buflen -= (temp_buf - temp_str);
-          flash_data(temp_buf, buflen);
+
+          for (int i = 0; i < buflen; i++)
+          {
+        	  DEBUG_SERVER("%02X\n", temp_buf[i]);
+          }
+
+
+
+          ext_flash_ota(temp_buf, buflen);
         }
 
         while(recv_err == ERR_OK)
@@ -287,7 +295,7 @@ static void http_server(struct netconn *conn)
           netbuf_data(inbuf, (void**) &buf, &buflen);
           memcpy(temp_str, buf, buflen);
 
-          flash_data(temp_str, buflen);
+          ext_flash_ota(temp_str, buflen);
           if (buflen < 536)
              break;
         }
@@ -295,9 +303,8 @@ static void http_server(struct netconn *conn)
         netconn_write(conn, http_redirect, sizeof(http_redirect)-1, NETCONN_NOCOPY);
 
         device_ota_len = ota_length;
-		write_device_params();
-
-		boot_jump();
+        write_ota_byte();
+		HAL_NVIC_SystemReset();
       }
       else if (strncmp((char const *)buf,"POST /dataserver", 16) == 0)
       {

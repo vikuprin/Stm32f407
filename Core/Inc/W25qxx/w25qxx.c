@@ -14,10 +14,14 @@ extern SPI_HandleTypeDef _W25QXX_SPI;
 #define W25qxx_Delay(delay) HAL_Delay(delay)
 #endif
 //###################################################################################################################
-uint8_t W25qxx_Spi(uint8_t Data)
+void W25qxx_Spi(uint8_t Data)
+{
+	HAL_SPI_Transmit_DMA(&_W25QXX_SPI, &Data, 1);
+}
+uint8_t W25qxx_Spi_(uint8_t Data)
 {
 	uint8_t ret;
-	HAL_SPI_TransmitReceive(&_W25QXX_SPI, &Data, &ret, 1, 100);
+	HAL_SPI_TransmitReceive_DMA(&_W25QXX_SPI, &Data, &ret, 1);
 	return ret;
 }
 //###################################################################################################################
@@ -26,9 +30,9 @@ uint32_t W25qxx_ReadID(void)
 	uint32_t Temp = 0, Temp0 = 0, Temp1 = 0, Temp2 = 0;
 	HAL_GPIO_WritePin(_W25QXX_CS_GPIO, _W25QXX_CS_PIN, GPIO_PIN_RESET);
 	W25qxx_Spi(0x9F);
-	Temp0 = W25qxx_Spi(W25QXX_DUMMY_BYTE);
-	Temp1 = W25qxx_Spi(W25QXX_DUMMY_BYTE);
-	Temp2 = W25qxx_Spi(W25QXX_DUMMY_BYTE);
+	Temp0 = W25qxx_Spi_(W25QXX_DUMMY_BYTE);
+	Temp1 = W25qxx_Spi_(W25QXX_DUMMY_BYTE);
+	Temp2 = W25qxx_Spi_(W25QXX_DUMMY_BYTE);
 	HAL_GPIO_WritePin(_W25QXX_CS_GPIO, _W25QXX_CS_PIN, GPIO_PIN_SET);
 	Temp = (Temp0 << 16) | (Temp1 << 8) | Temp2;
 	return Temp;
@@ -41,7 +45,7 @@ void W25qxx_ReadUniqID(void)
 	for (uint8_t i = 0; i < 4; i++)
 		W25qxx_Spi(W25QXX_DUMMY_BYTE);
 	for (uint8_t i = 0; i < 8; i++)
-		w25qxx.UniqID[i] = W25qxx_Spi(W25QXX_DUMMY_BYTE);
+		w25qxx.UniqID[i] = W25qxx_Spi_(W25QXX_DUMMY_BYTE);
 	HAL_GPIO_WritePin(_W25QXX_CS_GPIO, _W25QXX_CS_PIN, GPIO_PIN_SET);
 }
 //###################################################################################################################
@@ -68,19 +72,19 @@ uint8_t W25qxx_ReadStatusRegister(uint8_t SelectStatusRegister_1_2_3)
 	if (SelectStatusRegister_1_2_3 == 1)
 	{
 		W25qxx_Spi(0x05);
-		status = W25qxx_Spi(W25QXX_DUMMY_BYTE);
+		status = W25qxx_Spi_(W25QXX_DUMMY_BYTE);
 		w25qxx.StatusRegister1 = status;
 	}
 	else if (SelectStatusRegister_1_2_3 == 2)
 	{
 		W25qxx_Spi(0x35);
-		status = W25qxx_Spi(W25QXX_DUMMY_BYTE);
+		status = W25qxx_Spi_(W25QXX_DUMMY_BYTE);
 		w25qxx.StatusRegister2 = status;
 	}
 	else
 	{
 		W25qxx_Spi(0x15);
-		status = W25qxx_Spi(W25QXX_DUMMY_BYTE);
+		status = W25qxx_Spi_(W25QXX_DUMMY_BYTE);
 		w25qxx.StatusRegister3 = status;
 	}
 	HAL_GPIO_WritePin(_W25QXX_CS_GPIO, _W25QXX_CS_PIN, GPIO_PIN_SET);
@@ -116,7 +120,7 @@ void W25qxx_WaitForWriteEnd(void)
 	W25qxx_Spi(0x05);
 	do
 	{
-		w25qxx.StatusRegister1 = W25qxx_Spi(W25QXX_DUMMY_BYTE);
+		w25qxx.StatusRegister1 = W25qxx_Spi_(W25QXX_DUMMY_BYTE);
 		W25qxx_Delay(1);
 	} while ((w25qxx.StatusRegister1 & 0x01) == 0x01);
 	HAL_GPIO_WritePin(_W25QXX_CS_GPIO, _W25QXX_CS_PIN, GPIO_PIN_SET);
@@ -711,7 +715,7 @@ void W25qxx_ReadByte(uint8_t *pBuffer, uint32_t Bytes_Address)
 	W25qxx_Spi((Bytes_Address & 0xFF00) >> 8);
 	W25qxx_Spi(Bytes_Address & 0xFF);
 	W25qxx_Spi(0);
-	*pBuffer = W25qxx_Spi(W25QXX_DUMMY_BYTE);
+	*pBuffer = W25qxx_Spi_(W25QXX_DUMMY_BYTE);
 	HAL_GPIO_WritePin(_W25QXX_CS_GPIO, _W25QXX_CS_PIN, GPIO_PIN_SET);
 	DEBUG_W25QXX("w25qxx ReadByte 0x%02X done after %d ms\r\n", *pBuffer, HAL_GetTick() - StartTime);
 	w25qxx.Lock = 0;

@@ -44,6 +44,7 @@
 #include "modbus_config.h"
 #include "onewire.h"
 #include "smart_mode_external.h"
+#include "bootloader.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -212,7 +213,7 @@ int main(void)
   init_storage();
 //  init_sht_devices();
   HAL_TIM_Base_Start_IT(&htim1);                 //таймер для вычисления показаний датчиков
-  HAL_TIM_Base_Start_IT(&htim2);                 //таймер для работы ПИД регулятора тена
+  HAL_TIM_Base_Start_IT(&htim2);                 //таймер для работы П�?Д регулятора тена
   HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_2);      //шим вентилятора
   HAL_TIM_PWM_Start(&htim9, TIM_CHANNEL_2);      //шим тена
   HAL_TIM_IC_Start_IT(&htim3, TIM_CHANNEL_3);    //захват/сравнение счетчика скорости вентилятора 3 канала

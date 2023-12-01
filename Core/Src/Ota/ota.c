@@ -8,6 +8,7 @@
 #include "tim.h"
 #include "damper.h"
 #include "FLASH_SECTOR_F4.h"
+#include "w25qxx.h"
 
 extern struct netif gnetif;
 extern int content_length;
@@ -26,66 +27,110 @@ void start_update_firmware_isr()
 
 void erase_sectors()
 {
-	Flash_Delete_Data(OTA_ADDR_FLASH);
-	Flash_Delete_Data(OTA_ADDR1_FLASH);
-	Flash_Delete_Data(OTA_ADDR2_FLASH);
+	uint16_t address_sector = OTA_EXT_SECTOR;
+	uint8_t num_sector = ota_length / 4096 + 1;
+
+	for (uint8_t i = 0; i < num_sector; i++)
+	{
+		W25qxx_EraseSector(address_sector);
+		address_sector++;
+	}
 	DEBUG_OTA("Erase sectors!\n");
 }
+//
+//uint32_t address_byte = OTA_EXT_BYTE;
+//void ext_flash_ota(char* buf, int len)
+//{
+//	for (uint16_t i = 0; i < len; i++)
+//	{
+//		W25qxx_WriteByte(buf[i], address_byte);
+//		address_byte++;
+//	}
+//}
 
-void boot_jump()
+
+
+
+uint16_t address_sector = OTA_EXT_SECTOR;
+uint16_t offset = 0;
+uint16_t new_len[4];
+
+//void ext_flash_ota(char* buf, uint16_t len)
+//{
+//	char buf_str[256];
+//
+//	new_len[0] = 256 - offset;
+//	strncpy(buf_str, buf, new_len[0]);
+//	W25qxx_WritePage(buf_str, address_sector, offset, new_len[0]);
+//	offset = 0;
+//	address_sector++;
+//
+//	new_len[1] = 256;
+//	strncpy(buf_str, buf + new_len[0], new_len[1]);
+//	W25qxx_WritePage(buf_str, address_sector, offset, new_len[1]);
+//	offset = 0;
+//	address_sector++;
+//
+//	new_len[2] = len - new_len[0] - new_len[1];
+//	if(new_len[2] > 256)
+//	{
+//		new_len[2] = 256;
+//		strncpy(buf_str, buf + new_len[0] + new_len[1], new_len[2]);
+//		W25qxx_WritePage(buf_str, address_sector, offset, new_len[2]);
+//		offset = 0;
+//		address_sector++;
+//
+//		new_len[3] = len - new_len[0] - new_len[1] - new_len[2];
+//		strncpy(buf_str, buf + new_len[0] + new_len[1] + new_len[2], new_len[3]);
+//		W25qxx_WritePage(buf_str, address_sector, offset, new_len[3]);
+//		offset = new_len[3];
+//	}
+//	else
+//	{
+//		strncpy(buf_str, buf + new_len[0] + new_len[1], new_len[2]);
+//		W25qxx_WritePage(buf_str, address_sector, offset, new_len[2]);
+//		offset = new_len[2];
+//	}
+//}
+
+void ext_flash_ota(char* buf, uint16_t len)
 {
-	HAL_RCC_DeInit();
-	HAL_DeInit();
-	__disable_irq();
-	__set_MSP(*((volatile uint32_t *) (BOOT_ADDR_FLASH)));
-	__DMB();
-	SCB->VTOR = BOOT_ADDR_FLASH;
-	__DSB();
-	uint32_t JumpAddress = *((volatile uint32_t*) (BOOT_ADDR_FLASH + 4));
-	void (*reset_handler) (void) = (void*) JumpAddress;
-	reset_handler();
-}
+	new_len[0] = 256 - offset;
+	W25qxx_WritePage(buf, address_sector, offset, new_len[0]);
+	offset = 0;
+	address_sector++;
 
-int address_flash = OTA_ADDR_FLASH;
-int flash_data(char* buf, int len)
-{
-  __HAL_FLASH_PREFETCH_BUFFER_DISABLE();
-  __HAL_FLASH_SET_LATENCY(FLASH_LATENCY_5);
+	new_len[1] = len - new_len[0];
+	if(new_len[1] > 256)
+	{
+		new_len[1] = 256;
+		W25qxx_WritePage(buf[new_len[0]], address_sector, offset, new_len[1]);
+		offset = 0;
+		address_sector++;
 
-  HAL_StatusTypeDef ret;
+		new_len[2] = len - new_len[0] - new_len[1];
+		if(new_len[2] > 256)
+		{
+			new_len[2] = 256;
+			W25qxx_WritePage(buf[new_len[0] + new_len[1]], address_sector, offset, new_len[2]);
+			offset = 0;
+			address_sector++;
 
-  ret = HAL_FLASH_Unlock();
-  if (ret != HAL_OK)
-	  return ret;
-
-  __HAL_FLASH_CLEAR_FLAG(FLASH_FLAG_EOP
-                         | FLASH_FLAG_OPERR
-                         | FLASH_FLAG_WRPERR
-                         | FLASH_FLAG_PGAERR
-                         | FLASH_FLAG_PGSERR);
-
-  if (pFlash.ErrorCode != 0)
-      return pFlash.ErrorCode;
-
-  for (int i = 0; i < len; i++)
-  {
-    FLASH_WaitForLastOperation(HAL_MAX_DELAY);
-    ret = HAL_FLASH_Program(FLASH_TYPEPROGRAM_BYTE, address_flash, buf[i]);
-    if (ret != HAL_OK)
-    {
-    	printf("App Flash Write Error\n");
-        break;
-    }
-    address_flash++;
-  }
-
-  FLASH_WaitForLastOperation(500);
-
-  ret = HAL_FLASH_Lock();
-  if(ret != HAL_OK)
-	  return ret;
-
-  return ret;
+			new_len[3] = len - new_len[0] - new_len[1] - new_len[2];
+			W25qxx_WritePage(buf[new_len[0] + new_len[1] + new_len[2]], address_sector, offset, new_len[3]);
+			offset = new_len[3];
+		}
+		else
+		{
+			W25qxx_WritePage(buf[new_len[0] + new_len[1]], address_sector, offset, new_len[2]);
+			offset = new_len[2];
+		}
+	}
+	else
+	{
+		W25qxx_WritePage(buf[new_len[0]], address_sector, offset, new_len[1]);
+		offset = new_len[1];
+	}
 }
 
 static err_t tcp_send_packet(struct tcp_pcb *tpcb)
@@ -176,9 +221,9 @@ static err_t tcp_client_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, er
     /* remote host closed connection */
     es->state = ES_CLOSING;
     device_ota_len = ota_length;
-    write_device_params();
-    publish_firmware_state("done");
-    boot_jump();
+    write_ota_byte();
+//    publish_firmware_state("done");
+    HAL_NVIC_SystemReset();
     if(es->p == NULL)
     {
        /* we're done sending, close connection */
@@ -234,6 +279,7 @@ static err_t tcp_client_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, er
   {
 	  ota_length = http_get_content_length((char *)p->payload);
 	  DEBUG_OTA("content_length = %lu\n", ota_length);
+	  erase_sectors();
 
 	  char* temp_buf = NULL;
 	  temp_buf = strstr((char *)p->payload, "Vary: Origin");
@@ -243,11 +289,13 @@ static err_t tcp_client_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, er
 	  u16_t tcp_len;
 	  tcp_len = p->tot_len;
 	  tcp_len -= (temp_buf - (char *)p->payload);
-	  flash_data(temp_buf, tcp_len);
+//	  ext_flash_ota(temp_buf, tcp_len);
+	  W25qxx_WritePage(temp_buf, address_sector, offset, tcp_len);
+	  offset = offset + tcp_len;
   }
   else
   {
-	  flash_data((char *)p->payload, p->tot_len);
+	  ext_flash_ota((char *)p->payload, p->tot_len);
   }
 
   return ret_err;
@@ -328,14 +376,17 @@ void test_wireless_params()
 void OtaTask(void const * argument)
 {
 	ota_mutex = xSemaphoreCreateBinary();
+	xSemaphoreGive(ota_mutex);
     for(;;)
     {
+    	vTaskDelay(15000);
         xSemaphoreTake(ota_mutex, portMAX_DELAY);
         DEBUG_OTA("Take mute OTA\n");
     	if(netif_is_link_up(&gnetif))
     	{
-    		publish_firmware_state("start");
-//    		test_wireless_params();
+
+//    		publish_firmware_state("start");
+    		test_wireless_params();//////////////////
     		close_damper();
 
     		HAL_TIM_Base_Stop(&htim1);                    //таймер для вычисления показаний датчиков
@@ -346,7 +397,6 @@ void OtaTask(void const * argument)
     		HAL_TIM_IC_Stop(&htim3, TIM_CHANNEL_4);       //захват/сравнение счетчика скорости вентилятора 4 канала
     		HAL_TIM_Base_Stop(&htim12);
 
-    		erase_sectors();
     		tcp_setup();
     	}
         else

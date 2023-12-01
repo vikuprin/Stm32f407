@@ -87,7 +87,8 @@ Core/Src/Ota/ota.o: ../Core/Src/Ota/ota.c ../Core/Src/Ota/ota.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/icmp.h \
  D:/Project/Stm32f407/Core/Src/Storage/storage.h ../Core/Inc/usart.h \
  ../Core/Inc/tim.h D:/Project/Stm32f407/Core/Src/Peripheral/damper.h \
- D:/Project/Stm32f407/Core/Inc/FLASH_SECTOR_F4/FLASH_SECTOR_F4.h
+ D:/Project/Stm32f407/Core/Inc/FLASH_SECTOR_F4/FLASH_SECTOR_F4.h \
+ D:/Project/Stm32f407/Core/Inc/W25qxx/w25qxx.h
 ../Core/Src/Ota/ota.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
@@ -182,3 +183,4 @@ D:/Project/Stm32f407/Core/Src/Storage/storage.h:
 ../Core/Inc/tim.h:
 D:/Project/Stm32f407/Core/Src/Peripheral/damper.h:
 D:/Project/Stm32f407/Core/Inc/FLASH_SECTOR_F4/FLASH_SECTOR_F4.h:
+D:/Project/Stm32f407/Core/Inc/W25qxx/w25qxx.h:
