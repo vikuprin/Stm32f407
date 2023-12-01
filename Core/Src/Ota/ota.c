@@ -267,9 +267,7 @@ static err_t tcp_client_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, er
 	  u16_t tcp_len;
 	  tcp_len = p->tot_len;
 	  tcp_len -= (temp_buf - (char *)p->payload);
-//	  ext_flash_ota(temp_buf, tcp_len);
-	  W25qxx_WritePage(temp_buf, address_sector, offset, tcp_len);
-	  offset = offset + tcp_len;
+	  ext_flash_ota(temp_buf, tcp_len);
   }
   else
   {
