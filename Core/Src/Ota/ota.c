@@ -48,50 +48,9 @@ void erase_sectors()
 //	}
 //}
 
-
-
-
 uint16_t address_sector = OTA_EXT_SECTOR;
 uint16_t offset = 0;
 uint16_t new_len[4];
-
-//void ext_flash_ota(char* buf, uint16_t len)
-//{
-//	char buf_str[256];
-//
-//	new_len[0] = 256 - offset;
-//	strncpy(buf_str, buf, new_len[0]);
-//	W25qxx_WritePage(buf_str, address_sector, offset, new_len[0]);
-//	offset = 0;
-//	address_sector++;
-//
-//	new_len[1] = 256;
-//	strncpy(buf_str, buf + new_len[0], new_len[1]);
-//	W25qxx_WritePage(buf_str, address_sector, offset, new_len[1]);
-//	offset = 0;
-//	address_sector++;
-//
-//	new_len[2] = len - new_len[0] - new_len[1];
-//	if(new_len[2] > 256)
-//	{
-//		new_len[2] = 256;
-//		strncpy(buf_str, buf + new_len[0] + new_len[1], new_len[2]);
-//		W25qxx_WritePage(buf_str, address_sector, offset, new_len[2]);
-//		offset = 0;
-//		address_sector++;
-//
-//		new_len[3] = len - new_len[0] - new_len[1] - new_len[2];
-//		strncpy(buf_str, buf + new_len[0] + new_len[1] + new_len[2], new_len[3]);
-//		W25qxx_WritePage(buf_str, address_sector, offset, new_len[3]);
-//		offset = new_len[3];
-//	}
-//	else
-//	{
-//		strncpy(buf_str, buf + new_len[0] + new_len[1], new_len[2]);
-//		W25qxx_WritePage(buf_str, address_sector, offset, new_len[2]);
-//		offset = new_len[2];
-//	}
-//}
 
 void ext_flash_ota(char* buf, uint16_t len)
 {
