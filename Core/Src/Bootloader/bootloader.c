@@ -2,7 +2,7 @@
 #include "w25qxx.h"
 #include "storage.h"
 #include "FLASH_SECTOR_F4.h"
-#include "spi.h"
+#include "ota.h"
 
 extern FLASH_ProcessTypeDef pFlash;
 
@@ -50,21 +50,8 @@ int flash_data(char* buf, int len)
   return ret;
 }
 
-static void jumpToApp(uint32_t start_program_addr)
-{
-	HAL_DeInit();
-	__set_MSP(*((volatile uint32_t *) (start_program_addr)));
-	__DMB();
-	SCB->VTOR = start_program_addr;
-	__DSB();
-    uint32_t JumpAddress = *((volatile uint32_t*) (start_program_addr + 4));
-    void (*reset_handler) (void) = (void*) JumpAddress;
-    reset_handler();
-}
-
 void bootloader()
 {
-	MX_SPI1_Init();
 	W25qxx_Init();
 	read_ota_byte();
 	if (device_ota_len > (128 * 1024))
@@ -74,7 +61,7 @@ void bootloader()
 		Flash_Delete_Data(OTA_ADDR_FLASH_3);
 		Flash_Delete_Data(OTA_ADDR_FLASH_4);
 
-		uint16_t start_page_addr = OTA_EXT_BYTE / 256;
+		uint16_t start_page_addr = OTA_EXT_SECTOR * 4096 / 256;
 		uint16_t num_page_addr = device_ota_len / 256 + 1;
 
 		for (uint16_t i = 0; i < num_page_addr; i++)

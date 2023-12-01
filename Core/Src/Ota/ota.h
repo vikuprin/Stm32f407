@@ -34,5 +34,6 @@ void set_ota_url(char *url);
 void erase_sectors();
 void ext_flash_ota(char* buf, uint16_t len);
 void start_update_firmware_isr();
+void jumpToApp(uint32_t start_program_addr);
 
 #endif

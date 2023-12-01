@@ -102,7 +102,8 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  C:/Microcontroller/VAKIO/Stm32f407/Core/Inc/MODBUS-LIB/modbus_config.h \
  C:/Microcontroller/VAKIO/Stm32f407/Core/Inc/Ds18b20/onewire.h \
  C:/Microcontroller/VAKIO/Stm32f407/Core/Src/Modes/smart_mode_external.h \
- C:/Microcontroller/VAKIO/Stm32f407/Core/Src/Bootloader/bootloader.h
+ C:/Microcontroller/VAKIO/Stm32f407/Core/Src/Bootloader/bootloader.h \
+ C:/Microcontroller/VAKIO/Stm32f407/Core/Inc/W25qxx/w25qxx.h
 
 ../Core/Inc/main.h:
 
@@ -323,3 +324,5 @@ C:/Microcontroller/VAKIO/Stm32f407/Core/Inc/Ds18b20/onewire.h:
 C:/Microcontroller/VAKIO/Stm32f407/Core/Src/Modes/smart_mode_external.h:
 
 C:/Microcontroller/VAKIO/Stm32f407/Core/Src/Bootloader/bootloader.h:
+
+C:/Microcontroller/VAKIO/Stm32f407/Core/Inc/W25qxx/w25qxx.h:

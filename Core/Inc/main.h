@@ -48,6 +48,7 @@ uint8_t msg[80];
 
 #define BOOTLOADER 1
 
+#define BOOT_ADDR_FLASH      0x08000000  //FLASH_SECTOR_0
 #define OTA_ADDR_FLASH_1     0x08080000  //FLASH_SECTOR_8
 #define OTA_ADDR_FLASH_2     0x080A0000  //FLASH_SECTOR_9
 #define OTA_ADDR_FLASH_3     0x080C0000  //FLASH_SECTOR_10
@@ -55,7 +56,6 @@ uint8_t msg[80];
 
 #define CHECK_EXT_BYTE       0
 #define OTA_LEN_EXT_BYTE     1           //1-4
-#define OTA_EXT_BYTE         40960
 
 #define VAR_EXT_SECTOR 	     0
 #define DEVICE_EXT_SECTOR 	 1

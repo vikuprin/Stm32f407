@@ -25,6 +25,18 @@ void start_update_firmware_isr()
     xSemaphoreGiveFromISR(ota_mutex, NULL);
 }
 
+void jumpToApp(uint32_t start_program_addr)
+{
+	HAL_DeInit();
+	__set_MSP(*((volatile uint32_t *) (start_program_addr)));
+	__DMB();
+	SCB->VTOR = start_program_addr;
+	__DSB();
+    uint32_t JumpAddress = *((volatile uint32_t*) (start_program_addr + 4));
+    void (*reset_handler) (void) = (void*) JumpAddress;
+    reset_handler();
+}
+
 void erase_sectors()
 {
 	uint16_t address_sector = OTA_EXT_SECTOR;
@@ -201,7 +213,7 @@ static err_t tcp_client_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, er
     device_ota_len = ota_length;
     write_ota_byte();
 //    publish_firmware_state("done");
-    HAL_NVIC_SystemReset();
+    jumpToApp(BOOT_ADDR_FLASH);
     if(es->p == NULL)
     {
        /* we're done sending, close connection */

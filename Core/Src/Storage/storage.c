@@ -171,7 +171,6 @@ void init_storage()
 {
 	malloc_memory_parameters();
 	W25qxx_Init();
-//	W25qxx_EraseChip();
 	read_check_byte();
 	// Проверка на первый запуск устройства
 	if (device_check_1_0_0 != CHECK_VALUE_1_0_0)

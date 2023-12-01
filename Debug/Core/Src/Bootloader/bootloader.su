@@ -1,3 +1,2 @@
 bootloader.c:12:5:flash_data	24	static
-bootloader.c:53:13:jumpToApp	32	static,ignoring_inline_asm
-bootloader.c:65:6:bootloader	16	static
+bootloader.c:53:6:bootloader	16	static

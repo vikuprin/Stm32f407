@@ -278,13 +278,10 @@ static void http_server(struct netconn *conn)
           temp_buf += 4;
           buflen -= (temp_buf - temp_str);
 
-          for (int i = 0; i < buflen; i++)
-          {
-        	  DEBUG_SERVER("%02X\n", temp_buf[i]);
-          }
-
-
-
+//          for (int i = 0; i < buflen; i++)
+//          {
+//        	  DEBUG_SERVER("%02X\n", temp_buf[i]);
+//          }
           ext_flash_ota(temp_buf, buflen);
         }
 
@@ -304,7 +301,7 @@ static void http_server(struct netconn *conn)
 
         device_ota_len = ota_length;
         write_ota_byte();
-		HAL_NVIC_SystemReset();
+        jumpToApp(BOOT_ADDR_FLASH);
       }
       else if (strncmp((char const *)buf,"POST /dataserver", 16) == 0)
       {
