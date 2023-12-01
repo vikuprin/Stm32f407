@@ -1,5 +1,0 @@
-modbus_config.c:11:6:modbus_tx_handler	1
-modbus_config.c:17:6:modbus_rx_handler	3
-modbus_config.c:30:6:sendData	1
-modbus_config.c:38:8:modbus_set_holding	2
-modbus_config.c:64:9:modbus_get_holding	2

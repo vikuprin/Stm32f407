@@ -1,2 +1,2 @@
-../Core/Src/Sensor/sht.c:8:6:get_sht_data	8	static
-../Core/Src/Sensor/sht.c:28:6:init_sht_devices	8	static
+sht.c:8:6:get_sht_data	8	static
+sht.c:28:6:init_sht_devices	8	static

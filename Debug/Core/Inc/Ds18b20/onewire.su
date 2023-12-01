@@ -1,6 +1,6 @@
-../Core/Inc/Ds18b20/onewire.c:12:13:SetBaudrate	288	static
-../Core/Inc/Ds18b20/onewire.c:49:9:OneWire_ProcessBit	16	static
-../Core/Inc/Ds18b20/onewire.c:63:9:OneWire_ProcessByte	24	static
-../Core/Inc/Ds18b20/onewire.c:85:16:OneWire_Reset	24	static
-../Core/Inc/Ds18b20/onewire.c:101:6:ds_tx_handler	8	static
-../Core/Inc/Ds18b20/onewire.c:105:6:ds_rx_handler	8	static
+onewire.c:12:13:SetBaudrate	160	static
+onewire.c:49:9:OneWire_ProcessBit	16	static
+onewire.c:63:9:OneWire_ProcessByte	24	static
+onewire.c:85:16:OneWire_Reset	24	static
+onewire.c:101:6:ds_tx_handler	8	static
+onewire.c:105:6:ds_rx_handler	8	static

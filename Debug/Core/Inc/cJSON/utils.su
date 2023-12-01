@@ -1,8 +1,8 @@
-../Core/Inc/cJSON/utils.c:5:5:map	40	static
-../Core/Inc/cJSON/utils.c:14:6:check_js_param_int	32	static
-../Core/Inc/cJSON/utils.c:26:6:check_js_param_u8	32	static
-../Core/Inc/cJSON/utils.c:37:6:check_char_mode	32	static
-../Core/Inc/cJSON/utils.c:58:6:check_char_on_off	32	static
-../Core/Inc/cJSON/utils.c:73:6:check_js_param_double	32	static
-../Core/Inc/cJSON/utils.c:84:6:check_js_param_u16	32	static
-../Core/Inc/cJSON/utils.c:96:6:check_js_param_char	32	static
+utils.c:5:5:map	40	static
+utils.c:14:6:check_js_param_int	32	static
+utils.c:26:6:check_js_param_u8	32	static
+utils.c:37:6:check_char_mode	32	static
+utils.c:58:6:check_char_on_off	32	static
+utils.c:73:6:check_js_param_double	32	static
+utils.c:84:6:check_js_param_u16	32	static
+utils.c:96:6:check_js_param_char	32	static

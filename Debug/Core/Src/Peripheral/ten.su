@@ -1,4 +1,4 @@
-../Core/Src/Peripheral/ten.c:13:5:constrain	24	static
-../Core/Src/Peripheral/ten.c:29:6:set_ten_power	16	static
-../Core/Src/Peripheral/ten.c:47:5:computePID_true	40	static
-../Core/Src/Peripheral/ten.c:57:6:ten_handler	8	static
+ten.c:13:5:constrain	24	static
+ten.c:29:6:set_ten_power	16	static
+ten.c:47:5:computePID_true	40	static
+ten.c:57:6:ten_handler	8	static

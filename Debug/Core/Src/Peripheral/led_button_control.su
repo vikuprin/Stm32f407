@@ -1,7 +1,7 @@
-../Core/Src/Peripheral/led_button_control.c:14:6:button_handler	8	static
-../Core/Src/Peripheral/led_button_control.c:45:6:link_callback_IP	8	static
-../Core/Src/Peripheral/led_button_control.c:55:6:start_failure_led	8	static
-../Core/Src/Peripheral/led_button_control.c:63:6:start_work_led	8	static
-../Core/Src/Peripheral/led_button_control.c:71:6:start_link_led	8	static
-../Core/Src/Peripheral/led_button_control.c:87:6:start_service_led	8	static
-../Core/Src/Peripheral/led_button_control.c:112:6:LedsTask	16	static
+led_button_control.c:14:6:button_handler	8	static
+led_button_control.c:45:6:link_callback_IP	8	static
+led_button_control.c:55:6:start_failure_led	8	static
+led_button_control.c:63:6:start_work_led	8	static
+led_button_control.c:71:6:start_link_led	8	static
+led_button_control.c:87:6:start_service_led	8	static
+led_button_control.c:112:6:LedsTask	16	static

@@ -1,6 +1,0 @@
-sht30_i2c_drv.c:4:16:SHT30_Send_Cmd	1
-sht30_i2c_drv.c:13:6:SHT30_reset	1
-sht30_i2c_drv.c:19:9:SHT30_Init	1
-sht30_i2c_drv.c:24:9:SHT30_Read_Dat	1
-sht30_i2c_drv.c:32:9:CheckCrc8	4
-sht30_i2c_drv.c:56:9:SHT30_Dat_To_Float	3

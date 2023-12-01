@@ -1,5 +1,5 @@
-../Core/Src/Mqtt/mqtt_objects.c:9:6:get_str_capabiities	32	static
-../Core/Src/Mqtt/mqtt_objects.c:41:6:get_str_errors	32	static
-../Core/Src/Mqtt/mqtt_objects.c:58:6:get_str_system_status	24	static
-../Core/Src/Mqtt/mqtt_objects.c:76:6:get_str_temp_log	24	static
-../Core/Src/Mqtt/mqtt_objects.c:97:6:get_str_extra_options	32	static
+mqtt_objects.c:9:6:get_str_capabiities	32	static
+mqtt_objects.c:41:6:get_str_errors	32	static
+mqtt_objects.c:58:6:get_str_system_status	24	static
+mqtt_objects.c:76:6:get_str_temp_log	24	static
+mqtt_objects.c:97:6:get_str_extra_options	32	static

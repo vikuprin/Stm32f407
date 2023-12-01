@@ -1,5 +1,5 @@
-../Core/Inc/MODBUS-LIB/modbus_config.c:11:6:modbus_tx_handler	8	static
-../Core/Inc/MODBUS-LIB/modbus_config.c:17:6:modbus_rx_handler	4	static
-../Core/Inc/MODBUS-LIB/modbus_config.c:30:6:sendData	16	static
-../Core/Inc/MODBUS-LIB/modbus_config.c:38:8:modbus_set_holding	24	static
-../Core/Inc/MODBUS-LIB/modbus_config.c:64:9:modbus_get_holding	24	static
+modbus_config.c:11:6:modbus_tx_handler	8	static
+modbus_config.c:17:6:modbus_rx_handler	4	static
+modbus_config.c:30:6:sendData	16	static
+modbus_config.c:38:8:modbus_set_holding	24	static
+modbus_config.c:64:9:modbus_get_holding	24	static
