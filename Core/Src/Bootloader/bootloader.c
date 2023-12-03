@@ -9,17 +9,12 @@ extern FLASH_ProcessTypeDef pFlash;
 uint32_t address_flash = OTA_ADDR_FLASH_1;
 static uint8_t buff_ota[256];
 
-int flash_data(char* buf, int len)
+uint32_t flash_data(uint8_t* buf, uint16_t len)
 {
   __HAL_FLASH_PREFETCH_BUFFER_DISABLE();
   __HAL_FLASH_SET_LATENCY(FLASH_LATENCY_5);
-
   HAL_StatusTypeDef ret;
-
-  ret = HAL_FLASH_Unlock();
-  if (ret != HAL_OK)
-	  return ret;
-
+  HAL_FLASH_Unlock();
   __HAL_FLASH_CLEAR_FLAG(FLASH_FLAG_EOP
                          | FLASH_FLAG_OPERR
                          | FLASH_FLAG_WRPERR
@@ -29,24 +24,18 @@ int flash_data(char* buf, int len)
   if (pFlash.ErrorCode != 0)
       return pFlash.ErrorCode;
 
-  for (int i = 0; i < len; i++)
+  for (uint16_t i = 0; i < len; i += 8)
   {
-    FLASH_WaitForLastOperation(HAL_MAX_DELAY);
-    ret = HAL_FLASH_Program(FLASH_TYPEPROGRAM_BYTE, address_flash, buf[i]);
+    ret = HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, address_flash, buf[i]);
     if (ret != HAL_OK)
     {
     	printf("App Flash Write Error\n");
         break;
     }
-    address_flash++;
+    address_flash += 8;
   }
 
-  FLASH_WaitForLastOperation(500);
-
-  ret = HAL_FLASH_Lock();
-  if(ret != HAL_OK)
-	  return ret;
-
+  HAL_FLASH_Lock();
   return ret;
 }
 
@@ -68,7 +57,7 @@ void bootloader()
 		for (uint16_t i = 0; i < num_page_addr; i++)
 		{
 			W25qxx_ReadPage(buff_ota, start_page_addr, 0, 256);
-			Flash_Write_Data(address_flash, buff_ota, 256);
+			flash_data(buff_ota, 256);
 			start_page_addr++;
 		}
 

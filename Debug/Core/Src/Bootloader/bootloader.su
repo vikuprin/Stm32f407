@@ -1,2 +1,2 @@
-bootloader.c:12:5:flash_data	24	static
-bootloader.c:53:6:bootloader	16	static
+bootloader.c:12:10:flash_data	24	static
+bootloader.c:42:6:bootloader	16	static
