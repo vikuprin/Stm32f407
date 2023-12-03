@@ -54,6 +54,7 @@ void bootloader()
 {
 	W25qxx_Init();
 	read_ota_byte();
+	W25qxx_ReadSector(device_firmware, FIRMWARE_EXT_SECTOR, 0, 1);
 	if (device_ota_len > (128 * 1024))
 	{
 		Flash_Delete_Data(OTA_ADDR_FLASH_1);
@@ -70,6 +71,15 @@ void bootloader()
 			Flash_Write_Data(address_flash, buff_ota, 256);
 			start_page_addr++;
 		}
+
+		W25qxx_EraseSector(VAR_EXT_SECTOR);
+		device_firmware = 1;
+		W25qxx_WriteSector(device_firmware, FIRMWARE_EXT_SECTOR, 0, 1);
+
+		jumpToApp(OTA_ADDR_FLASH_1);
+	}
+	else if (device_firmware == 1)
+	{
 		jumpToApp(OTA_ADDR_FLASH_1);
 	}
 }

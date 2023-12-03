@@ -58,8 +58,9 @@ uint8_t msg[80];
 #define OTA_LEN_EXT_BYTE     1           //1-4
 
 #define VAR_EXT_SECTOR 	     0
-#define DEVICE_EXT_SECTOR 	 1
-#define WIRELESS_EXT_SECTOR	 2
+#define FIRMWARE_EXT_SECTOR  1
+#define DEVICE_EXT_SECTOR 	 2
+#define WIRELESS_EXT_SECTOR	 3
 #define OTA_EXT_SECTOR	     10
 
 #define DNS 0
@@ -214,6 +215,7 @@ typedef struct
 
 uint8_t device_check_1_0_0;
 uint32_t device_ota_len;
+uint8_t device_firmware;
 
 sensors_data_s *sensors_data;
 wireless_parameters_s *wireless_params;

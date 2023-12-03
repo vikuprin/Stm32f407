@@ -194,9 +194,12 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  if(HAL_GPIO_ReadPin(SW_DIP2_GPIO_Port, SW_DIP2_Pin) == GPIO_PIN_RESET)
-	  W25qxx_EraseChip();
   MX_SPI1_Init();
+  if(HAL_GPIO_ReadPin(SW_DIP2_GPIO_Port, SW_DIP2_Pin) == GPIO_PIN_RESET)
+  {
+	  W25qxx_EraseSector(VAR_EXT_SECTOR);
+	  W25qxx_EraseSector(FIRMWARE_EXT_SECTOR);
+  }
   #if BOOTLOADER == 1
   	  bootloader();
   #endif
