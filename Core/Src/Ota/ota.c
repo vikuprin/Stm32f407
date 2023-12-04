@@ -10,9 +10,25 @@
 #include "FLASH_SECTOR_F4.h"
 #include "w25qxx.h"
 
+#include "lwip/opt.h"
+#include "lwip/tcpip.h"
+#include "lwip/sys.h"
+#include "lwip/api.h"
+#include "lwip/sockets.h"
+
+#include "FreeRTOS.h"
+#include "semphr.h"
+#include "task.h"
+
+
+#define RECV_BUF_SIZE			256
+
 extern struct netif gnetif;
 extern int content_length;
 extern FLASH_ProcessTypeDef pFlash;
+
+static struct netconn *tcp_client_handle = NULL;
+static uint8_t recvBuf[RECV_BUF_SIZE];
 
 xSemaphoreHandle ota_mutex;
 
@@ -50,59 +66,6 @@ void erase_sectors()
 	DEBUG_OTA("Erase sectors!\n");
 }
 
-//uint32_t address_byte = OTA_EXT_BYTE;
-//void ext_flash_ota(char* buf, int len)
-//{
-//	for (uint16_t i = 0; i < len; i++)
-//	{
-//		W25qxx_WriteByte(buf[i], address_byte);
-//		address_byte++;
-//	}
-//}
-
-// uint16_t address_sector = OTA_EXT_SECTOR;
-// uint16_t offset = 0;
-// uint16_t new_len[4];
-// void ext_flash_ota(char* buf, uint16_t len)
-// {
-// 	new_len[0] = 256 - offset;
-// 	W25qxx_WritePage(buf, address_sector, offset, new_len[0]);
-// 	offset = 0;
-// 	address_sector++;
-
-// 	new_len[1] = len - new_len[0];
-// 	if(new_len[1] > 256)
-// 	{
-// 		new_len[1] = 256;
-// 		W25qxx_WritePage(buf[new_len[0]], address_sector, offset, new_len[1]);
-// 		offset = 0;
-// 		address_sector++;
-
-// 		new_len[2] = len - new_len[0] - new_len[1];
-// 		if(new_len[2] > 256)
-// 		{
-// 			new_len[2] = 256;
-// 			W25qxx_WritePage(buf[new_len[0] + new_len[1]], address_sector, offset, new_len[2]);
-// 			offset = 0;
-// 			address_sector++;
-
-// 			new_len[3] = len - new_len[0] - new_len[1] - new_len[2];
-// 			W25qxx_WritePage(buf[new_len[0] + new_len[1] + new_len[2]], address_sector, offset, new_len[3]);
-// 			offset = new_len[3];
-// 		}
-// 		else
-// 		{
-// 			W25qxx_WritePage(buf[new_len[0] + new_len[1]], address_sector, offset, new_len[2]);
-// 			offset = new_len[2];
-// 		}
-// 	}
-// 	else
-// 	{
-// 		W25qxx_WritePage(buf[new_len[0]], address_sector, offset, new_len[1]);
-// 		offset = new_len[1];
-// 	}
-// }
-
 uint16_t address_sector = OTA_EXT_SECTOR;
 uint16_t offset = 0;
 void ext_flash_ota(char* buf, uint16_t len)
@@ -123,217 +86,35 @@ void ext_flash_ota(char* buf, uint16_t len)
   }
 }
 
-static err_t tcp_send_packet(struct tcp_pcb *tpcb)
+static err_t tcp_client_send_data()
 {
 	err_t ret_err;
-    char *string = malloc(256);
-    sprintf(string, "GET /updatefirmware/cityair350/stm32/%s/%s/%s HTTP/1.1\r\nHost: %s\r\n\r\n ", SUBTYPE, XTAL_FREQ, wireless_params->vakio.device_id, wireless_params->domain);
-    /* push to buffer */
-    ret_err = tcp_write(tpcb, string, strlen(string), TCP_WRITE_FLAG_COPY);
-    if (ret_err != ERR_OK)
-    {
-    	DEBUG_OTA("ERROR: Code: %d (tcp_send_packet :: tcp_write)\n", ret_err);
-        return 1;
-    }
-    /* now send */
-    ret_err = tcp_output(tpcb);
-    if (ret_err != ERR_OK)
-    {
-    	DEBUG_OTA("ERROR: Code: %d (tcp_send_packet :: tcp_output)\n", ret_err);
-        return 1;
-    }
-    return ERR_OK;
-}
+	char *string = malloc(256);
+	sprintf(string, "GET /updatefirmware/cityair350/stm32/%s/%s/%s HTTP/1.1\r\nHost: %s\r\n\r\n ", SUBTYPE, XTAL_FREQ, wireless_params->vakio.device_id, wireless_params->domain);
 
-static void tcp_client_connection_close(struct tcp_pcb *tpcb, struct tcp_client_struct *es)
-{
-
-  /* remove all callbacks */
-  tcp_arg(tpcb, NULL);
-  tcp_sent(tpcb, NULL);
-  tcp_recv(tpcb, NULL);
-  tcp_err(tpcb, NULL);
-  tcp_poll(tpcb, NULL, 0);
-
-  /* delete es structure */
-  if (es != NULL)
-  {
-    mem_free(es);
-  }
-
-  /* close tcp connection */
-  tcp_close(tpcb);
-}
-
-static err_t tcp_client_poll(void *arg, struct tcp_pcb *tpcb)
-{
-  err_t ret_err;
-  struct tcp_client_struct *es;
-
-  es = (struct tcp_client_struct *)arg;
-  if (es != NULL)
-  {
-    if (es->p != NULL)
-    {
-    }
-    else
-    {
-      /* no remaining pbuf (chain)  */
-      if(es->state == ES_CLOSING)
-      {
-        /*  close tcp connection */
-        tcp_client_connection_close(tpcb, es);
-      }
-    }
-    ret_err = ERR_OK;
-  }
-  else
-  {
-    /* nothing to be done */
-    tcp_abort(tpcb);
-    ret_err = ERR_ABRT;
-  }
-  return ret_err;
-}
-
-static err_t tcp_client_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t err)
-{
-  struct tcp_client_struct *es;
-  err_t ret_err;
-
-  LWIP_ASSERT("arg != NULL",arg != NULL);
-
-  es = (struct tcp_client_struct *)arg;
-
-  /* if we receive an empty tcp frame from server => close connection */
-  if (p == NULL)
-  {
-    /* remote host closed connection */
-    es->state = ES_CLOSING;
-    device_ota_len = ota_length;
-    write_ota_byte();
-//    publish_firmware_state("done");
-    jumpToApp(BOOT_ADDR_FLASH);
-    if(es->p == NULL)
-    {
-       /* we're done sending, close connection */
-       tcp_client_connection_close(tpcb, es);
-    }
-    else
-    {
-    }
-    ret_err = ERR_OK;
-  }
-  /* else : a non empty frame was received from server but for some reason err != ERR_OK */
-  else if(err != ERR_OK)
-  {
-    /* free received pbuf*/
-    if (p != NULL)
-    {
-      es->p = NULL;
-      pbuf_free(p);
-    }
-    ret_err = err;
-  }
-  else if(es->state == ES_CONNECTED)
-  {
-   /* store reference to incoming pbuf (chain) */
-    es->p = p;
-
-    /* Acknowledge the received data */
-    tcp_recved(tpcb, p->tot_len);
-
-    pbuf_free(p);
-
-    ret_err = ERR_OK;
-  }
-  else if(es->state == ES_CLOSING)
-  {
-    /* odd case, remote side closing twice, trash data */
-    tcp_recved(tpcb, p->tot_len);
-    es->p = NULL;
-    pbuf_free(p);
-    ret_err = ERR_OK;
-  }
-  else
-  {
-    /* unknown es->state, trash data  */
-    tcp_recved(tpcb, p->tot_len);
-    es->p = NULL;
-    pbuf_free(p);
-    ret_err = ERR_OK;
-  }
-//  printf("Number of pbufs %d\n", pbuf_clen(p));
-  DEBUG_OTA("Contents of pbuf %s\n", (char *)p->payload);
-  if (ota_length == 0)
-  {
-	  ota_length = http_get_content_length((char *)p->payload);
-	  DEBUG_OTA("content_length = %lu\n", ota_length);
-	  erase_sectors();
-
-	  char* temp_buf = NULL;
-	  temp_buf = strstr((char *)p->payload, "Vary: Origin");
-	  temp_buf = strstr(temp_buf, "\r\n\r\n");
-	  temp_buf += 4;
-
-	  u16_t tcp_len;
-	  tcp_len = p->tot_len;
-	  tcp_len -= (temp_buf - (char *)p->payload);
-	  ext_flash_ota(temp_buf, tcp_len);
-  }
-  else
-  {
-	  ext_flash_ota((char *)p->payload, p->tot_len);
-  }
-
-  return ret_err;
-}
-
-static err_t tcp_client_connected(void *arg, struct tcp_pcb *newpcb, err_t err)
-{
-  err_t ret_err;
-  struct tcp_client_struct *es;
-
-  LWIP_UNUSED_ARG(arg);
-  LWIP_UNUSED_ARG(err);
-
-  /* allocate structure es to maintain tcp connection information */
-  es = (struct tcp_client_struct *)mem_malloc(sizeof(struct tcp_client_struct));
-  if (es != NULL)
-  {
-    es->state = ES_CONNECTED;
-    es->pcb = newpcb;
-    es->retries = 0;
-    es->p = NULL;
-
-    /* pass newly allocated es structure as argument to newpcb */
-    tcp_arg(newpcb, es);
-
-    /* initialize lwip tcp_recv callback function for newpcb  */
-    tcp_recv(newpcb, tcp_client_recv);
-
-    /* initialize lwip tcp_poll callback function for newpcb */
-    tcp_poll(newpcb, tcp_client_poll, 0);
-
-    /* initialize LwIP tcp_sent callback function */
-    tcp_send_packet(newpcb);
-
-    ret_err = ERR_OK;
-  }
-  else
-  {
-    /*  close tcp connection */
-    tcp_client_connection_close(newpcb, es);
-    /* return memory error */
-    ret_err = ERR_MEM;
-  }
-  return ret_err;
+	struct netconn *conn = tcp_client_handle;
+	ret_err = netconn_write(conn, string, strlen(string), NETCONN_COPY);
+	if (ret_err != ERR_OK)
+		printf("tcpecho: netconn_write: error \"%s\"\n", lwip_strerr(ret));
+	return ret_err;
 }
 
 void tcp_setup(void)
 {
-	struct tcp_pcb *tpcb;
-	tpcb = tcp_new();
+	struct netconn *conn;
+	struct netbuf *buf;
+	ip_addr_t DestIPaddr;
+	err_t err;
+
+	/* Bind to TCP Client port with default IP address */
+	conn = netconn_new(NETCONN_TCP);
+	if(conn == NULL)
+	{
+		printf("[TCP Client]netconn_new: invalid conn\r\n");
+	}
+
+//	netconn_bind(conn, IP4_ADDR_ANY, 80);////??????????????????????
+
 
 	char _server_ip[20];
 	memcpy(_server_ip, wireless_params->server_ip, 20);
@@ -348,11 +129,73 @@ void tcp_setup(void)
 		i++;
 		istr = strtok(NULL, sep);
 	}
+	IP4_ADDR(&DestIPaddr, str[0], str[1], str[2], str[3]);
+	err = netconn_connect(conn, &DestIPaddr, 5000);
+	if(err != ERR_OK)
+	{
+		printf("[TCP Client]netconn_connect is fail!!!\r\n");
+	}
 
-	ip_addr_t destIPADDR;
-	IP_ADDR4(&destIPADDR, str[0], str[1], str[2], str[3]);
-	tcp_connect(tpcb, &destIPADDR, 5000, tcp_client_connected);
-	ota_length = 0;
+	tcp_client_handle = conn;
+	printf("[TCP Client] Connect server is successful!!!\r\n");
+
+	err = tcp_client_send_data();
+
+	do
+	{
+		err = netconn_recv(conn, &buf);
+
+		if (err == ERR_OK) {
+			uint8_t len = (buf->p->len < RECV_BUF_SIZE) ? buf->p->len : RECV_BUF_SIZE;
+			MEMCPY(recvBuf, buf->p->payload, len);
+			recvBuf[len] = '\0';
+			printf("[Recv Data]%s\r\n", (char *)recvBuf);
+		}
+
+		if (buf != NULL) {
+			netbuf_delete(buf);
+		}
+//		ota_length = http_get_content_length((char *)buf->payload);
+//	    DEBUG_OTA("content_length = %lu\n", ota_length);
+//	    erase_sectors();
+//
+//        char* temp_buf = NULL;
+//        if (err == ERR_OK)
+//        {
+//          netbuf_delete(inbuf);
+//          err = netconn_recv(conn, &inbuf);
+//          netbuf_data(inbuf, (void**) &buf, &buflen);
+//          memcpy(temp_str, buf, buflen);
+//
+//          temp_buf = strstr(temp_str, "Content-Type: ");
+//          temp_buf = strstr(temp_buf, "\r\n\r\n");
+//          temp_buf += 4;
+//          buflen -= (temp_buf - temp_str);
+//
+//          for (int i = 0; i < buflen; i++)
+//          {
+//        	  DEBUG_SERVER("%02X\n", temp_buf[i]);
+//          }
+//          ext_flash_ota(temp_buf, buflen);
+//        }
+//
+//        while(err == ERR_OK)
+//        {
+//          netbuf_delete(inbuf);
+//          recv_err = netconn_recv(conn, &inbuf);
+//          netbuf_data(inbuf, (void**) &buf, &buflen);
+//          memcpy(temp_str, buf, buflen);
+//
+//          ext_flash_ota(temp_str, buflen);
+//          if (buflen < 536)
+//             break;
+//        }
+//
+//        device_ota_len = ota_length;
+//        write_ota_byte();
+//        jumpToApp(BOOT_ADDR_FLASH);
+
+	} while (1);
 }
 
 void test_wireless_params()
@@ -376,6 +219,7 @@ void OtaTask(void const * argument)
 //    		publish_firmware_state("start");
     		test_wireless_params();//////////////////
     		close_damper();
+    		ota_length = 0;
 
     		HAL_TIM_Base_Stop(&htim1);                    //таймер для вычисления показаний датчиков
     		HAL_TIM_Base_Stop(&htim2);                    //таймер для работы ПИД регулятора тена

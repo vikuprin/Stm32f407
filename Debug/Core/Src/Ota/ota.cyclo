@@ -1,0 +1,9 @@
+ota.c:35:6:start_update_firmware	1
+ota.c:39:6:start_update_firmware_isr	1
+ota.c:44:6:jumpToApp	1
+ota.c:56:6:erase_sectors	2
+ota.c:71:6:ext_flash_ota	2
+ota.c:89:14:tcp_client_send_data	2
+ota.c:102:6:tcp_setup	6
+ota.c:201:6:test_wireless_params	1
+ota.c:207:6:OtaTask	2

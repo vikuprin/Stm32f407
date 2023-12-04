@@ -278,10 +278,10 @@ static void http_server(struct netconn *conn)
           temp_buf += 4;
           buflen -= (temp_buf - temp_str);
 
-//          for (int i = 0; i < buflen; i++)
-//          {
-//        	  DEBUG_SERVER("%02X\n", temp_buf[i]);
-//          }
+          for (int i = 0; i < buflen; i++)
+          {
+        	  DEBUG_SERVER("%02X\n", temp_buf[i]);
+          }
           ext_flash_ota(temp_buf, buflen);
         }
 

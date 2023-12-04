@@ -1,0 +1,8 @@
+modes.c:23:6:temp_cold	18
+modes.c:92:6:temp_hot	5
+modes.c:110:6:inflow_mode	11
+modes.c:135:6:inflow_max_mode	4
+modes.c:157:6:mode_handler	6
+modes.c:181:6:pcnt_error	3
+modes.c:195:6:inflow_handler	3
+modes.c:206:6:MainTask	1

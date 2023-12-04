@@ -1,0 +1,2 @@
+bootloader.c:12:10:flash_data	4
+bootloader.c:42:6:bootloader	4
