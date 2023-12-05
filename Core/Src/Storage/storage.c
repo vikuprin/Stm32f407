@@ -32,6 +32,8 @@ void read_ota_byte()
 	W25qxx_ReadBytes(temp_ota_len, OTA_LEN_EXT_BYTE, 4);
 
 	device_ota_len = (temp_ota_len[3] * (0xFFFFFF + 1)) + (temp_ota_len[2] * (0xFFFF + 1)) + (temp_ota_len[1] * (0xFF + 1)) + temp_ota_len[0];
+	if (device_ota_len == 0xFFFFFFFF)
+		device_ota_len = 0;
 }
 
 void write_wireless_params()
@@ -171,6 +173,8 @@ void init_storage()
 {
 	malloc_memory_parameters();
 	W25qxx_Init();
+//	W25qxx_EraseChip();
+	W25qxx_EraseSector(VAR_EXT_SECTOR);
 	read_check_byte();
 	// Проверка на первый запуск устройства
 	if (device_check_1_0_0 != CHECK_VALUE_1_0_0)

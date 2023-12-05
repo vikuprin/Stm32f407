@@ -39,6 +39,9 @@ void jumpToApp(uint32_t start_program_addr)
 
 void erase_sectors()
 {
+	//////////////
+	ota_length = 260000;
+	//////////////
 	uint16_t address_sector = OTA_EXT_SECTOR;
 	uint8_t num_sector = ota_length / 4096 + 1;
 
@@ -269,7 +272,7 @@ static err_t tcp_client_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, er
   {
 	  ota_length = http_get_content_length((char *)p->payload);
 	  DEBUG_OTA("content_length = %lu\n", ota_length);
-	  erase_sectors();
+//	  erase_sectors();
 
 	  char* temp_buf = NULL;
 	  temp_buf = strstr((char *)p->payload, "Vary: Origin");
@@ -279,10 +282,12 @@ static err_t tcp_client_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, er
 	  u16_t tcp_len;
 	  tcp_len = p->tot_len;
 	  tcp_len -= (temp_buf - (char *)p->payload);
+	  DEBUG_OTA("length ============================= %lu\n", tcp_len);
 	  ext_flash_ota(temp_buf, tcp_len);
   }
   else
   {
+	  DEBUG_OTA("length ============================= %lu\n", p->tot_len);
 	  ext_flash_ota((char *)p->payload, p->tot_len);
   }
 
@@ -372,7 +377,7 @@ void OtaTask(void const * argument)
         DEBUG_OTA("Take mute OTA\n");
     	if(netif_is_link_up(&gnetif))
     	{
-
+    		erase_sectors();
 //    		publish_firmware_state("start");
     		test_wireless_params();//////////////////
     		close_damper();

@@ -1,0 +1,16 @@
+mqtt_client.c:24:13:mqtt_pub_request_cb	2
+mqtt_client.c:32:6:publish_message_qos0	2
+mqtt_client.c:45:6:publish_message	2
+mqtt_client.c:59:13:mqtt_incoming_publish_cb	9
+mqtt_client.c:82:13:mqtt_incoming_data_cb	21
+mqtt_client.c:165:6:mqtt_sub_request_cb	2
+mqtt_client.c:174:6:mqtt_unsub_request_cb	1
+mqtt_client.c:185:13:mqtt_connection_cb	11
+mqtt_client.c:254:6:connect_mqtt	2
+mqtt_client.c:271:6:publish_message_topic	3
+mqtt_client.c:293:6:start_mqtt	6
+mqtt_client.c:307:6:update_mqtt_parameters	3
+mqtt_client.c:347:6:set_mqtt_parameters	2
+mqtt_client.c:392:6:set_user_test	1
+mqtt_client.c:403:6:set_log_test	1
+mqtt_client.c:414:6:init_mqtt	1

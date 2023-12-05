@@ -1,0 +1,13 @@
+ota.c:19:6:start_update_firmware	1
+ota.c:23:6:start_update_firmware_isr	1
+ota.c:28:6:jumpToApp	1
+ota.c:40:6:erase_sectors	2
+ota.c:111:6:ext_flash_ota	2
+ota.c:129:14:tcp_send_packet	3
+ota.c:151:13:tcp_client_connection_close	2
+ota.c:171:14:tcp_client_poll	4
+ota.c:202:14:tcp_client_recv	9
+ota.c:297:14:tcp_client_connected	2
+ota.c:338:6:tcp_setup	2
+ota.c:363:6:test_wireless_params	1
+ota.c:369:6:OtaTask	2

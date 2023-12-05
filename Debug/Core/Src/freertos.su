@@ -1,6 +1,6 @@
-freertos.c:71:13:srv_txt	24	static
-freertos.c:80:6:dns_callback	40	static
-freertos.c:127:6:vApplicationGetIdleTaskMemory	24	static
-freertos.c:140:6:vApplicationGetTimerTaskMemory	24	static
-freertos.c:154:6:MX_FREERTOS_Init	184	static
-freertos.c:207:6:StartDefaultTask	16	static
+../Core/Src/freertos.c:71:13:srv_txt	24	static
+../Core/Src/freertos.c:80:6:dns_callback	40	static
+../Core/Src/freertos.c:127:6:vApplicationGetIdleTaskMemory	24	static
+../Core/Src/freertos.c:140:6:vApplicationGetTimerTaskMemory	24	static
+../Core/Src/freertos.c:154:6:MX_FREERTOS_Init	72	static
+../Core/Src/freertos.c:207:6:StartDefaultTask	16	static

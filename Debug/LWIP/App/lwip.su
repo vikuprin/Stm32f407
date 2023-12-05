@@ -1,2 +1,2 @@
-lwip.c:53:13:sr_txt	24	static
-lwip.c:68:6:MX_LWIP_Init	72	static
+../LWIP/App/lwip.c:53:13:sr_txt	24	static
+../LWIP/App/lwip.c:68:6:MX_LWIP_Init	72	static

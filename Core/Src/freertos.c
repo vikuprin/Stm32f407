@@ -179,17 +179,17 @@ void MX_FREERTOS_Init(void) {
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
-  osThreadDef(mainTask, MainTask, osPriorityNormal, 0, 1024);
-  mainTaskHandle = osThreadCreate(osThread(mainTask), NULL);
-
-  osThreadDef(ledsTask, LedsTask, osPriorityNormal, 0, 256);
-  ledsTaskHandle = osThreadCreate(osThread(ledsTask), NULL);
-
-  osThreadDef(damperTask, DamperTask, osPriorityNormal, 0, 256);
-  damperTaskHandle = osThreadCreate(osThread(damperTask), NULL);
-
-  osThreadDef(dsTask, DSTask, osPriorityNormal, 0, 1024);
-  dsTaskHandle = osThreadCreate(osThread(dsTask), NULL);
+//  osThreadDef(mainTask, MainTask, osPriorityNormal, 0, 1024);
+//  mainTaskHandle = osThreadCreate(osThread(mainTask), NULL);
+//
+//  osThreadDef(ledsTask, LedsTask, osPriorityNormal, 0, 256);
+//  ledsTaskHandle = osThreadCreate(osThread(ledsTask), NULL);
+//
+//  osThreadDef(damperTask, DamperTask, osPriorityNormal, 0, 256);
+//  damperTaskHandle = osThreadCreate(osThread(damperTask), NULL);
+//
+//  osThreadDef(dsTask, DSTask, osPriorityNormal, 0, 1024);
+//  dsTaskHandle = osThreadCreate(osThread(dsTask), NULL);
 
   osThreadDef(otaTask, OtaTask, osPriorityRealtime, 0, 3 * 1024);
   otaTaskHandle = osThreadCreate(osThread(otaTask), NULL);

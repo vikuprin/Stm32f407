@@ -7,7 +7,6 @@
 extern FLASH_ProcessTypeDef pFlash;
 
 uint32_t address_flash = OTA_ADDR_FLASH_1;
-static uint8_t buff_ota[256];
 
 uint32_t flash_data(uint8_t* buf, uint16_t len)
 {
@@ -24,15 +23,15 @@ uint32_t flash_data(uint8_t* buf, uint16_t len)
   if (pFlash.ErrorCode != 0)
       return pFlash.ErrorCode;
 
-  for (uint16_t i = 0; i < len; i += 8)
+  for (uint16_t i = 0; i < len; i++)
   {
-    ret = HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, address_flash, buf[i]);
+    ret = HAL_FLASH_Program(FLASH_TYPEPROGRAM_BYTE, address_flash, (uint64_t)buf[i]);
     if (ret != HAL_OK)
     {
     	printf("App Flash Write Error\n");
         break;
     }
-    address_flash += 8;
+    address_flash++;
   }
 
   HAL_FLASH_Lock();
@@ -56,6 +55,7 @@ void bootloader()
 
 		for (uint16_t i = 0; i < num_page_addr; i++)
 		{
+			uint8_t buff_ota[256];
 			W25qxx_ReadPage(buff_ota, start_page_addr, 0, 256);
 			flash_data(buff_ota, 256);
 			start_page_addr++;
@@ -67,8 +67,8 @@ void bootloader()
 
 		jumpToApp(OTA_ADDR_FLASH_1);
 	}
-	else if (device_firmware == 1)
-	{
-		jumpToApp(OTA_ADDR_FLASH_1);
-	}
+//	else if (device_firmware == 1)
+//	{
+//		jumpToApp(OTA_ADDR_FLASH_1);
+//	}
 }

@@ -588,9 +588,9 @@ void W25qxx_WritePage(uint8_t *pBuffer, uint32_t Page_Address, uint32_t OffsetIn
 		NumByteToWrite_up_to_PageSize = w25qxx.PageSize - OffsetInByte;
 	if ((OffsetInByte + NumByteToWrite_up_to_PageSize) > w25qxx.PageSize)
 		NumByteToWrite_up_to_PageSize = w25qxx.PageSize - OffsetInByte;
-	DEBUG_W25QXX("w25qxx WritePage:%d, Offset:%d ,Writes %d Bytes, begin...\r\n", Page_Address, OffsetInByte, NumByteToWrite_up_to_PageSize);
-	W25qxx_Delay(100);
-	uint32_t StartTime = HAL_GetTick();
+//	DEBUG_W25QXX("w25qxx WritePage:%d, Offset:%d ,Writes %d Bytes, begin...\r\n", Page_Address, OffsetInByte, NumByteToWrite_up_to_PageSize);
+//	W25qxx_Delay(100);
+//	uint32_t StartTime = HAL_GetTick();
 	W25qxx_WaitForWriteEnd();
 	W25qxx_WriteEnable();
 	HAL_GPIO_WritePin(_W25QXX_CS_GPIO, _W25QXX_CS_PIN, GPIO_PIN_RESET);
@@ -607,23 +607,23 @@ void W25qxx_WritePage(uint8_t *pBuffer, uint32_t Page_Address, uint32_t OffsetIn
 	W25qxx_Spi((Page_Address & 0xFF0000) >> 16);
 	W25qxx_Spi((Page_Address & 0xFF00) >> 8);
 	W25qxx_Spi(Page_Address & 0xFF);
-	HAL_SPI_Transmit(&_W25QXX_SPI, pBuffer, NumByteToWrite_up_to_PageSize, 100);
+	HAL_SPI_Transmit_DMA(&_W25QXX_SPI, pBuffer, NumByteToWrite_up_to_PageSize);
 	HAL_GPIO_WritePin(_W25QXX_CS_GPIO, _W25QXX_CS_PIN, GPIO_PIN_SET);
 	W25qxx_WaitForWriteEnd();
-	StartTime = HAL_GetTick() - StartTime;
-	for (uint32_t i = 0; i < NumByteToWrite_up_to_PageSize; i++)
-	{
-		if ((i % 8 == 0) && (i > 2))
-		{
-			DEBUG_W25QXX("\r\n");
-			W25qxx_Delay(10);
-		}
-		DEBUG_W25QXX("0x%02X,", pBuffer[i]);
-	}
-	DEBUG_W25QXX("\r\n");
-	DEBUG_W25QXX("w25qxx WritePage done after %d ms\r\n", StartTime);
-	W25qxx_Delay(100);
-	W25qxx_Delay(1);
+//	StartTime = HAL_GetTick() - StartTime;
+//	for (uint32_t i = 0; i < NumByteToWrite_up_to_PageSize; i++)
+//	{
+//		if ((i % 8 == 0) && (i > 2))
+//		{
+//			DEBUG_W25QXX("\r\n");
+//			W25qxx_Delay(10);
+//		}
+//		DEBUG_W25QXX("0x%02X,", pBuffer[i]);
+//	}
+//	DEBUG_W25QXX("\r\n");
+//	DEBUG_W25QXX("w25qxx WritePage done after %d ms\r\n", StartTime);
+//	W25qxx_Delay(100);
+//	W25qxx_Delay(1);
 	w25qxx.Lock = 0;
 }
 //###################################################################################################################
@@ -632,7 +632,7 @@ void W25qxx_WriteSector(uint8_t *pBuffer, uint32_t Sector_Address, uint32_t Offs
 	if ((NumByteToWrite_up_to_SectorSize > w25qxx.SectorSize) || (NumByteToWrite_up_to_SectorSize == 0))
 		NumByteToWrite_up_to_SectorSize = w25qxx.SectorSize;
 	DEBUG_W25QXX("+++w25qxx WriteSector:%d, Offset:%d ,Write %d Bytes, begin...\r\n", Sector_Address, OffsetInByte, NumByteToWrite_up_to_SectorSize);
-	W25qxx_Delay(100);
+//	W25qxx_Delay(100);
 	if (OffsetInByte >= w25qxx.SectorSize)
 	{
 		DEBUG_W25QXX("---w25qxx WriteSector Faild!\r\n");
@@ -657,7 +657,7 @@ void W25qxx_WriteSector(uint8_t *pBuffer, uint32_t Sector_Address, uint32_t Offs
 		LocalOffset = 0;
 	} while (BytesToWrite > 0);
 	DEBUG_W25QXX("---w25qxx WriteSector Done\r\n");
-	W25qxx_Delay(100);
+//	W25qxx_Delay(100);
 }
 //###################################################################################################################
 void W25qxx_WriteBlock(uint8_t *pBuffer, uint32_t Block_Address, uint32_t OffsetInByte, uint32_t NumByteToWrite_up_to_BlockSize)
@@ -772,8 +772,8 @@ void W25qxx_ReadPage(uint8_t *pBuffer, uint32_t Page_Address, uint32_t OffsetInB
 	if ((OffsetInByte + NumByteToRead_up_to_PageSize) > w25qxx.PageSize)
 		NumByteToRead_up_to_PageSize = w25qxx.PageSize - OffsetInByte;
 	DEBUG_W25QXX("w25qxx ReadPage:%d, Offset:%d ,Read %d Bytes, begin...\r\n", Page_Address, OffsetInByte, NumByteToRead_up_to_PageSize);
-	W25qxx_Delay(100);
-	uint32_t StartTime = HAL_GetTick();
+//	W25qxx_Delay(100);
+//	uint32_t StartTime = HAL_GetTick();
 	Page_Address = Page_Address * w25qxx.PageSize + OffsetInByte;
 	HAL_GPIO_WritePin(_W25QXX_CS_GPIO, _W25QXX_CS_PIN, GPIO_PIN_RESET);
 	if (w25qxx.ID >= W25Q256)
@@ -791,7 +791,7 @@ void W25qxx_ReadPage(uint8_t *pBuffer, uint32_t Page_Address, uint32_t OffsetInB
 	W25qxx_Spi(0);
 	HAL_SPI_Receive(&_W25QXX_SPI, pBuffer, NumByteToRead_up_to_PageSize, 100);
 	HAL_GPIO_WritePin(_W25QXX_CS_GPIO, _W25QXX_CS_PIN, GPIO_PIN_SET);
-	StartTime = HAL_GetTick() - StartTime;
+//	StartTime = HAL_GetTick() - StartTime;
 	for (uint32_t i = 0; i < NumByteToRead_up_to_PageSize; i++)
 	{
 		if ((i % 8 == 0) && (i > 2))
@@ -802,9 +802,9 @@ void W25qxx_ReadPage(uint8_t *pBuffer, uint32_t Page_Address, uint32_t OffsetInB
 		DEBUG_W25QXX("0x%02X,", pBuffer[i]);
 	}
 	DEBUG_W25QXX("\r\n");
-	DEBUG_W25QXX("w25qxx ReadPage done after %d ms\r\n", StartTime);
-	W25qxx_Delay(100);
-	W25qxx_Delay(1);
+//	DEBUG_W25QXX("w25qxx ReadPage done after %d ms\r\n", StartTime);
+//	W25qxx_Delay(100);
+//	W25qxx_Delay(1);
 	w25qxx.Lock = 0;
 }
 //###################################################################################################################

@@ -1,0 +1,7 @@
+smart_mode_external.c:16:6:reset_smart_mode	2
+smart_mode_external.c:25:6:get_smart_mode_state	1
+smart_mode_external.c:30:5:compute_speed_pwm	1
+smart_mode_external.c:42:6:calc_smart_speed	1
+smart_mode_external.c:48:6:start_smart_mode	1
+smart_mode_external.c:56:6:off_smart_mode	2
+smart_mode_external.c:67:6:smart_mode_external	15

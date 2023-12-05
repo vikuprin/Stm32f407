@@ -1,2 +1,2 @@
-bootloader.c:12:10:flash_data	24	static
-bootloader.c:42:6:bootloader	16	static
+../Core/Src/Bootloader/bootloader.c:11:10:flash_data	32	static
+../Core/Src/Bootloader/bootloader.c:41:6:bootloader	272	static

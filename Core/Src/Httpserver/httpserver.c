@@ -266,6 +266,13 @@ static void http_server(struct netconn *conn)
         erase_sectors();
 
         char* temp_buf = NULL;
+
+        if (recv_err == ERR_OK)
+        {
+          netbuf_delete(inbuf);
+          recv_err = netconn_recv(conn, &inbuf);
+          netbuf_data(inbuf, (void**) &buf, &buflen);
+        }
         if (recv_err == ERR_OK)
         {
           netbuf_delete(inbuf);
@@ -278,10 +285,6 @@ static void http_server(struct netconn *conn)
           temp_buf += 4;
           buflen -= (temp_buf - temp_str);
 
-//          for (int i = 0; i < buflen; i++)
-//          {
-//        	  DEBUG_SERVER("%02X\n", temp_buf[i]);
-//          }
           ext_flash_ota(temp_buf, buflen);
         }
 
@@ -290,9 +293,11 @@ static void http_server(struct netconn *conn)
           netbuf_delete(inbuf);
           recv_err = netconn_recv(conn, &inbuf);
           netbuf_data(inbuf, (void**) &buf, &buflen);
-          memcpy(temp_str, buf, buflen);
+//          memcpy(temp_str, buf, buflen);
 
-          ext_flash_ota(temp_str, buflen);
+		     DEBUG_SERVER("%s\n", temp_str);
+		     ext_flash_ota(buf, buflen);
+//          ext_flash_ota(temp_str, buflen);
           if (buflen < 536)
              break;
         }

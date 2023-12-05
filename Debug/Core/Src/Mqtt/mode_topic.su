@@ -1,5 +1,5 @@
-mode_topic.c:20:6:capabilities	16	static
-mode_topic.c:29:6:set_ten_settings	16	static
-mode_topic.c:36:6:settings_handler	24	static
-mode_topic.c:51:6:relation	40	static
-mode_topic.c:128:6:mode_topic_handler	72	static
+../Core/Src/Mqtt/mode_topic.c:20:6:capabilities	16	static
+../Core/Src/Mqtt/mode_topic.c:29:6:set_ten_settings	16	static
+../Core/Src/Mqtt/mode_topic.c:36:6:settings_handler	24	static
+../Core/Src/Mqtt/mode_topic.c:51:6:relation	40	static
+../Core/Src/Mqtt/mode_topic.c:128:6:mode_topic_handler	72	static

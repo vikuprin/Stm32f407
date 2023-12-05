@@ -1,6 +1,6 @@
 ################################################################################
 # Automatically-generated file. Do not edit!
-# Toolchain: GNU Tools for STM32 (9-2020-q2-update)
+# Toolchain: GNU Tools for STM32 (10.3-2021.10)
 ################################################################################
 
 -include ../makefile.init
@@ -76,6 +76,9 @@ BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ART
 EXECUTABLES += \
 Stm32f407Ethernet_flash.elf \
 
+MAP_FILES += \
+Stm32f407Ethernet_flash.map \
+
 SIZE_OUTPUT += \
 default.size.stdout \
 
@@ -93,8 +96,8 @@ all: main-build
 main-build: Stm32f407Ethernet_flash.elf secondary-outputs
 
 # Tool invocations
-Stm32f407Ethernet_flash.elf: $(OBJS) $(USER_OBJS) C:\Microcontroller\VAKIO\Stm32f407\STM32F407VETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "Stm32f407Ethernet_flash.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Microcontroller\VAKIO\Stm32f407\STM32F407VETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Stm32f407Ethernet_flash.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Stm32f407Ethernet_flash.elf Stm32f407Ethernet_flash.map: $(OBJS) $(USER_OBJS) D:\Project\Stm32f407\STM32F407VETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "Stm32f407Ethernet_flash.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"D:\Project\Stm32f407\STM32F407VETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Stm32f407Ethernet_flash.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -115,7 +118,7 @@ Stm32f407Ethernet_flash.bin: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOO
 
 # Other Targets
 clean:
-	-$(RM) Stm32f407Ethernet_flash.bin Stm32f407Ethernet_flash.elf Stm32f407Ethernet_flash.list default.size.stdout
+	-$(RM) Stm32f407Ethernet_flash.bin Stm32f407Ethernet_flash.elf Stm32f407Ethernet_flash.list Stm32f407Ethernet_flash.map default.size.stdout
 	-@echo ' '
 
 secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_BIN)

@@ -1,0 +1,8 @@
+utils.c:5:5:map	1
+utils.c:14:6:check_js_param_int	2
+utils.c:26:6:check_js_param_u8	2
+utils.c:37:6:check_char_mode	6
+utils.c:58:6:check_char_on_off	4
+utils.c:73:6:check_js_param_double	2
+utils.c:84:6:check_js_param_u16	2
+utils.c:96:6:check_js_param_char	2
