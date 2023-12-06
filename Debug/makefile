@@ -84,6 +84,9 @@ default.size.stdout \
 OBJDUMP_LIST += \
 Stm32f407Ethernet_flash.list \
 
+OBJCOPY_HEX += \
+Stm32f407Ethernet_flash.hex \
+
 OBJCOPY_BIN += \
 Stm32f407Ethernet_flash.bin \
 
@@ -110,6 +113,11 @@ Stm32f407Ethernet_flash.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TO
 	@echo 'Finished building: $@'
 	@echo ' '
 
+Stm32f407Ethernet_flash.hex: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objcopy  -O ihex $(EXECUTABLES) "Stm32f407Ethernet_flash.hex"
+	@echo 'Finished building: $@'
+	@echo ' '
+
 Stm32f407Ethernet_flash.bin: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	arm-none-eabi-objcopy  -O binary $(EXECUTABLES) "Stm32f407Ethernet_flash.bin"
 	@echo 'Finished building: $@'
@@ -117,10 +125,10 @@ Stm32f407Ethernet_flash.bin: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOO
 
 # Other Targets
 clean:
-	-$(RM) Stm32f407Ethernet_flash.bin Stm32f407Ethernet_flash.elf Stm32f407Ethernet_flash.list Stm32f407Ethernet_flash.map default.size.stdout
+	-$(RM) Stm32f407Ethernet_flash.bin Stm32f407Ethernet_flash.elf Stm32f407Ethernet_flash.hex Stm32f407Ethernet_flash.list Stm32f407Ethernet_flash.map default.size.stdout
 	-@echo ' '
 
-secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_BIN)
+secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_HEX) $(OBJCOPY_BIN)
 
 fail-specified-linker-script-missing:
 	@echo 'Error: Cannot find the specified linker script. Check the linker settings in the build configuration.'
