@@ -195,14 +195,14 @@ int main(void)
   MX_DMA_Init();
   MX_SPI1_Init();
 
-  if(HAL_GPIO_ReadPin(SW_DIP2_GPIO_Port, SW_DIP2_Pin) == GPIO_PIN_RESET)
-  {
-	  W25qxx_EraseSector(VAR_EXT_SECTOR);
-  	  W25qxx_EraseSector(FIRMWARE_EXT_SECTOR);
-  }
-  #if BOOTLOADER == 1
-      bootloader();
-  #endif
+//  if(HAL_GPIO_ReadPin(SW_DIP2_GPIO_Port, SW_DIP2_Pin) == GPIO_PIN_RESET)
+//  {
+//	  W25qxx_EraseSector(VAR_EXT_SECTOR);
+//  	  W25qxx_EraseSector(FIRMWARE_EXT_SECTOR);
+//  }
+//  #if BOOTLOADER == 1
+//      bootloader();
+//  #endif
 
   MX_UART5_Init();
   MX_USART1_UART_Init();
