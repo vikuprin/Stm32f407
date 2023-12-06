@@ -1,26 +1,71 @@
 #include "storage.h"
-#include "FLASH_SECTOR_F4.h"
+#include "w25qxx.h"
 #include <string.h>
 #include <stdlib.h>
 
-void write_wireless_params()
+void write_check_byte()
 {
-	Flash_Write_Data(WIRELESS_ADDR_FLASH, wireless_params, sizeof(wireless_parameters_s));
+	W25qxx_WriteByte(device_check_1_0_0, CHECK_EXT_BYTE);
+}
+void read_check_byte()
+{
+	W25qxx_ReadByte(&device_check_1_0_0, CHECK_EXT_BYTE);
 }
 
+void write_ota_byte()
+{
+	W25qxx_EraseSector(VAR_EXT_SECTOR);
+	uint8_t temp_ota_len[4];
+	temp_ota_len[0] = device_ota_len;
+	temp_ota_len[1] = device_ota_len / (0xFF + 1);
+	temp_ota_len[2] = device_ota_len / (0xFFFF + 1);
+	temp_ota_len[3] = device_ota_len / (0xFFFFFF + 1);
+
+	W25qxx_WriteByte(temp_ota_len[0], OTA_LEN_EXT_BYTE);
+	W25qxx_WriteByte(temp_ota_len[1], OTA_LEN_EXT_BYTE + 1);
+	W25qxx_WriteByte(temp_ota_len[2], OTA_LEN_EXT_BYTE + 2);
+	W25qxx_WriteByte(temp_ota_len[3], OTA_LEN_EXT_BYTE + 3);
+}
+void read_ota_byte()
+{
+	uint8_t temp_ota_len[4];
+	W25qxx_ReadBytes(temp_ota_len, OTA_LEN_EXT_BYTE, 4);
+
+	device_ota_len = (temp_ota_len[3] * (0xFFFFFF + 1)) + (temp_ota_len[2] * (0xFFFF + 1)) + (temp_ota_len[1] * (0xFF + 1)) + temp_ota_len[0];
+	if (device_ota_len == 0xFFFFFFFF)
+		device_ota_len = 0;
+}
+
+void write_wireless_params()
+{
+	W25qxx_EraseSector(WIRELESS_EXT_SECTOR);
+	W25qxx_WriteSector(device, WIRELESS_EXT_SECTOR, 0, sizeof(device_s));
+}
 void read_wireless_params()
 {
-	Flash_Read_Data(WIRELESS_ADDR_FLASH, wireless_params, sizeof(wireless_parameters_s));
+	 W25qxx_ReadSector(device, WIRELESS_EXT_SECTOR, 0, sizeof(device_s));
 }
 
 void write_device_params()
 {
-	Flash_Write_Data(DEVICE_ADDR_FLASH, device, sizeof(device_s));
+	W25qxx_EraseSector(DEVICE_EXT_SECTOR);
+	W25qxx_WriteSector(device, DEVICE_EXT_SECTOR, 0, sizeof(device_s));
 }
-
 void read_device_params()
 {
-	Flash_Read_Data(DEVICE_ADDR_FLASH, device, sizeof(device_s));
+    W25qxx_ReadSector(device, DEVICE_EXT_SECTOR, 0, sizeof(device_s));
+}
+
+void first_init_check()
+{
+	device_check_1_0_0 = CHECK_VALUE_1_0_0;
+	write_check_byte();
+}
+
+void first_init_ota()
+{
+	device_ota_len = 0;
+	write_ota_byte();
 }
 
 void first_init_wireless()
@@ -55,8 +100,6 @@ void first_init_wireless()
 
 void first_init_device()
 {
-	device->ota_len = 0;
-	device->check_1_0_0 = CHECK_VALUE_1_0_0;
 	device->state = OFF;
 	device->error_temp_hot = false;
 	device->error_temp_cold = false;
@@ -90,6 +133,8 @@ void first_init_device()
 
 void first_start_init()
 {
+	first_init_ota();
+	first_init_check();
     first_init_device();
     first_init_wireless();
 }
@@ -109,7 +154,7 @@ void malloc_memory_parameters()
 
 void reset_nvs_parameteres()
 {
-	device->check_1_0_0 = CHECK_VALUE_1_0_0 + 1;
+	device_check_1_0_0 = CHECK_VALUE_1_0_0 + 1;
 	write_device_params();
 }
 
@@ -127,9 +172,12 @@ void set_default_data()
 void init_storage()
 {
 	malloc_memory_parameters();
-	read_device_params();
+	W25qxx_Init();
+//	W25qxx_EraseChip();
+	W25qxx_EraseSector(VAR_EXT_SECTOR);
+	read_check_byte();
 	// Проверка на первый запуск устройства
-	if (device->check_1_0_0 != CHECK_VALUE_1_0_0)
+	if (device_check_1_0_0 != CHECK_VALUE_1_0_0)
 		first_start_init();
 	else
 		second_start_init();

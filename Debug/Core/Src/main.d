@@ -100,7 +100,9 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  D:/Project/Stm32f407/Core/Src/Modes/modes.h \
  D:/Project/Stm32f407/Core/Inc/MODBUS-LIB/modbus_config.h \
  D:/Project/Stm32f407/Core/Inc/Ds18b20/onewire.h \
- D:/Project/Stm32f407/Core/Src/Modes/smart_mode_external.h
+ D:/Project/Stm32f407/Core/Src/Modes/smart_mode_external.h \
+ D:/Project/Stm32f407/Core/Src/Bootloader/bootloader.h \
+ D:/Project/Stm32f407/Core/Inc/W25qxx/w25qxx.h
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -210,3 +212,5 @@ D:/Project/Stm32f407/Core/Src/Modes/modes.h:
 D:/Project/Stm32f407/Core/Inc/MODBUS-LIB/modbus_config.h:
 D:/Project/Stm32f407/Core/Inc/Ds18b20/onewire.h:
 D:/Project/Stm32f407/Core/Src/Modes/smart_mode_external.h:
+D:/Project/Stm32f407/Core/Src/Bootloader/bootloader.h:
+D:/Project/Stm32f407/Core/Inc/W25qxx/w25qxx.h:

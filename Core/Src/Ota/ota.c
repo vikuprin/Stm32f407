@@ -26,66 +26,55 @@ void start_update_firmware_isr()
 
 void erase_sectors()
 {
-	Flash_Delete_Data(OTA_ADDR_FLASH);
-	Flash_Delete_Data(OTA_ADDR1_FLASH);
-	Flash_Delete_Data(OTA_ADDR2_FLASH);
+	Flash_Delete_Data(OTA_ADDR_FLASH_1);
+	Flash_Delete_Data(OTA_ADDR_FLASH_2);
+	Flash_Delete_Data(OTA_ADDR_FLASH_3);
 	DEBUG_OTA("Erase sectors!\n");
 }
 
-void boot_jump()
+void jumpToApp(uint32_t start_program_addr)
 {
 	HAL_RCC_DeInit();
 	HAL_DeInit();
 	__disable_irq();
 	__set_MSP(*((volatile uint32_t *) (BOOT_ADDR_FLASH)));
 	__DMB();
-	SCB->VTOR = BOOT_ADDR_FLASH;
+	SCB->VTOR = start_program_addr;
 	__DSB();
-	uint32_t JumpAddress = *((volatile uint32_t*) (BOOT_ADDR_FLASH + 4));
+	uint32_t JumpAddress = *((volatile uint32_t*) (start_program_addr + 4));
 	void (*reset_handler) (void) = (void*) JumpAddress;
 	reset_handler();
 }
 
-int address_flash = OTA_ADDR_FLASH;
-int flash_data(char* buf, int len)
+uint32_t address_flash = OTA_ADDR_FLASH_1;
+uint32_t flash_ota(char* buf, uint16_t len)
 {
-  __HAL_FLASH_PREFETCH_BUFFER_DISABLE();
-  __HAL_FLASH_SET_LATENCY(FLASH_LATENCY_5);
+	__HAL_FLASH_PREFETCH_BUFFER_DISABLE();
+    __HAL_FLASH_SET_LATENCY(FLASH_LATENCY_5);
+    HAL_StatusTypeDef ret;
+    HAL_FLASH_Unlock();
+    __HAL_FLASH_CLEAR_FLAG(FLASH_FLAG_EOP
+						 | FLASH_FLAG_OPERR
+						 | FLASH_FLAG_WRPERR
+						 | FLASH_FLAG_PGAERR
+						 | FLASH_FLAG_PGSERR);
 
-  HAL_StatusTypeDef ret;
+    if (pFlash.ErrorCode != 0)
+	    return pFlash.ErrorCode;
 
-  ret = HAL_FLASH_Unlock();
-  if (ret != HAL_OK)
-	  return ret;
-
-  __HAL_FLASH_CLEAR_FLAG(FLASH_FLAG_EOP
-                         | FLASH_FLAG_OPERR
-                         | FLASH_FLAG_WRPERR
-                         | FLASH_FLAG_PGAERR
-                         | FLASH_FLAG_PGSERR);
-
-  if (pFlash.ErrorCode != 0)
-      return pFlash.ErrorCode;
-
-  for (int i = 0; i < len; i++)
-  {
-    FLASH_WaitForLastOperation(HAL_MAX_DELAY);
-    ret = HAL_FLASH_Program(FLASH_TYPEPROGRAM_BYTE, address_flash, buf[i]);
-    if (ret != HAL_OK)
+    for (uint16_t i = 0; i < len; i++)
     {
-    	printf("App Flash Write Error\n");
-        break;
-    }
-    address_flash++;
-  }
+    	ret = HAL_FLASH_Program(FLASH_TYPEPROGRAM_BYTE, address_flash, buf[i]);
+	    if (ret != HAL_OK)
+	    {
+	    	printf("App Flash Write Error\n");
+		    break;
+	    }
+	    address_flash++;
+     }
 
-  FLASH_WaitForLastOperation(500);
-
-  ret = HAL_FLASH_Lock();
-  if(ret != HAL_OK)
-	  return ret;
-
-  return ret;
+     HAL_FLASH_Lock();
+     return ret;
 }
 
 static err_t tcp_send_packet(struct tcp_pcb *tpcb)
@@ -175,10 +164,10 @@ static err_t tcp_client_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, er
   {
     /* remote host closed connection */
     es->state = ES_CLOSING;
-    device->ota_len = ota_length;
-    write_device_params();
+    device_ota_len = ota_length;
+    write_ota_byte();
     publish_firmware_state("done");
-    boot_jump();
+    jumpToApp(BOOT_ADDR_FLASH);
     if(es->p == NULL)
     {
        /* we're done sending, close connection */
@@ -228,7 +217,7 @@ static err_t tcp_client_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, er
     pbuf_free(p);
     ret_err = ERR_OK;
   }
-//  printf("Number of pbufs %d\n", pbuf_clen(p));
+
   DEBUG_OTA("Contents of pbuf %s\n", (char *)p->payload);
   if (ota_length == 0)
   {
@@ -243,11 +232,11 @@ static err_t tcp_client_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, er
 	  u16_t tcp_len;
 	  tcp_len = p->tot_len;
 	  tcp_len -= (temp_buf - (char *)p->payload);
-	  flash_data(temp_buf, tcp_len);
+	  flash_ota(temp_buf, tcp_len);
   }
   else
   {
-	  flash_data((char *)p->payload, p->tot_len);
+	  flash_ota((char *)p->payload, p->tot_len);
   }
 
   return ret_err;

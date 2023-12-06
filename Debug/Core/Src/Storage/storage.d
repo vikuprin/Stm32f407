@@ -33,7 +33,7 @@ Core/Src/Storage/storage.o: ../Core/Src/Storage/storage.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
  ../Core/Inc/usart.h ../Core/Inc/main.h ../Core/Inc/usart.h \
- D:/Project/Stm32f407/Core/Inc/FLASH_SECTOR_F4/FLASH_SECTOR_F4.h
+ D:/Project/Stm32f407/Core/Inc/W25qxx/w25qxx.h
 ../Core/Src/Storage/storage.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
@@ -71,4 +71,4 @@ Core/Src/Storage/storage.o: ../Core/Src/Storage/storage.c \
 ../Core/Inc/usart.h:
 ../Core/Inc/main.h:
 ../Core/Inc/usart.h:
-D:/Project/Stm32f407/Core/Inc/FLASH_SECTOR_F4/FLASH_SECTOR_F4.h:
+D:/Project/Stm32f407/Core/Inc/W25qxx/w25qxx.h:

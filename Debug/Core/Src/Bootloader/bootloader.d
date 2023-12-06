@@ -1,5 +1,5 @@
-Core/Inc/Aht20/aht20_i2c_drv.o: ../Core/Inc/Aht20/aht20_i2c_drv.c \
- ../Core/Inc/Aht20/aht20_i2c_drv.h ../Core/Inc/main.h \
+Core/Src/Bootloader/bootloader.o: ../Core/Src/Bootloader/bootloader.c \
+ ../Core/Src/Bootloader/bootloader.h ../Core/Inc/main.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Core/Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
@@ -32,8 +32,15 @@ Core/Inc/Aht20/aht20_i2c_drv.o: ../Core/Inc/Aht20/aht20_i2c_drv.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
- ../Core/Inc/usart.h ../Core/Inc/main.h ../Core/Inc/i2c.h
-../Core/Inc/Aht20/aht20_i2c_drv.h:
+ ../Core/Inc/usart.h ../Core/Inc/main.h \
+ D:/Project/Stm32f407/Core/Inc/W25qxx/w25qxx.h \
+ D:/Project/Stm32f407/Core/Src/Storage/storage.h ../Core/Inc/usart.h \
+ D:/Project/Stm32f407/Core/Inc/FLASH_SECTOR_F4/FLASH_SECTOR_F4.h \
+ D:/Project/Stm32f407/Core/Src/Ota/ota.h \
+ ../Middlewares/Third_Party/LwIP/src/include/lwip/arch.h \
+ ../Middlewares/Third_Party/LwIP/system/arch/cc.h \
+ ../Middlewares/Third_Party/LwIP/system/arch/cpu.h
+../Core/Src/Bootloader/bootloader.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -69,4 +76,11 @@ Core/Inc/Aht20/aht20_i2c_drv.o: ../Core/Inc/Aht20/aht20_i2c_drv.c \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
 ../Core/Inc/usart.h:
 ../Core/Inc/main.h:
-../Core/Inc/i2c.h:
+D:/Project/Stm32f407/Core/Inc/W25qxx/w25qxx.h:
+D:/Project/Stm32f407/Core/Src/Storage/storage.h:
+../Core/Inc/usart.h:
+D:/Project/Stm32f407/Core/Inc/FLASH_SECTOR_F4/FLASH_SECTOR_F4.h:
+D:/Project/Stm32f407/Core/Src/Ota/ota.h:
+../Middlewares/Third_Party/LwIP/src/include/lwip/arch.h:
+../Middlewares/Third_Party/LwIP/system/arch/cc.h:
+../Middlewares/Third_Party/LwIP/system/arch/cpu.h:

@@ -3,13 +3,6 @@
 #include "w25qxx.h"
 #include <stdio.h>
 
-#if DEBUG_PRINT == 1
-#define DEBUG_W25QXX(...) printf("W25QXX: "__VA_ARGS__);
-#else
-#define DEBUG_W25QXX(...)
-#endif
-
-
 #define W25QXX_DUMMY_BYTE 0xA5
 
 w25qxx_t w25qxx;
@@ -21,10 +14,14 @@ extern SPI_HandleTypeDef _W25QXX_SPI;
 #define W25qxx_Delay(delay) HAL_Delay(delay)
 #endif
 //###################################################################################################################
-uint8_t W25qxx_Spi(uint8_t Data)
+void W25qxx_Spi(uint8_t Data)
+{
+	HAL_SPI_Transmit_DMA(&_W25QXX_SPI, &Data, 1);
+}
+uint8_t W25qxx_Spi_(uint8_t Data)
 {
 	uint8_t ret;
-	HAL_SPI_TransmitReceive(&_W25QXX_SPI, &Data, &ret, 1, 100);
+	HAL_SPI_TransmitReceive_DMA(&_W25QXX_SPI, &Data, &ret, 1);
 	return ret;
 }
 //###################################################################################################################
@@ -33,9 +30,9 @@ uint32_t W25qxx_ReadID(void)
 	uint32_t Temp = 0, Temp0 = 0, Temp1 = 0, Temp2 = 0;
 	HAL_GPIO_WritePin(_W25QXX_CS_GPIO, _W25QXX_CS_PIN, GPIO_PIN_RESET);
 	W25qxx_Spi(0x9F);
-	Temp0 = W25qxx_Spi(W25QXX_DUMMY_BYTE);
-	Temp1 = W25qxx_Spi(W25QXX_DUMMY_BYTE);
-	Temp2 = W25qxx_Spi(W25QXX_DUMMY_BYTE);
+	Temp0 = W25qxx_Spi_(W25QXX_DUMMY_BYTE);
+	Temp1 = W25qxx_Spi_(W25QXX_DUMMY_BYTE);
+	Temp2 = W25qxx_Spi_(W25QXX_DUMMY_BYTE);
 	HAL_GPIO_WritePin(_W25QXX_CS_GPIO, _W25QXX_CS_PIN, GPIO_PIN_SET);
 	Temp = (Temp0 << 16) | (Temp1 << 8) | Temp2;
 	return Temp;
@@ -48,7 +45,7 @@ void W25qxx_ReadUniqID(void)
 	for (uint8_t i = 0; i < 4; i++)
 		W25qxx_Spi(W25QXX_DUMMY_BYTE);
 	for (uint8_t i = 0; i < 8; i++)
-		w25qxx.UniqID[i] = W25qxx_Spi(W25QXX_DUMMY_BYTE);
+		w25qxx.UniqID[i] = W25qxx_Spi_(W25QXX_DUMMY_BYTE);
 	HAL_GPIO_WritePin(_W25QXX_CS_GPIO, _W25QXX_CS_PIN, GPIO_PIN_SET);
 }
 //###################################################################################################################
@@ -75,19 +72,19 @@ uint8_t W25qxx_ReadStatusRegister(uint8_t SelectStatusRegister_1_2_3)
 	if (SelectStatusRegister_1_2_3 == 1)
 	{
 		W25qxx_Spi(0x05);
-		status = W25qxx_Spi(W25QXX_DUMMY_BYTE);
+		status = W25qxx_Spi_(W25QXX_DUMMY_BYTE);
 		w25qxx.StatusRegister1 = status;
 	}
 	else if (SelectStatusRegister_1_2_3 == 2)
 	{
 		W25qxx_Spi(0x35);
-		status = W25qxx_Spi(W25QXX_DUMMY_BYTE);
+		status = W25qxx_Spi_(W25QXX_DUMMY_BYTE);
 		w25qxx.StatusRegister2 = status;
 	}
 	else
 	{
 		W25qxx_Spi(0x15);
-		status = W25qxx_Spi(W25QXX_DUMMY_BYTE);
+		status = W25qxx_Spi_(W25QXX_DUMMY_BYTE);
 		w25qxx.StatusRegister3 = status;
 	}
 	HAL_GPIO_WritePin(_W25QXX_CS_GPIO, _W25QXX_CS_PIN, GPIO_PIN_SET);
@@ -123,7 +120,7 @@ void W25qxx_WaitForWriteEnd(void)
 	W25qxx_Spi(0x05);
 	do
 	{
-		w25qxx.StatusRegister1 = W25qxx_Spi(W25QXX_DUMMY_BYTE);
+		w25qxx.StatusRegister1 = W25qxx_Spi_(W25QXX_DUMMY_BYTE);
 		W25qxx_Delay(1);
 	} while ((w25qxx.StatusRegister1 & 0x01) == 0x01);
 	HAL_GPIO_WritePin(_W25QXX_CS_GPIO, _W25QXX_CS_PIN, GPIO_PIN_SET);
@@ -591,9 +588,9 @@ void W25qxx_WritePage(uint8_t *pBuffer, uint32_t Page_Address, uint32_t OffsetIn
 		NumByteToWrite_up_to_PageSize = w25qxx.PageSize - OffsetInByte;
 	if ((OffsetInByte + NumByteToWrite_up_to_PageSize) > w25qxx.PageSize)
 		NumByteToWrite_up_to_PageSize = w25qxx.PageSize - OffsetInByte;
-	DEBUG_W25QXX("w25qxx WritePage:%d, Offset:%d ,Writes %d Bytes, begin...\r\n", Page_Address, OffsetInByte, NumByteToWrite_up_to_PageSize);
-	W25qxx_Delay(100);
-	uint32_t StartTime = HAL_GetTick();
+//	DEBUG_W25QXX("w25qxx WritePage:%d, Offset:%d ,Writes %d Bytes, begin...\r\n", Page_Address, OffsetInByte, NumByteToWrite_up_to_PageSize);
+//	W25qxx_Delay(100);
+//	uint32_t StartTime = HAL_GetTick();
 	W25qxx_WaitForWriteEnd();
 	W25qxx_WriteEnable();
 	HAL_GPIO_WritePin(_W25QXX_CS_GPIO, _W25QXX_CS_PIN, GPIO_PIN_RESET);
@@ -610,23 +607,23 @@ void W25qxx_WritePage(uint8_t *pBuffer, uint32_t Page_Address, uint32_t OffsetIn
 	W25qxx_Spi((Page_Address & 0xFF0000) >> 16);
 	W25qxx_Spi((Page_Address & 0xFF00) >> 8);
 	W25qxx_Spi(Page_Address & 0xFF);
-	HAL_SPI_Transmit(&_W25QXX_SPI, pBuffer, NumByteToWrite_up_to_PageSize, 100);
+	HAL_SPI_Transmit_DMA(&_W25QXX_SPI, pBuffer, NumByteToWrite_up_to_PageSize);
 	HAL_GPIO_WritePin(_W25QXX_CS_GPIO, _W25QXX_CS_PIN, GPIO_PIN_SET);
 	W25qxx_WaitForWriteEnd();
-	StartTime = HAL_GetTick() - StartTime;
-	for (uint32_t i = 0; i < NumByteToWrite_up_to_PageSize; i++)
-	{
-		if ((i % 8 == 0) && (i > 2))
-		{
-			DEBUG_W25QXX("\r\n");
-			W25qxx_Delay(10);
-		}
-		DEBUG_W25QXX("0x%02X,", pBuffer[i]);
-	}
-	DEBUG_W25QXX("\r\n");
-	DEBUG_W25QXX("w25qxx WritePage done after %d ms\r\n", StartTime);
-	W25qxx_Delay(100);
-	W25qxx_Delay(1);
+//	StartTime = HAL_GetTick() - StartTime;
+//	for (uint32_t i = 0; i < NumByteToWrite_up_to_PageSize; i++)
+//	{
+//		if ((i % 8 == 0) && (i > 2))
+//		{
+//			DEBUG_W25QXX("\r\n");
+//			W25qxx_Delay(10);
+//		}
+//		DEBUG_W25QXX("0x%02X,", pBuffer[i]);
+//	}
+//	DEBUG_W25QXX("\r\n");
+//	DEBUG_W25QXX("w25qxx WritePage done after %d ms\r\n", StartTime);
+//	W25qxx_Delay(100);
+//	W25qxx_Delay(1);
 	w25qxx.Lock = 0;
 }
 //###################################################################################################################
@@ -635,7 +632,7 @@ void W25qxx_WriteSector(uint8_t *pBuffer, uint32_t Sector_Address, uint32_t Offs
 	if ((NumByteToWrite_up_to_SectorSize > w25qxx.SectorSize) || (NumByteToWrite_up_to_SectorSize == 0))
 		NumByteToWrite_up_to_SectorSize = w25qxx.SectorSize;
 	DEBUG_W25QXX("+++w25qxx WriteSector:%d, Offset:%d ,Write %d Bytes, begin...\r\n", Sector_Address, OffsetInByte, NumByteToWrite_up_to_SectorSize);
-	W25qxx_Delay(100);
+//	W25qxx_Delay(100);
 	if (OffsetInByte >= w25qxx.SectorSize)
 	{
 		DEBUG_W25QXX("---w25qxx WriteSector Faild!\r\n");
@@ -660,7 +657,7 @@ void W25qxx_WriteSector(uint8_t *pBuffer, uint32_t Sector_Address, uint32_t Offs
 		LocalOffset = 0;
 	} while (BytesToWrite > 0);
 	DEBUG_W25QXX("---w25qxx WriteSector Done\r\n");
-	W25qxx_Delay(100);
+//	W25qxx_Delay(100);
 }
 //###################################################################################################################
 void W25qxx_WriteBlock(uint8_t *pBuffer, uint32_t Block_Address, uint32_t OffsetInByte, uint32_t NumByteToWrite_up_to_BlockSize)
@@ -718,7 +715,7 @@ void W25qxx_ReadByte(uint8_t *pBuffer, uint32_t Bytes_Address)
 	W25qxx_Spi((Bytes_Address & 0xFF00) >> 8);
 	W25qxx_Spi(Bytes_Address & 0xFF);
 	W25qxx_Spi(0);
-	*pBuffer = W25qxx_Spi(W25QXX_DUMMY_BYTE);
+	*pBuffer = W25qxx_Spi_(W25QXX_DUMMY_BYTE);
 	HAL_GPIO_WritePin(_W25QXX_CS_GPIO, _W25QXX_CS_PIN, GPIO_PIN_SET);
 	DEBUG_W25QXX("w25qxx ReadByte 0x%02X done after %d ms\r\n", *pBuffer, HAL_GetTick() - StartTime);
 	w25qxx.Lock = 0;
@@ -775,8 +772,8 @@ void W25qxx_ReadPage(uint8_t *pBuffer, uint32_t Page_Address, uint32_t OffsetInB
 	if ((OffsetInByte + NumByteToRead_up_to_PageSize) > w25qxx.PageSize)
 		NumByteToRead_up_to_PageSize = w25qxx.PageSize - OffsetInByte;
 	DEBUG_W25QXX("w25qxx ReadPage:%d, Offset:%d ,Read %d Bytes, begin...\r\n", Page_Address, OffsetInByte, NumByteToRead_up_to_PageSize);
-	W25qxx_Delay(100);
-	uint32_t StartTime = HAL_GetTick();
+//	W25qxx_Delay(100);
+//	uint32_t StartTime = HAL_GetTick();
 	Page_Address = Page_Address * w25qxx.PageSize + OffsetInByte;
 	HAL_GPIO_WritePin(_W25QXX_CS_GPIO, _W25QXX_CS_PIN, GPIO_PIN_RESET);
 	if (w25qxx.ID >= W25Q256)
@@ -794,7 +791,7 @@ void W25qxx_ReadPage(uint8_t *pBuffer, uint32_t Page_Address, uint32_t OffsetInB
 	W25qxx_Spi(0);
 	HAL_SPI_Receive(&_W25QXX_SPI, pBuffer, NumByteToRead_up_to_PageSize, 100);
 	HAL_GPIO_WritePin(_W25QXX_CS_GPIO, _W25QXX_CS_PIN, GPIO_PIN_SET);
-	StartTime = HAL_GetTick() - StartTime;
+//	StartTime = HAL_GetTick() - StartTime;
 	for (uint32_t i = 0; i < NumByteToRead_up_to_PageSize; i++)
 	{
 		if ((i % 8 == 0) && (i > 2))
@@ -805,9 +802,9 @@ void W25qxx_ReadPage(uint8_t *pBuffer, uint32_t Page_Address, uint32_t OffsetInB
 		DEBUG_W25QXX("0x%02X,", pBuffer[i]);
 	}
 	DEBUG_W25QXX("\r\n");
-	DEBUG_W25QXX("w25qxx ReadPage done after %d ms\r\n", StartTime);
-	W25qxx_Delay(100);
-	W25qxx_Delay(1);
+//	DEBUG_W25QXX("w25qxx ReadPage done after %d ms\r\n", StartTime);
+//	W25qxx_Delay(100);
+//	W25qxx_Delay(1);
 	w25qxx.Lock = 0;
 }
 //###################################################################################################################
@@ -877,10 +874,3 @@ void W25qxx_ReadBlock(uint8_t *pBuffer, uint32_t Block_Address, uint32_t OffsetI
 	W25qxx_Delay(100);
 }
 //###################################################################################################################
-//	I2C_Scan(&hi2c1); // НОМЕР I2C
-//	char wstr[] ="istarik.ru - stD";
-//	Write_mem(0, wstr, strlen(wstr)); // запись начинается с нулевого адреса (24c32 = 4кБ)
-//	DEBUG_STORAGE("%с", wstr);
-//	char rstr[200] = {0,};
-//	Read_mem(0, rstr, sizeof(rstr)); // читаем с нулевого адреса
-//	DEBUG_STORAGE("%с", rstr);

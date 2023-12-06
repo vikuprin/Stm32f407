@@ -23,7 +23,6 @@ OBJCOPY_BIN :=
 
 # Every subdirectory with source files must be described here
 SUBDIRS := \
-Core/Inc/Aht20 \
 Core/Inc/Ds18b20 \
 Core/Inc/Epm_24c32 \
 Core/Inc/FLASH_SECTOR_F4 \
@@ -32,6 +31,7 @@ Core/Inc/Sht30 \
 Core/Inc/W25qxx \
 Core/Inc/XGZP6897D \
 Core/Inc/cJSON \
+Core/Src/Bootloader \
 Core/Src/Httpserver \
 Core/Src/Modes \
 Core/Src/Mqtt \

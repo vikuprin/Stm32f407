@@ -35,6 +35,7 @@ RM := rm -rf
 -include Core/Src/Mqtt/subdir.mk
 -include Core/Src/Modes/subdir.mk
 -include Core/Src/Httpserver/subdir.mk
+-include Core/Src/Bootloader/subdir.mk
 -include Core/Src/subdir.mk
 -include Core/Inc/cJSON/subdir.mk
 -include Core/Inc/XGZP6897D/subdir.mk
@@ -44,7 +45,6 @@ RM := rm -rf
 -include Core/Inc/FLASH_SECTOR_F4/subdir.mk
 -include Core/Inc/Epm_24c32/subdir.mk
 -include Core/Inc/Ds18b20/subdir.mk
--include Core/Inc/Aht20/subdir.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)

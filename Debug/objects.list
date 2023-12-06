@@ -1,4 +1,3 @@
-"./Core/Inc/Aht20/aht20_i2c_drv.o"
 "./Core/Inc/Ds18b20/ds18b20.o"
 "./Core/Inc/Ds18b20/onewire.o"
 "./Core/Inc/Epm_24c32/epm_24c32.o"
@@ -10,6 +9,7 @@
 "./Core/Inc/XGZP6897D/XGZP6897D.o"
 "./Core/Inc/cJSON/cJSON.o"
 "./Core/Inc/cJSON/utils.o"
+"./Core/Src/Bootloader/bootloader.o"
 "./Core/Src/Httpserver/httpserver.o"
 "./Core/Src/Modes/modes.o"
 "./Core/Src/Modes/smart_mode_external.o"

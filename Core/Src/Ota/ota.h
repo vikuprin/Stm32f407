@@ -30,10 +30,9 @@ struct tcp_client_struct
 
 uint32_t ota_length;
 
-void set_ota_url(char *url);
-void boot_jump();
+void jumpToApp(uint32_t start_program_addr);
 void erase_sectors();
-int flash_data(char* buf, int len);
+uint32_t flash_ota(char* buf, uint16_t len);
 void start_update_firmware_isr();
 
 #endif

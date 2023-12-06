@@ -182,7 +182,6 @@ int registration_data_handler_post(char *str)
 		char param[80];
 		sprintf(param, "%s", cJSON_GetObjectItem(root, "server_ip")->valuestring);
 		strcpy(wireless_params->server_ip, param);
-//		set_ota_url(wireless_params->server_ip);
     }
     if (cJSON_GetObjectItem(root, "domain") != NULL)
     {
@@ -266,6 +265,14 @@ static void http_server(struct netconn *conn)
         erase_sectors();
 
         char* temp_buf = NULL;
+
+        if (recv_err == ERR_OK)
+        {
+          netbuf_delete(inbuf);
+          recv_err = netconn_recv(conn, &inbuf);
+          netbuf_data(inbuf, (void**) &buf, &buflen);
+        }
+
         if (recv_err == ERR_OK)
         {
           netbuf_delete(inbuf);
@@ -277,7 +284,7 @@ static void http_server(struct netconn *conn)
           temp_buf = strstr(temp_buf, "\r\n\r\n");
           temp_buf += 4;
           buflen -= (temp_buf - temp_str);
-          flash_data(temp_buf, buflen);
+          flash_ota(temp_buf, buflen);
         }
 
         while(recv_err == ERR_OK)
@@ -287,17 +294,17 @@ static void http_server(struct netconn *conn)
           netbuf_data(inbuf, (void**) &buf, &buflen);
           memcpy(temp_str, buf, buflen);
 
-          flash_data(temp_str, buflen);
+          flash_ota(temp_str, buflen);
           if (buflen < 536)
              break;
         }
 
         netconn_write(conn, http_redirect, sizeof(http_redirect)-1, NETCONN_NOCOPY);
 
-        device->ota_len = ota_length;
-		write_device_params();
+        device_ota_len = ota_length;
+        write_ota_byte();
 
-		boot_jump();
+        jumpToApp(BOOT_ADDR_FLASH);
       }
       else if (strncmp((char const *)buf,"POST /dataserver", 16) == 0)
       {

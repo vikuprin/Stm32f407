@@ -48,18 +48,24 @@ uint8_t msg[80];
 
 #define BOOTLOADER 1
 
-#if BOOTLOADER == 1 // FLASH(rx): ORIGIN = 0x080A0000   //FLASH_SECTOR_9
-#define WIRELESS_ADDR_FLASH  0x08010000                 //FLASH_SECTOR_4
-#define DEVICE_ADDR_FLASH 	 0x08020000                 //FLASH_SECTOR_5
-#else               // FLASH(rx): ORIGIN = 0x08000000   //FLASH_SECTOR_0
-#define WIRELESS_ADDR_FLASH	 0x080C0000                 //FLASH_SECTOR_10
-#define DEVICE_ADDR_FLASH 	 0x080E0000                 //FLASH_SECTOR_11
-#endif
+#define BOOT_ADDR_FLASH      0x08000000  //FLASH_SECTOR_0
 
-#define BOOT_ADDR_FLASH      0x08000000                 //FLASH_SECTOR_0
-#define OTA_ADDR_FLASH       0x08040000                 //FLASH_SECTOR_6
-#define OTA_ADDR1_FLASH      0x08060000                 //FLASH_SECTOR_7
-#define OTA_ADDR2_FLASH      0x08080000                 //FLASH_SECTOR_8
+#define MAIN_ADDR_FLASH_1    0x08040000  //FLASH_SECTOR_6
+#define MAIN_ADDR_FLASH_2    0x08060000  //FLASH_SECTOR_7
+#define MAIN_ADDR_FLASH_3    0x08080000  //FLASH_SECTOR_8
+
+#define OTA_ADDR_FLASH_1     0x080A0000  //FLASH_SECTOR_9
+#define OTA_ADDR_FLASH_2     0x080C0000  //FLASH_SECTOR_10
+#define OTA_ADDR_FLASH_3     0x080E0000  //FLASH_SECTOR_11
+
+#define CHECK_EXT_BYTE       0
+#define OTA_LEN_EXT_BYTE     1           //1-4
+
+#define VAR_EXT_SECTOR 	     0
+#define FIRMWARE_EXT_SECTOR  1
+#define DEVICE_EXT_SECTOR 	 2
+#define WIRELESS_EXT_SECTOR	 3
+#define OTA_EXT_SECTOR	     10
 
 #define DNS 0
 
@@ -159,7 +165,6 @@ typedef struct
 
 typedef struct
 {
-	uint32_t ota_len;
     bool damper;
     bool state;
     bool error_temp_hot;
@@ -169,7 +174,6 @@ typedef struct
     bool error_ds18b20;
     bool error_fan;
     remote_control_s remote_control;
-	uint8_t check_1_0_0;
     uint8_t mode;
     uint8_t last_mode;
     uint8_t inflow_speed;
@@ -212,6 +216,10 @@ typedef struct
     char domain[20];
 } wireless_parameters_s;
 //////////////////////////////////
+
+uint8_t device_check_1_0_0;
+uint32_t device_ota_len;
+uint8_t device_firmware;
 
 sensors_data_s *sensors_data;
 wireless_parameters_s *wireless_params;
