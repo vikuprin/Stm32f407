@@ -195,14 +195,14 @@ int main(void)
   MX_DMA_Init();
   MX_SPI1_Init();
 
-//  if(HAL_GPIO_ReadPin(SW_DIP2_GPIO_Port, SW_DIP2_Pin) == GPIO_PIN_RESET)
-//  {
-//	  W25qxx_EraseSector(VAR_EXT_SECTOR);
-//  	  W25qxx_EraseSector(FIRMWARE_EXT_SECTOR);
-//  }
-//  #if BOOTLOADER == 1
-//      bootloader();
-//  #endif
+  if(HAL_GPIO_ReadPin(SW_DIP2_GPIO_Port, SW_DIP2_Pin) == GPIO_PIN_RESET)
+  {
+	  W25qxx_EraseSector(VAR_EXT_SECTOR);
+	  W25qxx_EraseSector(FIRMWARE_EXT_SECTOR);
+  }
+  #if BOOTLOADER == 1
+	  bootloader();
+  #endif
 
   MX_UART5_Init();
   MX_USART1_UART_Init();
@@ -222,7 +222,7 @@ int main(void)
   init_storage();
 //  init_sht_devices();
   HAL_TIM_Base_Start_IT(&htim1);                 //таймер для вычисления показаний датчиков
-  HAL_TIM_Base_Start_IT(&htim2);                 //таймер для работы ПИД регулятора тена
+  HAL_TIM_Base_Start_IT(&htim2);                 //таймер для работы П�?Д регулятора тена
   HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_2);      //шим вентилятора
   HAL_TIM_PWM_Start(&htim9, TIM_CHANNEL_2);      //шим тена
   HAL_TIM_IC_Start_IT(&htim3, TIM_CHANNEL_3);    //захват/сравнение счетчика скорости вентилятора 3 канала

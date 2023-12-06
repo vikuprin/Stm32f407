@@ -79,7 +79,7 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Pin = SPI1_CS_Pin|USART1_DIR_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pin : PE9 */
@@ -95,9 +95,9 @@ void MX_GPIO_Init(void)
   HAL_GPIO_Init(SERVICE_BTN_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PDPin PDPin PDPin PDPin
-                           PDPin PDPin PDPin PDPin */
+                           PDPin PDPin PDPin */
   GPIO_InitStruct.Pin = RELAY_CH1_Pin|RELAY_CH2_Pin|RELAY_CH3_Pin|RELAY_CH4_Pin
-                          |UART5_DIR_Pin|LED_LINK_Pin|LED_WORK_Pin|LED_FAILURE_Pin;
+                          |LED_LINK_Pin|LED_WORK_Pin|LED_FAILURE_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -109,6 +109,13 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(SSR_GATE1_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : PtPin */
+  GPIO_InitStruct.Pin = UART5_DIR_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  HAL_GPIO_Init(UART5_DIR_GPIO_Port, &GPIO_InitStruct);
 
 }
 
