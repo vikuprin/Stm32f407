@@ -1,4 +1,0 @@
-epm_24c32.c:4:6:Write_mem	7
-epm_24c32.c:46:6:Read_mem	2
-epm_24c32.c:58:6:I2C_Scan	3
-epm_24c32.c:77:6:I2C_Error	12

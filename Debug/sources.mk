@@ -24,7 +24,6 @@ OBJCOPY_BIN :=
 # Every subdirectory with source files must be described here
 SUBDIRS := \
 Core/Inc/Ds18b20 \
-Core/Inc/Epm_24c32 \
 Core/Inc/FLASH_SECTOR_F4 \
 Core/Inc/MODBUS-LIB \
 Core/Inc/Sht30 \

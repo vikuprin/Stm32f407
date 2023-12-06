@@ -32,11 +32,9 @@
 #include "stdio.h"
 #include <string.h>
 #include "sht.h"
-//#include "w25qxx.h"
 #include "storage.h"
 #include "sensor.h"
 #include "XGZP6897D.h"
-//#include "aht20_i2c_drv.h"
 #include "fan.h"
 #include "ten.h"
 #include "led_button_control.h"
