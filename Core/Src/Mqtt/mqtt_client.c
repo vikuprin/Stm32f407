@@ -31,27 +31,29 @@ static void mqtt_pub_request_cb(void *arg, err_t result)
 
 void publish_message_qos0(char topic[], char message[])
 {
-	void *arg = NULL;
-	err_t err;
-	u8_t qos = 0; /* 0 1 or 2, see MQTT specification */
-	u8_t retain = 0; /* No don't retain such crappy payload... */
-	err = mqtt_publish(client, topic, message, strlen(message), qos, retain, mqtt_pub_request_cb, arg);
-	if (err != ERR_OK)
+	if (mqtt_status)
 	{
-		DEBUG_MQTT("Publish err: %d\n", err);
+		void *arg = NULL;
+		err_t err;
+		u8_t qos = 0; /* 0 1 or 2, see MQTT specification */
+		u8_t retain = 0; /* No don't retain such crappy payload... */
+		err = mqtt_publish(client, topic, message, strlen(message), qos, retain, mqtt_pub_request_cb, arg);
+		if (err != ERR_OK)
+			DEBUG_MQTT("Publish err: %d\n", err);
 	}
 }
 
 void publish_message(char topic[], char message[])
 {
-	void *arg = NULL;
-	err_t err;
-	u8_t qos = 1; /* 0 1 or 2, see MQTT specification */
-	u8_t retain = 0; /* No don't retain such crappy payload... */
-	err = mqtt_publish(client, topic, message, strlen(message), qos, retain, mqtt_pub_request_cb, arg);
-	if (err != ERR_OK)
+	if (mqtt_status)
 	{
-		DEBUG_MQTT("Publish err: %d\n", err);
+		void *arg = NULL;
+		err_t err;
+		u8_t qos = 1; /* 0 1 or 2, see MQTT specification */
+		u8_t retain = 0; /* No don't retain such crappy payload... */
+		err = mqtt_publish(client, topic, message, strlen(message), qos, retain, mqtt_pub_request_cb, arg);
+		if (err != ERR_OK)
+			DEBUG_MQTT("Publish err: %d\n", err);
 	}
 }
 
